@@ -15,7 +15,7 @@ public class TreasureChest {
      * Constructs a treasure chest and "hides" it somewhere random.
      */
     public TreasureChest() {
-		relocate();
+        relocate();
     }
     
     /**

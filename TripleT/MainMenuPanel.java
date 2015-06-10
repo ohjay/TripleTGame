@@ -20,8 +20,8 @@ public class MainMenuPanel extends MenuPanel {
         
         // Initialize images
         menuImages = new Image[] { Images.get("storyH"), Images.get("minigamesH"),
-                    Images.get("cutscenesH"), Images.get("controlsH"), Images.get("optionsH"), 
-                    Images.get("creditsH") };
+                Images.get("cutscenesH"), Images.get("controlsH"), Images.get("optionsH"), 
+                Images.get("creditsH") };
     }
     
     /**

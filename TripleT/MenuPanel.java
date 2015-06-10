@@ -33,9 +33,9 @@ public abstract class MenuPanel extends JPanel implements ActionListener {
     }
     
     @Override
-	public void actionPerformed(ActionEvent evt) {
-		requestFocus();
-	}
+    public void actionPerformed(ActionEvent evt) {
+        requestFocus();
+    }
     
     /** 
      * Activates the menu panel.

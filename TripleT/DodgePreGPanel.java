@@ -121,11 +121,11 @@ public class DodgePreGPanel extends JPanel implements ActionListener {
          * If any key is pressed, the game should transition to the actual Dodge! minigame.
          * @param evt a KeyEvent that we won't actually use (we don't care which key was pressed)
          */
-		public void keyPressed(KeyEvent evt) {
+        public void keyPressed(KeyEvent evt) {
             deactivate();
             state.layout.show(state.contentPanel, "dodge");
             state.dodgePanel.reset();
             state.dodgePanel.activate();
-		}
+        }
 	}
 }

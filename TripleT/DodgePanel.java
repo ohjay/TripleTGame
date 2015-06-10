@@ -157,8 +157,8 @@ public class DodgePanel extends JPanel implements ActionListener {
         }
         
         // Display score / powerup count / other relevant information
-		g.setFont(new Font("Verdana", Font.BOLD, 14));
-		g.setColor(Color.BLACK);
+        g.setFont(new Font("Verdana", Font.BOLD, 14));
+        g.setColor(Color.BLACK);
         g2.drawString("Score: " + score, INFO_X, SCORE_Y);
         g2.drawString("Bonus: " + treasureBonus, INFO_X, BONUS_Y);
         g2.drawString("PowerUps: " + kirby.numPowerUps, INFO_X, POWERUP_Y);
@@ -169,16 +169,16 @@ public class DodgePanel extends JPanel implements ActionListener {
         
         // Flash if Kirby is powered up
         if (kirby.isPoweredUp()) {
-			g.setColor(Color.BLACK);
-			g2.drawString("POWERED UP!", INFO_X, FLASHING_Y);
-			g.setColor(Color.RED);
-			g2.drawString("POWERED UP!", INFO_X - 1, FLASHING_Y - 1);
-			whiteCount++;
-			
-			if (g.getColor() == Color.RED && whiteCount % 4 == 0) {
-				g.setColor(Color.WHITE);
-				g2.drawString("POWERED UP!", INFO_X - 1, FLASHING_Y - 1);
-			}
+            g.setColor(Color.BLACK);
+            g2.drawString("POWERED UP!", INFO_X, FLASHING_Y);
+            g.setColor(Color.RED);
+            g2.drawString("POWERED UP!", INFO_X - 1, FLASHING_Y - 1);
+            whiteCount++;
+            
+            if (g.getColor() == Color.RED && whiteCount % 4 == 0) {
+                g.setColor(Color.WHITE);
+                g2.drawString("POWERED UP!", INFO_X - 1, FLASHING_Y - 1);
+            }
         }
     }
     
@@ -218,20 +218,20 @@ public class DodgePanel extends JPanel implements ActionListener {
         chestsCollected = 0;
         score = 0;
     }
-    
-	public class KeyListener extends KeyAdapter {
-		public void keyPressed(KeyEvent evt) {
-			kirby.keyPressed(evt);
+
+    public class KeyListener extends KeyAdapter {
+        public void keyPressed(KeyEvent evt) {
+            kirby.keyPressed(evt);
             if (evt.getKeyCode() == KeyEvent.VK_SHIFT) {
                 kirby.nullifyKeyPresses();
                 deactivate();
                 state.layout.show(state.contentPanel, "dodgePause");
                 state.dodgePausePanel.activate();
             }
-		}
-		
-		public void keyReleased(KeyEvent evt) {
-			kirby.keyReleased(evt);
-		}
-	}
+        }
+        
+        public void keyReleased(KeyEvent evt) {
+            kirby.keyReleased(evt);
+        }
+    }
 }
