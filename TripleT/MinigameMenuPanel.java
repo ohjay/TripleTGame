@@ -13,12 +13,9 @@ import java.awt.event.KeyEvent;
 public class MinigameMenuPanel extends MenuPanel {
     
     /** 
-     * Constructs a minigame menu panel. Sets up state data and initializes images.
-     * @param state the present state of the game, represented as a collection of useful data
+     * Constructs a minigame menu panel. Initializes images.
      */
-    public MinigameMenuPanel(GameState state) {
-        super(state);
-        
+    public MinigameMenuPanel() {
         // Initialize images
         menuImages = new Image[] { Images.get("dodgeH"), Images.get("kirbySMASHH") };
     }
@@ -49,15 +46,15 @@ public class MinigameMenuPanel extends MenuPanel {
             } else if (keyCode == KeyEvent.VK_ENTER) {
                 deactivate();
                 if (imgIndex == 0) {
-                    state.layout.show(state.contentPanel, "dodgePreG");
-                    state.dodgePreGPanel.activate();
+                    GameState.layout.show(GameState.contentPanel, "dodgePreG");
+                    GameState.dodgePreGPanel.activate();
                 } else {
-                    state.layout.show(state.contentPanel, "kirbySMASH");
+                    GameState.layout.show(GameState.contentPanel, "kirbySMASH");
                 }
             } else if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE) {
                 deactivate();
-                state.layout.show(state.contentPanel, "mainMenu");
-                state.menuPanel.activate();
+                GameState.layout.show(GameState.contentPanel, "mainMenu");
+                GameState.menuPanel.activate();
             }
             
             repaint();

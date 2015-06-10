@@ -10,11 +10,6 @@ import javax.swing.JPanel;
  */
 public class CutsceneMenuPanel extends MenuPanel {
     
-    public CutsceneMenuPanel(GameState state) {
-        super(state);
-        /* To do: finish constructor */
-    }
-    
     public void activate() {
         /* To do: write activation method */
     }

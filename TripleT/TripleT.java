@@ -26,37 +26,31 @@ public class TripleT extends JApplet {
      * @param args command-line args that, for the purposes of this game, need not exist
      */
     public static void main(String[] args) {
-        GameState state = loadGameState();
-        TripleTWindow.initializeGUI(state);
+        loadGameState();
+        TripleTWindow.initializeGUI();
     }
     
     /**
-     * Loads and returns a state object from a serialized file.
-     * If no such serialized file exists, returns a fresh new state object.
+     * Loads persistent (saved) info from a serialized file, and stores it in the game state.
+     * If no such serialized file exists, the game state will be assigned a blank PersistentInfo.
      */
-    private static GameState loadGameState() {
+    private static void loadGameState() {
         try {
             File tripleTFile = new File(System.getProperty("user.home"), TRIPLE_T_FILEPATH);
             if (!tripleTFile.exists()) {
-                return new GameState();
+                GameState.pInfo = new PersistentInfo();
             } else {
                 FileInputStream fileIn = new FileInputStream(tripleTFile);
                 ObjectInputStream pInfoIn = new ObjectInputStream(fileIn);
-                GameState state = new GameState();
-                state.pInfo = (PersistentInfo) pInfoIn.readObject();
+                GameState.pInfo = (PersistentInfo) pInfoIn.readObject();
                 fileIn.close();
                 pInfoIn.close();
-                
-                return state;
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        
-        // Something went wrong, so we'll just return a new state object
-        return new GameState();
     }
     
     /** 
@@ -72,7 +66,6 @@ public class TripleT extends JApplet {
             if (!tripleTFile.exists()) {
                 tripleTFile.createNewFile();
             }
-            
             FileOutputStream fileOut = new FileOutputStream(tripleTFile, false);
             ObjectOutputStream pInfoOut = new ObjectOutputStream(fileOut);
             pInfoOut.writeObject(pInfo);

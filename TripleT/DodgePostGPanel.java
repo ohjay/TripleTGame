@@ -19,9 +19,7 @@ public class DodgePostGPanel extends MenuPanel {
             NUM_WIDTH = 18;
     private LinkedList<Integer> numStack = new LinkedList<Integer>();
     
-    public DodgePostGPanel(GameState state) {
-        super(state);
-        
+    public DodgePostGPanel() {
         // Initialize the post-game background images
         menuImages = new Image[] { Images.get("dodgePostGInitial"), 
                 Images.get("dodgePostGRestart"), Images.get("dodgePostGRagequit"),
@@ -55,9 +53,9 @@ public class DodgePostGPanel extends MenuPanel {
             else scoreCounter += 5;
             repaint();
         } else if (!listenerActivated) {
-            if (score > state.pInfo.dodgeHighScore) {
-                state.pInfo.dodgeHighScore = score;
-                TripleT.savePersistentInfo(state.pInfo);
+            if (score > GameState.pInfo.dodgeHighScore) {
+                GameState.pInfo.dodgeHighScore = score;
+                TripleT.savePersistentInfo(GameState.pInfo);
                 imgIndex = 3;
             } else {
                 imgIndex = 1;
@@ -75,7 +73,7 @@ public class DodgePostGPanel extends MenuPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         // Draw high score
-        drawNumber((Graphics2D) g, state.pInfo.dodgeHighScore, HSCORE_X, HSCORE_Y);
+        drawNumber((Graphics2D) g, GameState.pInfo.dodgeHighScore, HSCORE_X, HSCORE_Y);
         // Draw score number
         drawNumber((Graphics2D) g, scoreCounter, SCORE_X, SCORE_Y);
     }
@@ -119,12 +117,12 @@ public class DodgePostGPanel extends MenuPanel {
             } else if (keyCode == KeyEvent.VK_ENTER) {
                 deactivate();
                 if (imgIndex % 2 == 0) {
-                    state.layout.show(state.contentPanel, "mainMenu");
-                    state.menuPanel.activate();
+                    GameState.layout.show(GameState.contentPanel, "mainMenu");
+                    GameState.menuPanel.activate();
                 } else {
-                    state.layout.show(state.contentPanel, "dodge");
-                    state.dodgePanel.reset();
-                    state.dodgePanel.activate();
+                    GameState.layout.show(GameState.contentPanel, "dodge");
+                    GameState.dodgePanel.reset();
+                    GameState.dodgePanel.activate();
                 }
             }
             

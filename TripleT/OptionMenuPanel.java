@@ -9,11 +9,6 @@ import javax.swing.JPanel;
  */
 public class OptionMenuPanel extends MenuPanel {
     
-    public OptionMenuPanel(GameState state) {
-        super(state);
-        /* To do: finish constructor */
-    }
-    
     public void activate() {
         /* To do: write activation method */
     }

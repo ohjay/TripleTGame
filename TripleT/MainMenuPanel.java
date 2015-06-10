@@ -5,19 +5,14 @@ import java.awt.event.KeyEvent;
 
 /** 
  * The main menu panel for the game.
- * Does not contribute anything to or interact in any way with the game state, 
- * because the menu should always start up the same way.
  * @author Owen Jow
  */
 public class MainMenuPanel extends MenuPanel {
     
     /** 
-     * Constructs a main menu panel. Sets up game state data and initializes menu images.
-     * @param state any relevant (and irrelevant) game data
+     * Constructs a main menu panel by initializing menu images.
      */
-    public MainMenuPanel(GameState state) {
-        super(state);
-        
+    public MainMenuPanel() {
         // Initialize images
         menuImages = new Image[] { Images.get("storyH"), Images.get("minigamesH"),
                 Images.get("cutscenesH"), Images.get("controlsH"), Images.get("optionsH"), 
@@ -53,24 +48,24 @@ public class MainMenuPanel extends MenuPanel {
                 deactivate();
                 switch (imgIndex) {
                     case 0:
-                        state.layout.show(state.contentPanel, "storyMenu");
+                        GameState.layout.show(GameState.contentPanel, "storyMenu");
                         break;
                     case 1:
-                        state.layout.show(state.contentPanel, "minigameMenu");
-                        state.minigameMPanel.activate();
+                        GameState.layout.show(GameState.contentPanel, "minigameMenu");
+                        GameState.minigameMPanel.activate();
                         break;
                     case 2:
-                        state.layout.show(state.contentPanel, "cutsceneMenu");
+                        GameState.layout.show(GameState.contentPanel, "cutsceneMenu");
                         break;
                     case 3:
-                        state.layout.show(state.contentPanel, "controlMenu");
+                        GameState.layout.show(GameState.contentPanel, "controlMenu");
                         break;
                     case 4:
-                        state.layout.show(state.contentPanel, "optionMenu");
+                        GameState.layout.show(GameState.contentPanel, "optionMenu");
                         break;
                     default:
-                        state.layout.show(state.contentPanel, "credits");
-                        state.creditsPanel.activate();
+                        GameState.layout.show(GameState.contentPanel, "credits");
+                        GameState.creditsPanel.activate();
                         break;
                 }
             }

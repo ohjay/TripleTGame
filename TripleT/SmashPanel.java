@@ -10,7 +10,7 @@ import javax.swing.JPanel;
  */
 public class SmashPanel extends JPanel implements ActionListener {
     
-    public SmashPanel(GameState state) {
+    public SmashPanel() {
         /* To do: write constructor */
     }
     

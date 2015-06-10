@@ -17,7 +17,6 @@ import javax.swing.Timer;
  */
 public class DodgePreGPanel extends JPanel implements ActionListener {
     private KeyListener kl;
-    private GameState state;
     private Timer timer;
     private static final Image PRE_G_IMG = Images.get("dodgePreG");
     private DemoStarKirby moveKirby, powerupKirby;
@@ -28,13 +27,11 @@ public class DodgePreGPanel extends JPanel implements ActionListener {
     private boolean powerupGhostDisplayed = true;
     
     /**
-     * Constructs a Dodge! pre-game panel. Binds a game state variable name to STATE.
-     * Also initializes the Kirbys and the ghosts that will be animated, and powers up
+     * Constructs a Dodge! pre-game panel.
+     * Initializes the Kirbys and the ghosts that will be animated, and powers up
      * the powerup demo Kirby.
-     * @param state the current game state
      */
-    public DodgePreGPanel(GameState state) {
-        this.state = state;
+    public DodgePreGPanel() {
         reset();
     }
     
@@ -123,9 +120,9 @@ public class DodgePreGPanel extends JPanel implements ActionListener {
          */
         public void keyPressed(KeyEvent evt) {
             deactivate();
-            state.layout.show(state.contentPanel, "dodge");
-            state.dodgePanel.reset();
-            state.dodgePanel.activate();
+            GameState.layout.show(GameState.contentPanel, "dodge");
+            GameState.dodgePanel.reset();
+            GameState.dodgePanel.activate();
         }
     }
 }

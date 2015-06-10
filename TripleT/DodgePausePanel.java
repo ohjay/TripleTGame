@@ -11,11 +11,8 @@ public class DodgePausePanel extends MenuPanel {
     
     /** 
      * Constructs a Dodge! pause panel, adding the proper backgrounds to this image set.
-     * @param state the current game state
      */
-    public DodgePausePanel(GameState state) {
-        super(state);
-        
+    public DodgePausePanel() {
         // Initialize pause menu images
         menuImages = new Image[] { Images.get("dodgePause1"), Images.get("dodgePause2") };
     }
@@ -46,16 +43,16 @@ public class DodgePausePanel extends MenuPanel {
             } else if (keyCode == KeyEvent.VK_ENTER) {
                 deactivate();
                 if (imgIndex == 0) {
-                    state.layout.show(state.contentPanel, "dodge");
-                    state.dodgePanel.activate();
+                    GameState.layout.show(GameState.contentPanel, "dodge");
+                    GameState.dodgePanel.activate();
                 } else {
-                    state.layout.show(state.contentPanel, "mainMenu");
-                    state.menuPanel.activate();
+                    GameState.layout.show(GameState.contentPanel, "mainMenu");
+                    GameState.menuPanel.activate();
                 }
             } else if (keyCode == KeyEvent.VK_SHIFT) {
                 deactivate();
-                state.layout.show(state.contentPanel, "dodge");
-                state.dodgePanel.activate();
+                GameState.layout.show(GameState.contentPanel, "dodge");
+                GameState.dodgePanel.activate();
             }
             
             repaint();

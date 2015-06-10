@@ -8,11 +8,6 @@ import javax.swing.JPanel;
  */
 public class ControlMenuPanel extends MenuPanel {
     
-    public ControlMenuPanel(GameState state) {
-        super(state);
-        /* To do: finish constructor setup */
-    }
-    
     public void activate() {
         /* To do: write an activation method */
     }

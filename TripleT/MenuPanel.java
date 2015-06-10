@@ -20,17 +20,8 @@ import javax.swing.Timer;
 public abstract class MenuPanel extends JPanel implements ActionListener {
     protected Image[] menuImages;
     protected int imgIndex = 0;
-    protected GameState state;
     protected Timer timer;
     protected KeyListener kl;
-    
-    /** 
-     * Constructs a menu panel, taking in a GameState object.
-     * @param state the current game data
-     */
-    public MenuPanel(GameState state) {
-        this.state = state;
-    }
     
     @Override
     public void actionPerformed(ActionEvent evt) {

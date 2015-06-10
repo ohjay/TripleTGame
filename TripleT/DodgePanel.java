@@ -20,7 +20,6 @@ import javax.swing.Timer;
  */
 public class DodgePanel extends JPanel implements ActionListener {
     private KeyListener kl;
-    private GameState state;
     private Timer timer;
     private static final Image BACKGROUND_IMG = Images.get("dodgeBackground");
     private static final Image LIFE_CT_IMG = Images.get("lifeCount");
@@ -39,8 +38,7 @@ public class DodgePanel extends JPanel implements ActionListener {
      * Constructor for a Dodge! panel.
      * @param contentPanel the base JPanel, to be used for switching between screens
      */
-    public DodgePanel(GameState state) {
-        this.state = state;
+    public DodgePanel() {
         kirby = new StarKirby();
         treasure = new TreasureChest();
         
@@ -55,9 +53,9 @@ public class DodgePanel extends JPanel implements ActionListener {
         
         if (kirby.numLives < 0) {
             deactivate();
-            state.dodgePostGPanel.resetWithScore(score);
-            state.layout.show(state.contentPanel, "dodgePostG");
-            state.dodgePostGPanel.activate();
+            GameState.dodgePostGPanel.resetWithScore(score);
+            GameState.layout.show(GameState.contentPanel, "dodgePostG");
+            GameState.dodgePostGPanel.activate();
         }
         
         if (kirby.isPoweredUp()) {
@@ -225,8 +223,8 @@ public class DodgePanel extends JPanel implements ActionListener {
             if (evt.getKeyCode() == KeyEvent.VK_SHIFT) {
                 kirby.nullifyKeyPresses();
                 deactivate();
-                state.layout.show(state.contentPanel, "dodgePause");
-                state.dodgePausePanel.activate();
+                GameState.layout.show(GameState.contentPanel, "dodgePause");
+                GameState.dodgePausePanel.activate();
             }
         }
         

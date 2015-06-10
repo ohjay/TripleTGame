@@ -16,7 +16,6 @@ import javax.swing.Timer;
  */
 public class CreditsPanel extends JPanel implements ActionListener {
     private KeyListener kl;
-    private GameState state;
     private Timer timer;
     private static final Image CREDITS_BACKGROUND = Images.get("creditsBackground");
     private static final Image[] CREDITS = new Image[] { Images.get("owenjow"),
@@ -28,10 +27,6 @@ public class CreditsPanel extends JPanel implements ActionListener {
     private int[] xPositions = new int[CREDITS.length];
     private int crYPos;
     private boolean finished;
-    
-    public CreditsPanel(GameState state) {
-        this.state = state;
-    }
     
     /** 
      * Activates the credits panel.
@@ -134,8 +129,8 @@ public class CreditsPanel extends JPanel implements ActionListener {
                 removeKeyListener(kl);
                 timer.stop();
                 
-                state.layout.show(state.contentPanel, "mainMenu");
-                state.menuPanel.activate();
+                GameState.layout.show(GameState.contentPanel, "mainMenu");
+                GameState.menuPanel.activate();
             }
         }
     }
