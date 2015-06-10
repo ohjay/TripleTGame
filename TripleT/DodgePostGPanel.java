@@ -24,8 +24,8 @@ public class DodgePostGPanel extends MenuPanel {
         
         // Initialize the post-game background images
         menuImages = new Image[] { Images.get("dodgePostGInitial"), 
-                    Images.get("dodgePostGRestart"), Images.get("dodgePostGRagequit"),
-                    Images.get("dodgePostGCRestart"), Images.get("dodgePostGCRagequit") };
+                Images.get("dodgePostGRestart"), Images.get("dodgePostGRagequit"),
+                Images.get("dodgePostGCRestart"), Images.get("dodgePostGCRagequit") };
     }
     
     /**
@@ -45,8 +45,8 @@ public class DodgePostGPanel extends MenuPanel {
     }
     
     @Override
-	public void actionPerformed(ActionEvent evt) {
-		requestFocus();
+    public void actionPerformed(ActionEvent evt) {
+        requestFocus();
         
         if (scoreCounter < score) {
             if (score <= 5000 || scoreCounter > score - 15) scoreCounter += 1;
@@ -69,7 +69,7 @@ public class DodgePostGPanel extends MenuPanel {
             listenerActivated = true;
             repaint();
         }
-	}
+    }
     
     @Override 
     public void paintComponent(Graphics g) {

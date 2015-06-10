@@ -72,6 +72,7 @@ public class TripleT extends JApplet {
             if (!tripleTFile.exists()) {
                 tripleTFile.createNewFile();
             }
+            
             FileOutputStream fileOut = new FileOutputStream(tripleTFile, false);
             ObjectOutputStream pInfoOut = new ObjectOutputStream(fileOut);
             pInfoOut.writeObject(pInfo);

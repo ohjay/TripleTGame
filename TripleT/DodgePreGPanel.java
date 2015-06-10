@@ -115,8 +115,8 @@ public class DodgePreGPanel extends JPanel implements ActionListener {
         powerupGhost = new DemoGhost(G_X, POWERUP_G_Y);
         powerupKirby.powerUp();
     }
-    
-	public class KeyListener extends KeyAdapter {
+
+    public class KeyListener extends KeyAdapter {
         /**
          * If any key is pressed, the game should transition to the actual Dodge! minigame.
          * @param evt a KeyEvent that we won't actually use (we don't care which key was pressed)
@@ -127,5 +127,5 @@ public class DodgePreGPanel extends JPanel implements ActionListener {
             state.dodgePanel.reset();
             state.dodgePanel.activate();
         }
-	}
+    }
 }
