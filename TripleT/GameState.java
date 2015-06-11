@@ -22,4 +22,9 @@ public class GameState {
     static DodgePostGPanel dodgePostGPanel;
     static DodgePreGPanel dodgePreGPanel;
     static CreditsPanel creditsPanel;
+    static StoryMenuPanel storyMPanel;
+    static CutsceneMenuPanel cutsceneMPanel;
+    static ControlMenuPanel controlMPanel;
+    static OptionMenuPanel optionMPanel;
+    static SmashPanel smashPanel;
 }
