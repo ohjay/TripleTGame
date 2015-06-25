@@ -1,10 +1,8 @@
 package TripleT;
 
 import java.awt.Image;
-import java.awt.CardLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
