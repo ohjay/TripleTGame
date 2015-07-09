@@ -21,7 +21,7 @@ public class Images {
      */
     private static void initialize() {
         // Menu images
-        initializeMiniMenImages();
+        initializeMenuImages();
         initializeCreditsImages();
         
         // Dodge! minigame images
@@ -35,17 +35,18 @@ public class Images {
     }
     
     /** 
-     * Initializes (adds to the internal data structure) minigame menu images.
-     * Like the images for the main menu, these displays differ only in which
-     * minigame is highlighted:
-     * - dodgeH: has the Dodge! minigame highlighted
-     * - kirbySMASHH: has the Kirby SMASH minigame highlighted
+     * Initializes (adds to the internal data structure) main menu images.
+     * These displays differ only in which menu option is highlighted.
      */
-    private static void initializeMiniMenImages() {
-        images.put("dodgeH",
-                new ImageIcon(Images.class.getResource("/images/minimen1.png")).getImage());
-        images.put("kirbySMASHH",
-                new ImageIcon(Images.class.getResource("/images/minimen2.png")).getImage());
+    private static void initializeMenuImages() {
+        images.put("mmControls",
+                new ImageIcon(Images.class.getResource("/images/mmControls.png")).getImage());
+        images.put("mmCredits",
+                new ImageIcon(Images.class.getResource("/images/mmCredits.png")).getImage());
+        images.put("mmMusic",
+                new ImageIcon(Images.class.getResource("/images/mmMusic.png")).getImage());
+        images.put("mmPlay",
+                new ImageIcon(Images.class.getResource("/images/mmPlay.png")).getImage());
     }
     
     /**

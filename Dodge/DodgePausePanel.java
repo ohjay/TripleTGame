@@ -2,6 +2,7 @@ package Dodge;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 
 /**  
  * A pause panel for the Dodge! minigame. 
@@ -15,21 +16,14 @@ public class DodgePausePanel extends MenuPanel {
     public DodgePausePanel() {
         // Initialize pause menu images
         menuImages = new Image[] { Images.get("dodgePause1"), Images.get("dodgePause2") };
-    }
-    
-    /** 
-     * Activates the Dodge! pause panel.
-     */
-    public void activate() {
-        imgIndex = 0;
-        activate(new KeyListener());
+        this.kl = new KeyListener();
     }
     
     /**
      * The KeyListener for the dodge pause menu.
      * Controls registered: UP, DOWN, LEFT, RIGHT, SHIFT, and ENTER.
      */
-    public class KeyListener extends MenuPanel.KeyListener {
+    public class KeyListener extends KeyAdapter {
         /**
          * Handles the menu's response to keys being pressed.
          * @param KeyEvent evt the extraordinary event that is a key being pressed
@@ -37,8 +31,7 @@ public class DodgePausePanel extends MenuPanel {
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
             
-            if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN
-                    || keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+            if (keyCode == GameState.pInfo.upKey || keyCode == GameState.pInfo.downKey) {
                 imgIndex = 1 - imgIndex;
             } else if (keyCode == KeyEvent.VK_ENTER) {
                 deactivate();
@@ -49,7 +42,7 @@ public class DodgePausePanel extends MenuPanel {
                     GameState.layout.show(GameState.contentPanel, "mainMenu");
                     GameState.mainMenuPanel.activate();
                 }
-            } else if (keyCode == KeyEvent.VK_SHIFT) {
+            } else if (keyCode == GameState.pInfo.pauseKey) {
                 deactivate();
                 GameState.layout.show(GameState.contentPanel, "dodge");
                 GameState.dodgePanel.activate();

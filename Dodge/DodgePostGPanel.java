@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import javax.swing.Timer;
@@ -24,6 +25,7 @@ public class DodgePostGPanel extends MenuPanel {
         menuImages = new Image[] { Images.get("dodgePostGInitial"), 
                 Images.get("dodgePostGRestart"), Images.get("dodgePostGRagequit"),
                 Images.get("dodgePostGCRestart"), Images.get("dodgePostGCRagequit") };
+        this.kl = new KeyListener();
     }
     
     /**
@@ -37,6 +39,11 @@ public class DodgePostGPanel extends MenuPanel {
         listenerActivated = false;
     }
     
+    /**
+     * Override the activation method because we don't want to add a key listener upon activation.
+     * Instead, we need to wait for the score to finish incrementing.
+     */
+    @Override
     public void activate() {
         timer = new Timer(1, this);
         timer.start();
@@ -106,13 +113,12 @@ public class DodgePostGPanel extends MenuPanel {
      * The KeyListener for the main menu.
      * Controls registered: UP, DOWN, LEFT, RIGHT, and ENTER.
      */
-    public class KeyListener extends MenuPanel.KeyListener {
+    public class KeyListener extends KeyAdapter {
         
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
             
-            if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN
-                    || keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+            if (keyCode == GameState.pInfo.upKey || keyCode == GameState.pInfo.downKey) {
                 imgIndex = (imgIndex % 2 == 0) ? imgIndex - 1 : imgIndex + 1;
             } else if (keyCode == KeyEvent.VK_ENTER) {
                 deactivate();

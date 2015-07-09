@@ -17,9 +17,9 @@ import javax.swing.Timer;
  */
 public abstract class MenuPanel extends JPanel implements ActionListener {
     protected Image[] menuImages;
-    protected int imgIndex = 0;
+    protected int imgIndex;
     protected Timer timer;
-    protected KeyListener kl;
+    protected KeyAdapter kl;
     
     @Override
     public void actionPerformed(ActionEvent evt) {
@@ -27,15 +27,11 @@ public abstract class MenuPanel extends JPanel implements ActionListener {
     }
     
     /** 
-     * Activates the menu panel.
-     * Enables a key listener so that the menu can respond to keyboard inputs.
-     * Since every panel will have a different key listener, this method 
-     * should be called by each panel with that panel's individual key listener.
-     * [Note: PKL is supposed to stand for "panel key listener"]
-     * @param kl the key listener with which to activate this panel
+     * Activates the menu panel. 
+     * Starts a timer and adds a key listener so that the panel can respond to things.
      */
-    protected <PKL extends KeyListener> void activate(PKL kl) {
-        this.kl = kl;
+    protected void activate() {
+        imgIndex = 0; // default the menu choice to the first option
         addKeyListener(kl);
         
         // Start the timer that will continually request focus for this panel
@@ -61,38 +57,5 @@ public abstract class MenuPanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(menuImages[imgIndex], 0, 0, null);
-    }
-    
-    /** 
-     * Increments the images index.
-     * After this operation, the next image displayed will be the one 
-     * following the current image in the internal images array. 
-     */
-    protected void incrementIndex() {
-        if (imgIndex < menuImages.length - 1) {
-            imgIndex++;
-        } else {
-            imgIndex = 0;
-        }
-    }
-    
-    /** 
-     * Decrements the images index.
-     * After this operation, the next image displayed will be the one
-     * preceding the current image in the internal images array.
-     */
-    protected void decrementIndex() {
-        if (imgIndex > 0) {
-            imgIndex--;
-        } else {
-            imgIndex = menuImages.length - 1;
-        }
-    }
-    
-    /**
-     * An empty class that should always be extended if keyboard controllers are desired.
-     */
-    public class KeyListener extends KeyAdapter {
-        /* Doesn't respond to anything right now */
     }
 }

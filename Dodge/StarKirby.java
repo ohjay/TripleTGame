@@ -211,7 +211,7 @@ public class StarKirby {
         int keyCode = evt.getKeyCode();
         
         // Check if the player is attempting to power up
-        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_SPACE) {
+        if (keyCode == GameState.pInfo.powerupKey) {
             if (numPowerUps > 0 && !isPoweredUp()) {
                 numPowerUps--;
                 state = State.POWERED_UP;
@@ -220,21 +220,21 @@ public class StarKirby {
         
         // Movement handling
         // Horizontal
-        if (keyCode == KeyEvent.VK_RIGHT) {
+        if (keyCode == GameState.pInfo.rightKey) {
             isFacingRight = true;
             rightKeyPressed = true;
             dx = 2;
-        } else if (keyCode == KeyEvent.VK_LEFT) {
+        } else if (keyCode == GameState.pInfo.leftKey) {
             isFacingRight = false;
             leftKeyPressed = true;
             dx = -2;
         }
         
         // Vertical
-        if (keyCode == KeyEvent.VK_UP) {
+        if (keyCode == GameState.pInfo.upKey) {
             upKeyPressed = true;
             dy = -2;
-        } else if (keyCode == KeyEvent.VK_DOWN) {
+        } else if (keyCode == GameState.pInfo.downKey) {
             downKeyPressed = true;
             dy = 2;
         }
@@ -244,7 +244,7 @@ public class StarKirby {
         int keyCode = evt.getKeyCode();
         
         // Horizontal movement
-        if (keyCode == KeyEvent.VK_RIGHT) {
+        if (keyCode == GameState.pInfo.rightKey) {
             rightKeyPressed = false;
             if (!leftKeyPressed) {
                 dx = 0;
@@ -252,7 +252,7 @@ public class StarKirby {
                 isFacingRight = false;
                 dx = -2;
             }
-        } else if (keyCode == KeyEvent.VK_LEFT) {
+        } else if (keyCode == GameState.pInfo.leftKey) {
             leftKeyPressed = false;
             if (!rightKeyPressed) {
                 dx = 0;
@@ -263,10 +263,10 @@ public class StarKirby {
         }
         
         // Vertical movement
-        if (keyCode == KeyEvent.VK_UP) {
+        if (keyCode == GameState.pInfo.upKey) {
             upKeyPressed = false;
             dy = (!downKeyPressed) ? 0 : 2;
-        } else if (keyCode == KeyEvent.VK_DOWN) {
+        } else if (keyCode == GameState.pInfo.downKey) {
             downKeyPressed = false;
             dy = (!upKeyPressed) ? 0 : -2;
         }
