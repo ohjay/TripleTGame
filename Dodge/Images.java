@@ -39,12 +39,14 @@ public class Images {
      * These displays differ only in which menu option is highlighted.
      */
     private static void initializeMenuImages() {
+        images.put("titleScreen",
+                new ImageIcon(Images.class.getResource("/images/dodge_titlesc.png")).getImage());
         images.put("mmControls",
                 new ImageIcon(Images.class.getResource("/images/mmControls.png")).getImage());
         images.put("mmCredits",
                 new ImageIcon(Images.class.getResource("/images/mmCredits.png")).getImage());
-        images.put("mmMusic",
-                new ImageIcon(Images.class.getResource("/images/mmMusic.png")).getImage());
+        images.put("mmClose",
+                new ImageIcon(Images.class.getResource("/images/mmClose.png")).getImage());
         images.put("mmPlay",
                 new ImageIcon(Images.class.getResource("/images/mmPlay.png")).getImage());
     }
@@ -173,6 +175,8 @@ public class Images {
                 new ImageIcon(Images.class.getResource("/images/owenjow.png")).getImage());
         images.put("williamjow",
                 new ImageIcon(Images.class.getResource("/images/williamjow.png")).getImage());
+        images.put("randyshi",
+                new ImageIcon(Images.class.getResource("/images/randyshi.png")).getImage());
     }
     
     /**

@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JApplet;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * Dodge, a Kirby-based minigame.

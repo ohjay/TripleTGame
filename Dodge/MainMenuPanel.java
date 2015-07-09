@@ -1,6 +1,8 @@
 package Dodge;
 
 import java.awt.Image;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 
@@ -9,6 +11,8 @@ import java.awt.event.KeyAdapter;
  * @author Owen Jow
  */
 public class MainMenuPanel extends MenuPanel {
+    private boolean isTitleScr;
+    private static final Image TITLE_SCR = Images.get("titleScreen");
     
     /** 
      * Constructs a minigame menu panel. Initializes images.
@@ -16,8 +20,19 @@ public class MainMenuPanel extends MenuPanel {
     public MainMenuPanel() {
         // Initialize images
         menuImages = new Image[] { Images.get("mmControls"), Images.get("mmCredits"),
-                 Images.get("mmMusic"), Images.get("mmPlay") };
+                 Images.get("mmClose"), Images.get("mmPlay") };
         this.kl = new KeyListener();
+        isTitleScr = true;
+    }
+    
+    /**
+     * Paints the menu's background image.
+     * @param g the graphics object
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawImage((isTitleScr)? TITLE_SCR : menuImages[imgIndex], 0, 0, null);
     }
     
     /**
@@ -32,7 +47,9 @@ public class MainMenuPanel extends MenuPanel {
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
             
-            if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+            if (isTitleScr) { 
+                isTitleScr = false; // transition out of the title screen
+            } else if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
                 imgIndex = (imgIndex == 3) ? 0 : 3;
             } else if (keyCode == KeyEvent.VK_DOWN) {
                 if (imgIndex < 2) { 
@@ -54,6 +71,7 @@ public class MainMenuPanel extends MenuPanel {
                         GameState.dodgePreGPanel.activate();
                         break;
                     case 2:
+                        System.exit(0); // quit the program and close the window
                     case 1:
                         GameState.layout.show(GameState.contentPanel, "credits");
                         GameState.creditsPanel.activate();
