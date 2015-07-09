@@ -21,7 +21,7 @@ import javax.sound.sampled.Clip;
  */
 public class Dodge extends JApplet {
     private static final String DODGE_FILEPATH = ".dodge.ser"; // filepath for serialized data
-    private static final String ADRIFT_FILEPATH = "../music/Adrift.wav";
+    private static final String ADRIFT_FILEPATH = "/music/Adrift.wav";
     
     /** 
      * Launches Dodge.
