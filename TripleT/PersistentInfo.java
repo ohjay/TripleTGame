@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
  * @author Owen Jow
  */
 public class PersistentInfo implements Serializable {
+    private static final long serialVersionUID = 7042866136132959357L; // version identifier
+    
     // Minigame data
     int dodgeHighScore;
     // Controls for the main game (can be customized, which is why they're in here)
