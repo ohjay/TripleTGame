@@ -8,7 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JApplet;
-import javafx.scene.media.MediaPlayer;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /**
  * Dodge, a Kirby-based minigame.
@@ -19,6 +21,7 @@ import javafx.scene.media.MediaPlayer;
  */
 public class Dodge extends JApplet {
     private static final String DODGE_FILEPATH = ".dodge.ser"; // filepath for serialized data
+    private static final String ADRIFT_FILEPATH = "../music/Adrift.wav";
     
     /** 
      * Launches Dodge.
@@ -29,6 +32,7 @@ public class Dodge extends JApplet {
     public static void main(String[] args) {
         loadGameState();
         DodgeWindow.initializeGUI();
+        startMusic();
     }
     
     /**
@@ -77,4 +81,18 @@ public class Dodge extends JApplet {
         }
     }
     
+    /**
+     * Plays the game's music track (Adrift by Balderdact).
+     */
+    private static void startMusic() {
+		try {
+			Clip clip = AudioSystem.getClip();
+	        AudioInputStream adriftStream 
+                    = AudioSystem.getAudioInputStream(Dodge.class.getResource(ADRIFT_FILEPATH));
+	        clip.open(adriftStream);
+	        clip.loop(Clip.LOOP_CONTINUOUSLY); 
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+    }
 }
