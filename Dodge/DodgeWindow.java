@@ -1,4 +1,4 @@
-package TripleT;
+package Dodge;
 
 import java.awt.CardLayout;
 import javax.swing.JFrame;
@@ -8,13 +8,13 @@ import javax.swing.JPanel;
  * A representation of the on-screen window for the game.
  * @author Owen Jow
  */
-public class TripleTWindow {
+public class DodgeWindow {
     
     /** 
      * Initializes the GUI for the game.
      */
     public static void initializeGUI() {
-        JFrame window = new JFrame("Kirby: The Tedhaun Treaty");
+        JFrame window = new JFrame(":::  D O D G E  :::");
         window.setSize(512, 412);
         window.setLocation(121, 121);
         window.setResizable(false);
@@ -30,7 +30,7 @@ public class TripleTWindow {
         // Add game panels to the card layout structure and the game state
         initializeGamePanels(contentPanel);
         
-        GameState.menuPanel.activate(); // activate the initial panel
+        GameState.mainMenuPanel.activate(); // activate the initial panel
         window.setContentPane(contentPanel);
         window.setVisible(true);
     }
@@ -42,28 +42,16 @@ public class TripleTWindow {
     private static void initializeGamePanels(JPanel contentPanel) {
         // MENU PANELS:
         // Main menu panel
-        GameState.menuPanel = new MainMenuPanel();
-        contentPanel.add(GameState.menuPanel, "mainMenu");
-        // Story menu panel
-        GameState.storyMPanel = new StoryMenuPanel();
-        contentPanel.add(GameState.storyMPanel, "storyMenu");
-        // Minigame menu panel
-        GameState.minigameMPanel = new MinigameMenuPanel();
-        contentPanel.add(GameState.minigameMPanel, "minigameMenu");
-        // Cutscene menu panel
-        GameState.cutsceneMPanel = new CutsceneMenuPanel();
-        contentPanel.add(GameState.cutsceneMPanel, "cutsceneMenu");
+        GameState.mainMenuPanel = new MainMenuPanel();
+        contentPanel.add(GameState.mainMenuPanel, "mainMenu");
         // Control menu panel
         GameState.controlMPanel = new ControlMenuPanel();
         contentPanel.add(GameState.controlMPanel, "controlMenu");
-        // Option menu panel
-        GameState.optionMPanel = new OptionMenuPanel();
-        contentPanel.add(GameState.optionMPanel, "optionMenu");
         // Credits panel=
         GameState.creditsPanel = new CreditsPanel();
         contentPanel.add(GameState.creditsPanel, "credits");
         
-        // MINIGAME PANELS:
+        // GAME PANELS:
         // Dodge! panel
         GameState.dodgePanel = new DodgePanel();
         contentPanel.add(GameState.dodgePanel, "dodge");
@@ -76,8 +64,5 @@ public class TripleTWindow {
         // Dodge! pre-game panel
         GameState.dodgePreGPanel = new DodgePreGPanel();
         contentPanel.add(GameState.dodgePreGPanel, "dodgePreG");
-        // kirbySMASH panel
-        GameState.smashPanel = new SmashPanel();
-        contentPanel.add(GameState.smashPanel, "kirbySMASH");
     }
 }

@@ -1,4 +1,4 @@
-package TripleT;
+package Dodge;
 
 import java.util.HashMap;
 import java.awt.Image;
@@ -21,7 +21,6 @@ public class Images {
      */
     private static void initialize() {
         // Menu images
-        initializeMenuImages();
         initializeMiniMenImages();
         initializeCreditsImages();
         
@@ -33,32 +32,6 @@ public class Images {
         
         // All images have been initalized now!
         initialized = true;
-    }
-    
-    /** 
-     * Initializes (adds to the internal data structure) images pertaining to the main menu.
-     * The images share the same background, with the only difference
-     * being the menu option that is currently highlighted:
-     * - storyH: has the "story" option highlighted
-     * - minigamesH: has the "minigames" option highlighted
-     * - cutscenesH: has the "cutscenes" option highlighted
-     * - controlsH: has the "controls" option highlighted
-     * - optionsH: has the "options" option highlighted
-     * - creditsH: has the "credits" option highlighted
-     */
-    private static void initializeMenuImages() {
-        images.put("storyH", 
-                new ImageIcon(Images.class.getResource("/images/menu1.png")).getImage());
-        images.put("minigamesH",
-                new ImageIcon(Images.class.getResource("/images/menu2.png")).getImage());
-        images.put("cutscenesH",
-                new ImageIcon(Images.class.getResource("/images/menu3.png")).getImage());
-        images.put("controlsH",
-                new ImageIcon(Images.class.getResource("/images/menu4.png")).getImage());
-        images.put("optionsH",
-                new ImageIcon(Images.class.getResource("/images/menu5.png")).getImage());
-        images.put("creditsH",
-                new ImageIcon(Images.class.getResource("/images/menu6.png")).getImage()); 
     }
     
     /** 

@@ -1,4 +1,4 @@
-package TripleT;
+package Dodge;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -47,7 +47,7 @@ public class DodgePausePanel extends MenuPanel {
                     GameState.dodgePanel.activate();
                 } else {
                     GameState.layout.show(GameState.contentPanel, "mainMenu");
-                    GameState.menuPanel.activate();
+                    GameState.mainMenuPanel.activate();
                 }
             } else if (keyCode == KeyEvent.VK_SHIFT) {
                 deactivate();

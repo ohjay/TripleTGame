@@ -1,4 +1,4 @@
-package TripleT;
+package Dodge;
 
 import java.awt.Image;
 import java.awt.Graphics;
@@ -130,7 +130,7 @@ public class CreditsPanel extends JPanel implements ActionListener {
                 timer.stop();
                 
                 GameState.layout.show(GameState.contentPanel, "mainMenu");
-                GameState.menuPanel.activate();
+                GameState.mainMenuPanel.activate();
             }
         }
     }

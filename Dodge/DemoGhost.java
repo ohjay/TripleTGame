@@ -1,4 +1,4 @@
-package TripleT; 
+package Dodge; 
 
 /** 
  * A ghost for use in the Dodge! pre-game panel demos.

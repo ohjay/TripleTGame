@@ -1,4 +1,4 @@
-package TripleT;
+package Dodge;
 
 /** 
  * A demo Star Kirby to be animated in the Dodge! pre-game screen.

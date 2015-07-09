@@ -1,21 +1,18 @@
-package TripleT;
+package Dodge;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 /** 
- * A menu that serves as a gateway to different minigames.
- * There are two such minigames; one is a survival-style evasion game (Dodge!)
- * and the other is a "Smash Bros"-inspired knockout game, in which the winner 
- * is the last man standing among the player and three CPUs.
+ * The main menu panel for the game.
  * @author Owen Jow
  */
-public class MinigameMenuPanel extends MenuPanel {
+public class MainMenuPanel extends MenuPanel {
     
     /** 
      * Constructs a minigame menu panel. Initializes images.
      */
-    public MinigameMenuPanel() {
+    public MainMenuPanel() {
         // Initialize images
         menuImages = new Image[] { Images.get("dodgeH"), Images.get("kirbySMASHH") };
     }
@@ -48,13 +45,7 @@ public class MinigameMenuPanel extends MenuPanel {
                 if (imgIndex == 0) {
                     GameState.layout.show(GameState.contentPanel, "dodgePreG");
                     GameState.dodgePreGPanel.activate();
-                } else {
-                    GameState.layout.show(GameState.contentPanel, "kirbySMASH");
                 }
-            } else if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE) {
-                deactivate();
-                GameState.layout.show(GameState.contentPanel, "mainMenu");
-                GameState.menuPanel.activate();
             }
             
             repaint();

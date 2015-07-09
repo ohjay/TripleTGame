@@ -1,4 +1,4 @@
-package TripleT;
+package Dodge;
 
 import java.awt.Image;
 import java.awt.Graphics;
@@ -55,7 +55,7 @@ public class DodgePostGPanel extends MenuPanel {
         } else if (!listenerActivated) {
             if (score > GameState.pInfo.dodgeHighScore) {
                 GameState.pInfo.dodgeHighScore = score;
-                TripleT.savePersistentInfo(GameState.pInfo);
+                Dodge.savePersistentInfo(GameState.pInfo);
                 imgIndex = 3;
             } else {
                 imgIndex = 1;
@@ -118,7 +118,7 @@ public class DodgePostGPanel extends MenuPanel {
                 deactivate();
                 if (imgIndex % 2 == 0) {
                     GameState.layout.show(GameState.contentPanel, "mainMenu");
-                    GameState.menuPanel.activate();
+                    GameState.mainMenuPanel.activate();
                 } else {
                     GameState.layout.show(GameState.contentPanel, "dodge");
                     GameState.dodgePanel.reset();

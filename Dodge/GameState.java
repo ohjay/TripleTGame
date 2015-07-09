@@ -1,4 +1,4 @@
-package TripleT;
+package Dodge;
 
 import java.awt.CardLayout;
 import javax.swing.JPanel;
@@ -15,16 +15,11 @@ public class GameState {
     static PersistentInfo pInfo;
     static JPanel contentPanel;
     static CardLayout layout;
-    static MainMenuPanel menuPanel;
-    static MinigameMenuPanel minigameMPanel;
+    static MainMenuPanel mainMenuPanel;
+    static CreditsPanel creditsPanel;
+    static ControlMenuPanel controlMPanel;
     static DodgePanel dodgePanel;
     static DodgePausePanel dodgePausePanel;
     static DodgePostGPanel dodgePostGPanel;
     static DodgePreGPanel dodgePreGPanel;
-    static CreditsPanel creditsPanel;
-    static StoryMenuPanel storyMPanel;
-    static CutsceneMenuPanel cutsceneMPanel;
-    static ControlMenuPanel controlMPanel;
-    static OptionMenuPanel optionMPanel;
-    static SmashPanel smashPanel;
 }
