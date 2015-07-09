@@ -60,7 +60,7 @@ public class Dodge extends JApplet {
     
     /** 
      * Serializes a state object for use by posterity.
-     * Saves the state object in a file specified by the filepath TRIPLE_T_FILEPATH.
+     * Saves the state object in a file specified by the filepath DODGE_FILEPATH.
      * Like actual Kirby games, the game state should be saved whenever the player
      * completes a level or makes any kind of development in the story or game.
      * @param state the game state to be serialized
