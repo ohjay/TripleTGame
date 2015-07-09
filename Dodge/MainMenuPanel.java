@@ -77,6 +77,9 @@ public class MainMenuPanel extends MenuPanel {
                         GameState.creditsPanel.activate();
                         break;
                     default:
+                        GameState.layout.show(GameState.contentPanel, "controlMenu");
+                        GameState.controlMPanel.activate();
+                        break;
                 }
             }
             

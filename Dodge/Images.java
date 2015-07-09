@@ -49,6 +49,18 @@ public class Images {
                 new ImageIcon(Images.class.getResource("/images/mmClose.png")).getImage());
         images.put("mmPlay",
                 new ImageIcon(Images.class.getResource("/images/mmPlay.png")).getImage());
+        images.put("controlLeft",
+                new ImageIcon(Images.class.getResource("/images/controlsLeft.png")).getImage());
+        images.put("controlRight",
+                new ImageIcon(Images.class.getResource("/images/controlsRight.png")).getImage());
+        images.put("controlUp",
+                new ImageIcon(Images.class.getResource("/images/controlsUp.png")).getImage());
+        images.put("controlDown",
+                new ImageIcon(Images.class.getResource("/images/controlsDown.png")).getImage());
+        images.put("controlPowerup",
+                new ImageIcon(Images.class.getResource("/images/controlsPowerup.png")).getImage());
+        images.put("controlPause",
+                new ImageIcon(Images.class.getResource("/images/controlsPause.png")).getImage());
     }
     
     /**
