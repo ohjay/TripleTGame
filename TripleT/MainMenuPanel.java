@@ -1,6 +1,8 @@
 package TripleT;
 
 import java.awt.Image;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 /** 
@@ -8,6 +10,8 @@ import java.awt.event.KeyEvent;
  * @author Owen Jow
  */
 public class MainMenuPanel extends MenuPanel {
+    private boolean isTitleScr;
+    private static final Image TITLE_SCR = Images.get("titleScr");
     
     /** 
      * Constructs a main menu panel by initializing menu images.
@@ -17,6 +21,7 @@ public class MainMenuPanel extends MenuPanel {
         menuImages = new Image[] { Images.get("storyH"), Images.get("minigamesH"),
                 Images.get("cutscenesH"), Images.get("controlsH"), Images.get("optionsH"), 
                 Images.get("creditsH") };
+        isTitleScr = true;
     }
     
     /**
@@ -26,6 +31,12 @@ public class MainMenuPanel extends MenuPanel {
      */
     public void activate() {
         activate(new KeyListener());
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawImage((isTitleScr) ? TITLE_SCR : menuImages[imgIndex], 0, 0, null);
     }
     
     /**
@@ -40,7 +51,9 @@ public class MainMenuPanel extends MenuPanel {
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
             
-            if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_LEFT) {
+            if (isTitleScr) {
+                isTitleScr = false; // a key was pressed, so it's time to go
+            } else if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_LEFT) {
                 decrementIndex();
             } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_RIGHT) {
                 incrementIndex();

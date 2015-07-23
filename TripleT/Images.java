@@ -45,6 +45,7 @@ public class Images {
      * - controlsH: has the "controls" option highlighted
      * - optionsH: has the "options" option highlighted
      * - creditsH: has the "credits" option highlighted
+     * - titleScr: the title screen image
      */
     private static void initializeMenuImages() {
         images.put("storyH", 
@@ -59,6 +60,8 @@ public class Images {
                 new ImageIcon(Images.class.getResource("/images/menu5.png")).getImage());
         images.put("creditsH",
                 new ImageIcon(Images.class.getResource("/images/menu6.png")).getImage()); 
+        images.put("titleScr",
+                new ImageIcon(Images.class.getResource("/images/tripleT_titlesc.png")).getImage());
     }
     
     /** 
@@ -199,6 +202,15 @@ public class Images {
                 new ImageIcon(Images.class.getResource("/images/owenjow.png")).getImage());
         images.put("williamjow",
                 new ImageIcon(Images.class.getResource("/images/williamjow.png")).getImage());
+    }
+    
+    /**
+     * Initializes spritesheets for in-game characters and objects.
+     * - kirbySS: the sheet for a basic Kirby (although let's be honest, Kirby is never basic)
+     */
+    private static void initializeSpritesheets() {
+        images.put("kirbySS",
+                new ImageIcon(Images.class.getResource("/images/kirby_spritesheet.png")).getImage());
     }
     
     /**
