@@ -62,6 +62,7 @@ public class MainMenuPanel extends MenuPanel {
                 switch (imgIndex) {
                     case 0:
                         GameState.layout.show(GameState.contentPanel, "storyMenu");
+                        GameState.storyMPanel.activate();
                         break;
                     case 1:
                         GameState.layout.show(GameState.contentPanel, "minigameMenu");
