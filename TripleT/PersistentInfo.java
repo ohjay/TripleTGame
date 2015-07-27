@@ -17,8 +17,12 @@ public class PersistentInfo implements Serializable {
     // Controls for the main game (can be customized, which is why they're in here)
     int leftKey, rightKey, upKey, downKey, jumpKey, attackKey, pauseKey;
     
+    // Save files
+    SaveFileInfo saveFile1, saveFile2, saveFile3;
+    
     /**
      * No-argument constructor that initializes controls to their standard options.
+     * It also creates empty save files.
      */
     public PersistentInfo() {
         leftKey = KeyEvent.VK_LEFT;
@@ -28,5 +32,8 @@ public class PersistentInfo implements Serializable {
         jumpKey = KeyEvent.VK_A;
         attackKey = KeyEvent.VK_S;
         pauseKey = KeyEvent.VK_SHIFT;
+        saveFile1 = new SaveFileInfo();
+        saveFile2 = new SaveFileInfo();
+        saveFile3 = new SaveFileInfo();
     }
 }
