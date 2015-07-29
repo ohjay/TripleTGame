@@ -31,8 +31,9 @@ public class Images {
         initializeStarKirbyImages();
         initializeDodgePauseImages();
         
-        // Sheet images
+        // Sheet and background/foreground images
         initializeSheets();
+        initializeGrounds();
         
         // All images have been initalized now!
         initialized = true;
@@ -217,6 +218,18 @@ public class Images {
                 new ImageIcon(Images.class.getResource("/images/kirby_spritesheet.png")).getImage());
         images.put("storyMenuSS",
                 new ImageIcon(Images.class.getResource("/images/storyMenu.png")).getImage());
+    }
+    
+    /**
+     * Initializes images for backgrounds and foregrounds.
+     * Listing:
+     * - demoForeground
+     */
+    private static void initializeGrounds() {
+        images.put("demoForeground",
+                new ImageIcon(Images.class.getResource("/images/demoForeground.png")).getImage());
+        images.put("level1Background",
+                new ImageIcon(Images.class.getResource("/images/level1Background.png")).getImage());
     }
     
     /**

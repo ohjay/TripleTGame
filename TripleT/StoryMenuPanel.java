@@ -61,7 +61,6 @@ public class StoryMenuPanel extends MenuPanel {
                     L1_X + L2_X_OFFSET, L1_Y + L23_Y_OFFSET);
             g2.drawString("[This action cannot be undone!]", L1_X + L3_X_OFFSET,
                     L1_Y + 2 * L23_Y_OFFSET);
-            
             g2.setColor((yesHighlighted) ? Color.WHITE : Color.GRAY);
             g2.drawString("Yes", YES_X, YESNO_Y);
             g2.setColor((yesHighlighted) ? Color.GRAY : Color.WHITE);
@@ -103,19 +102,32 @@ public class StoryMenuPanel extends MenuPanel {
                     sheetOffset = 0;
                     if (yesHighlighted) {
                         // the selected save file should be cleared
-                        saveFiles[imgIndex + 1].clear();
+                        saveFiles[imgIndex].clear();
                     }
                 } else {
+                    deactivate();
                     switch (imgIndex) {
                         case 0:
                             // Save file #1
-                            // Go to #1's game
+                            // Go to #1's game (this should take the player directly to #1's progress map)
+                            // For testing purposes, we will go directly to level 1-1 for now
+                            // This will need to be changed later:
+                            GameState.layout.show(GameState.contentPanel, "level1");
+                            GameState.level1.activate();
                         case 1:
                             // Save file #2
-                            // Go to #2's game
+                            // Go to #2's game (this should take the player directly to #2's progress map)
+                            // For testing purposes, we will go directly to level 1-1 for now
+                            // This will need to be changed later:
+                            GameState.layout.show(GameState.contentPanel, "level1");
+                            GameState.level1.activate();
                         case 2:
                             // Save file #3
-                            // Go to #3's game
+                            // Go to #3's game (this should take the player directly to #3's progress map)
+                            // For testing purposes, we will go directly to level 1-1 for now
+                            // This will need to be changed later:
+                            GameState.layout.show(GameState.contentPanel, "level1");
+                            GameState.level1.activate();
                     }
                 }
             } else if (keyCode == KeyEvent.VK_ESCAPE) {

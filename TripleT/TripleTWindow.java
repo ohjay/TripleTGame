@@ -59,7 +59,7 @@ public class TripleTWindow {
         // Option menu panel
         GameState.optionMPanel = new OptionMenuPanel();
         contentPanel.add(GameState.optionMPanel, "optionMenu");
-        // Credits panel=
+        // Credits panel
         GameState.creditsPanel = new CreditsPanel();
         contentPanel.add(GameState.creditsPanel, "credits");
         
@@ -79,5 +79,9 @@ public class TripleTWindow {
         // kirbySMASH panel
         GameState.smashPanel = new SmashPanel();
         contentPanel.add(GameState.smashPanel, "kirbySMASH");
+        
+        // Level panels
+        GameState.level1 = new Level1();
+        contentPanel.add(GameState.level1, "level1");
     }
 }

@@ -75,5 +75,4 @@ public class TripleT extends JApplet {
             e.printStackTrace();
         }
     }
-    
 }

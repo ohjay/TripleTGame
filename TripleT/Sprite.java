@@ -1,6 +1,7 @@
 package TripleT;
 
 import java.awt.Image;
+import java.awt.Graphics2D;
 
 /**
  * An abstract representation of a sprite that will be extended by all sprites
@@ -38,7 +39,7 @@ abstract class Sprite {
     }
     
     /**
-     * Returns the current image representation of the sprite, whatever that may be.
+     * Draws the current image representation of the sprite, whatever that may be.
      */
-    abstract Image getImage();
+    abstract void drawImage(Graphics2D g2);
 }
