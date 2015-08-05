@@ -223,7 +223,10 @@ public class Images {
     /**
      * Initializes images for backgrounds and foregrounds.
      * Listing:
+     * Foregrounds;
      * - demoForeground
+     * Backgrounds:
+     * - level1Background
      */
     private static void initializeGrounds() {
         images.put("demoForeground",

@@ -9,6 +9,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/**
+ * An abstract blueprint for a level panel, which includes activation and painting methods
+ * in addition to a drawForeground method that should be overridden by subclasses.
+ * @author Owen Jow
+ */
 abstract class LevelPanel extends JPanel implements ActionListener {
     protected Timer timer;
     protected KeyAdapter kl;
@@ -44,8 +49,10 @@ abstract class LevelPanel extends JPanel implements ActionListener {
         drawForeground(g2);
     }
     
-    protected void drawForeground(Graphics2D g2) {
-        /* Does nothing for now, but this should be overridden by subclasses 
-           that want foregrounds and sprites to be drawn! */
-    }
+    /**
+     * Draws the foreground (which includes sprites). Does nothing for now, but this should be
+     * overridden by subclasses that want foregrounds and/or sprites to be drawn!
+     * @param g2 a Graphics2D object used for [pick one: drawing, painting, what's the difference?]
+     */
+    abstract void drawForeground(Graphics2D g2);
 }

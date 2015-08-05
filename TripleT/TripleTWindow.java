@@ -9,13 +9,14 @@ import javax.swing.JPanel;
  * @author Owen Jow
  */
 public class TripleTWindow {
+    static final int SCREEN_WIDTH = 512, SCREEN_HEIGHT = 412;
     
     /** 
      * Initializes the GUI for the game.
      */
     public static void initializeGUI() {
         JFrame window = new JFrame("Kirby: The Tedhaun Treaty");
-        window.setSize(512, 412);
+        window.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         window.setLocation(121, 121);
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

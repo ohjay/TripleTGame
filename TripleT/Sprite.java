@@ -39,6 +39,15 @@ abstract class Sprite {
     }
     
     /**
+     * Moves the sprite, but only within the boundaries given by X_MIN, X_MAX,
+     * Y_MIN, and Y_MAX. These boundaries are inclusive!
+     */
+    public void moveWithinBoundaries(int spriteWidth, int xMin, int xMax, int yMin, int yMax) {
+        if (x + dx >= xMin && x + dx + spriteWidth <= xMax) { x += dx; }
+        if (y + dy >= yMin && y + dy + spriteWidth <= yMax) { y += dy; } 
+    }
+    
+    /**
      * Draws the current image representation of the sprite, whatever that may be.
      */
     abstract void drawImage(Graphics2D g2);

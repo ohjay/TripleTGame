@@ -7,10 +7,11 @@ import java.awt.event.KeyEvent;
  * @author Owen Jow
  */
 abstract class ControllableSprite extends Sprite {
-    private boolean leftKeyPressed, rightKeyPressed, upKeyPressed, downKeyPressed;
+    protected boolean leftKeyPressed, rightKeyPressed, upKeyPressed, downKeyPressed;
     
     /**
      * The method that will be called whenever a key is pressed.
+     * This should be overridden by subclasses for more custom control behavior.
      * @param evt a KeyEvent representing the key that was pressed
      */
     public void keyPressed(KeyEvent evt) {
@@ -31,6 +32,7 @@ abstract class ControllableSprite extends Sprite {
     
     /**
      * The method that will be called whenever a key is released.
+     * This should be overridden by subclasses for more custom control behavior.
      * @param evt a KeyEvent representing the key that was released.
      */
     public void keyReleased(KeyEvent evt) {
