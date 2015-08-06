@@ -3,7 +3,6 @@ package TripleT;
 import java.awt.Image;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
 
 /**
  * This is story-mode Kirby in all his glory. As a controllable sprite, 
@@ -15,7 +14,8 @@ import java.util.HashMap;
  * @author Owen Jow
  */
 public class Kirby extends ControllableSprite {
-    private static final Image SPRITESHEET = Images.get("kirbySS");
+    private static final Image R_SPRITESHEET = Images.get("kirbySS"), 
+            L_SPRITESHEET = Images.get("kirbySS-1");
     
     // Animation data: for each animation, this enum contains information about the length 
     // of each animation sequence and its position (measured by pixels) on the spritesheet.
@@ -39,10 +39,11 @@ public class Kirby extends ControllableSprite {
         private int getFrameDist() { return frameDist; }
     };
     
-    private static final int BLINK_TIME = 14, FRAME_DELAY = 12;
+    private static final int BLINK_TIME = 14, FRAME_DELAY = 12, SS_WIDTH = 641;
     private Animation currAnimation = Animation.STANDING;
     int spriteWidth = currAnimation.getSpriteWidth();
     private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
+    private boolean facingLeft;
     
     /**
      * A constructor for a Kirby that will place him at the given coordinates on the screen.
@@ -90,35 +91,67 @@ public class Kirby extends ControllableSprite {
      * @param g2 a Graphics2D object used for painting
      */
     public void drawImage(Graphics2D g2) {
-        int sx1 = currAnimation.getX() + currFrame * currAnimation.getFrameDist() 
-                + (currAnimation.getFrameDist() - spriteWidth);
-        int sy1 = currAnimation.getY();
-        
-        // Draw Kirby! Note: the 1s are offsets
-        g2.drawImage(SPRITESHEET, x, y, x + spriteWidth, y + spriteWidth, 
-                sx1 + 3, sy1, sx1 + spriteWidth + 3, sy1 + spriteWidth, null);
+        // Draw Kirby! Note: the 3s are offsets
+        int sy1 = currAnimation.getY(); // the source y-coordinate (from the spritesheet)
+        if (!facingLeft) { // aka... facing right
+            int sx1 = currAnimation.getX() + currFrame * currAnimation.getFrameDist() 
+                    + (currAnimation.getFrameDist() - spriteWidth);
+            g2.drawImage(R_SPRITESHEET, x, y, x + spriteWidth, y + spriteWidth, 
+                    sx1 + 3, sy1, sx1 + spriteWidth + 3, sy1 + spriteWidth, null);
+        } else {
+            // Draw the reversed version of Kirby
+            int sx1 = SS_WIDTH - currAnimation.getX() 
+                    - (currFrame + 1) * currAnimation.getFrameDist()
+                    - (currAnimation.getFrameDist() - spriteWidth);
+            g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteWidth,
+                    sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteWidth, null);
+        }
     }
     
     @Override
     public void keyPressed(KeyEvent evt) {
-        super.keyPressed(evt);
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_RIGHT:
+                rightKeyPressed = true;
                 currAnimation = Animation.WALKING;
                 spriteWidth = Animation.WALKING.getSpriteWidth();
+                facingLeft = false;
                 dx = 1;
+                break;
+            case KeyEvent.VK_LEFT:
+                leftKeyPressed = true;
+                currAnimation = Animation.WALKING;
+                spriteWidth = Animation.WALKING.getSpriteWidth();
+                facingLeft = true;
+                dx = -1;
                 break;
         }
     }
     
     @Override
     public void keyReleased(KeyEvent evt) {
-        super.keyPressed(evt);
         switch (evt.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                leftKeyPressed = false;
+                if (rightKeyPressed) {
+                    dx = 1;
+                    facingLeft = false;
+                } else {
+                    currAnimation = Animation.STANDING;
+                    spriteWidth = Animation.STANDING.getSpriteWidth();
+                    dx = 0;
+                }
+                break;
             case KeyEvent.VK_RIGHT:
-                currAnimation = Animation.STANDING;
-                spriteWidth = Animation.STANDING.getSpriteWidth();
-                dx = 0;
+                rightKeyPressed = false;
+                if (leftKeyPressed) {
+                    dx = -1;
+                    facingLeft = true;
+                } else {
+                    currAnimation = Animation.STANDING;
+                    spriteWidth = Animation.STANDING.getSpriteWidth();
+                    dx = 0; 
+                }
                 break;
         }
     }

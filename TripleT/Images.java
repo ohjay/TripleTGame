@@ -211,11 +211,14 @@ public class Images {
     /**
      * Initializes sheets for in-game characters and objects.
      * - kirbySS: the sheet for a basic Kirby (although let's be honest, Kirby is never basic)
+     * - kirbySS-1: the sheet for left-facing Kirby
      * - storyMenuSS: the "sheet" (as in 2 images) for the story menu
      */
     private static void initializeSheets() {
         images.put("kirbySS",
                 new ImageIcon(Images.class.getResource("/images/kirby_spritesheet.png")).getImage());
+        images.put("kirbySS-1",
+                new ImageIcon(Images.class.getResource("/images/kirby_spritesheet-1.png")).getImage());
         images.put("storyMenuSS",
                 new ImageIcon(Images.class.getResource("/images/storyMenu.png")).getImage());
     }
@@ -223,7 +226,7 @@ public class Images {
     /**
      * Initializes images for backgrounds and foregrounds.
      * Listing:
-     * Foregrounds;
+     * Foregrounds:
      * - demoForeground
      * Backgrounds:
      * - level1Background
