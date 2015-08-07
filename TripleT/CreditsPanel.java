@@ -124,7 +124,7 @@ public class CreditsPanel extends JPanel implements ActionListener {
             int keyCode = evt.getKeyCode();
             
             if (keyCode == KeyEvent.VK_ENTER || keyCode == KeyEvent.VK_BACK_SPACE 
-                    || keyCode == KeyEvent.VK_DELETE) {
+                    || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_ESCAPE) {
                 // Deactivate this panel
                 removeKeyListener(kl);
                 timer.stop();

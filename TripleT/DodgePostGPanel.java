@@ -111,10 +111,10 @@ public class DodgePostGPanel extends MenuPanel {
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
             
-            if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN
-                    || keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+            if (keyCode == GameState.pInfo.upKey || keyCode == GameState.pInfo.downKey
+                    || keyCode == GameState.pInfo.leftKey || keyCode == GameState.pInfo.rightKey) {
                 imgIndex = (imgIndex % 2 == 0) ? imgIndex - 1 : imgIndex + 1;
-            } else if (keyCode == KeyEvent.VK_ENTER) {
+            } else if (keyCode == KeyEvent.VK_ENTER || keyCode == GameState.pInfo.pauseKey) {
                 deactivate();
                 if (imgIndex % 2 == 0) {
                     GameState.layout.show(GameState.contentPanel, "mainMenu");

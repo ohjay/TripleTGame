@@ -220,7 +220,7 @@ public class DodgePanel extends JPanel implements ActionListener {
     public class KeyListener extends KeyAdapter {
         public void keyPressed(KeyEvent evt) {
             kirby.keyPressed(evt);
-            if (evt.getKeyCode() == KeyEvent.VK_SHIFT) {
+            if (evt.getKeyCode() == GameState.pInfo.pauseKey) {
                 kirby.nullifyKeyPresses();
                 deactivate();
                 GameState.layout.show(GameState.contentPanel, "dodgePause");

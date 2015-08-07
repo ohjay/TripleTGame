@@ -53,11 +53,11 @@ public class MainMenuPanel extends MenuPanel {
             
             if (isTitleScr) {
                 isTitleScr = false; // a key was pressed, so it's time to go
-            } else if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_LEFT) {
+            } else if (keyCode == GameState.pInfo.upKey || keyCode == GameState.pInfo.leftKey) {
                 decrementIndex();
-            } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_RIGHT) {
+            } else if (keyCode == GameState.pInfo.downKey || keyCode == GameState.pInfo.rightKey) {
                 incrementIndex();
-            } else if (keyCode == KeyEvent.VK_ENTER) {
+            } else if (keyCode == KeyEvent.VK_ENTER || keyCode == GameState.pInfo.pauseKey) {
                 deactivate();
                 switch (imgIndex) {
                     case 0:
@@ -73,6 +73,7 @@ public class MainMenuPanel extends MenuPanel {
                         break;
                     case 3:
                         GameState.layout.show(GameState.contentPanel, "controlMenu");
+                        GameState.controlMPanel.activate();
                         break;
                     case 4:
                         GameState.layout.show(GameState.contentPanel, "optionMenu");

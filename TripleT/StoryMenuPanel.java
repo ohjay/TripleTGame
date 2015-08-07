@@ -81,14 +81,14 @@ public class StoryMenuPanel extends MenuPanel {
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
             
-            if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_LEFT) {
+            if (keyCode == GameState.pInfo.upKey || keyCode == GameState.pInfo.leftKey) {
                 if (sheetOffset == 0) {
                     // The confirmation popup is not currently being displayed
                     imgIndex = (imgIndex == 0) ? 2 : imgIndex - 1;
                 } else {
                     yesHighlighted = !yesHighlighted;
                 }
-            } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_RIGHT) {
+            } else if (keyCode == GameState.pInfo.downKey || keyCode == GameState.pInfo.rightKey) {
                 if (sheetOffset == 0) {
                     imgIndex = (imgIndex == 2) ? 0 : imgIndex + 1;
                 } else {
@@ -96,7 +96,7 @@ public class StoryMenuPanel extends MenuPanel {
                 }
             } else if (keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE) {
                 sheetOffset = SCR_WIDTH;
-            } else if (keyCode == KeyEvent.VK_ENTER) {
+            } else if (keyCode == KeyEvent.VK_ENTER || keyCode == GameState.pInfo.pauseKey) {
                 if (sheetOffset == SCR_WIDTH) {
                     // The confirmation popup is open
                     sheetOffset = 0;

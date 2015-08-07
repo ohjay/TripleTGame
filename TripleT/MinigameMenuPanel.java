@@ -41,9 +41,9 @@ public class MinigameMenuPanel extends MenuPanel {
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
             
-            if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+            if (keyCode == GameState.pInfo.leftKey || keyCode == GameState.pInfo.rightKey) {
                 imgIndex = 1 - imgIndex;
-            } else if (keyCode == KeyEvent.VK_ENTER) {
+            } else if (keyCode == KeyEvent.VK_ENTER || keyCode == GameState.pInfo.pauseKey) {
                 deactivate();
                 if (imgIndex == 0) {
                     GameState.layout.show(GameState.contentPanel, "dodgePreG");
@@ -51,7 +51,8 @@ public class MinigameMenuPanel extends MenuPanel {
                 } else {
                     GameState.layout.show(GameState.contentPanel, "kirbySMASH");
                 }
-            } else if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE) {
+            } else if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE
+                    || keyCode == KeyEvent.VK_ESCAPE) {
                 deactivate();
                 GameState.layout.show(GameState.contentPanel, "mainMenu");
                 GameState.menuPanel.activate();
