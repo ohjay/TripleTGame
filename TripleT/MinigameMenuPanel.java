@@ -1,6 +1,8 @@
 package TripleT;
 
 import java.awt.Image;
+import javax.swing.InputMap;
+import javax.swing.ActionMap;
 import javax.swing.KeyStroke;
 
 /** 
@@ -22,20 +24,22 @@ public class MinigameMenuPanel extends EscapableMenuPanel {
     
     @Override
     void setKeyBindings() {
-        // Input maps
-        getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0), SWITCH_UP);
-        getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0), SWITCH_DOWN);
-        getInputMap().put(KeyStroke.getKeyStroke("ENTER"), CONFIRM);
-        getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.pauseKey, 0), CONFIRM);
-        getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), GO_BACK);
-        getInputMap().put(KeyStroke.getKeyStroke("DELETE"), GO_BACK);
-        getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), GO_BACK);
+        // Input map bindings
+        InputMap iMap = getInputMap();
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0), SWITCH_UP);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0), SWITCH_DOWN);
+        iMap.put(KeyStroke.getKeyStroke("ENTER"), CONFIRM);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.pauseKey, 0), CONFIRM);
+        iMap.put(KeyStroke.getKeyStroke("ESCAPE"), GO_BACK);
+        iMap.put(KeyStroke.getKeyStroke("DELETE"), GO_BACK);
+        iMap.put(KeyStroke.getKeyStroke("BACK_SPACE"), GO_BACK);
         
-        // Action maps
-        getActionMap().put(SWITCH_UP, new SwitchAction(-1));
-        getActionMap().put(SWITCH_DOWN, new SwitchAction(1));
-        getActionMap().put(CONFIRM, new ConfirmAction());
-        getActionMap().put(GO_BACK, new EscapeAction());
+        // Action map bindings
+        ActionMap aMap = getActionMap();
+        aMap.put(SWITCH_UP, new SwitchAction(-1));
+        aMap.put(SWITCH_DOWN, new SwitchAction(1));
+        aMap.put(CONFIRM, new ConfirmAction());
+        aMap.put(GO_BACK, new EscapeAction());
     }
     
     @Override

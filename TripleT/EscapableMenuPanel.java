@@ -34,7 +34,6 @@ public class EscapableMenuPanel extends MenuPanel {
         // Return to the main menu
         GameState.layout.show(GameState.contentPanel, "mainMenu");
         GameState.menuPanel.requestFocus();
-        repaint();
     }
     
     /**

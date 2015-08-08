@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
@@ -62,19 +64,35 @@ public abstract class MenuPanel extends JPanel {
     }
     
     /**
+     * Associates the KeyStroke KEY with ACTION in the input map I_MAP.
+     * This method is necessary because SHIFT and ALT have out-of-the-ordinary behavior 
+     * as key bindings, and due to custom controls we most likely don't know beforehand what 
+     * KEY will be.
+     */
+    protected void addToInputMap(InputMap iMap, KeyStroke key, String action) {
+        if (key == KeyStroke.getKeyStroke("SHIFT")) {
+            iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, InputEvent.SHIFT_DOWN_MASK), action);
+        } else if (key == KeyStroke.getKeyStroke("ALT")) {
+            iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, InputEvent.ALT_DOWN_MASK), action);
+        } else {
+            iMap.put(key, action);
+        }
+    }
+    
+    /**
      * An initialization of default key bindings. This method should always be overridden 
      * if different key bindings are required.
      */
     void setKeyBindings() {
         // Input map bindings
         InputMap iMap = getInputMap();
-        iMap.put(KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0), SWITCH_UP);
-        iMap.put(KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0), SWITCH_UP);
-        iMap.put(KeyStroke.getKeyStroke(GameState.pInfo.downKey, 0), SWITCH_DOWN);
-        iMap.put(KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0), SWITCH_DOWN);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0), SWITCH_UP);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0), SWITCH_UP);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.downKey, 0), SWITCH_DOWN);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0), SWITCH_DOWN);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.pauseKey, 0), CONFIRM);
         iMap.put(KeyStroke.getKeyStroke("ENTER"), CONFIRM);
-        iMap.put(KeyStroke.getKeyStroke(GameState.pInfo.pauseKey, 0), CONFIRM);
-    
+        
         // Action map bindings
         ActionMap aMap = getActionMap();
         aMap.put(SWITCH_UP, new SwitchAction(-1));

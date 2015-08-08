@@ -23,6 +23,12 @@ public class DodgePausePanel extends EscapableMenuPanel {
     }
     
     @Override
+    protected void escape() {
+        GameState.layout.show(GameState.contentPanel, "dodge");
+        GameState.dodgePanel.activate();
+    }
+    
+    @Override
     protected void confirm() {
         if (imgIndex == 0) {
             GameState.layout.show(GameState.contentPanel, "dodge");
