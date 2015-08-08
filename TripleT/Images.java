@@ -39,6 +39,14 @@ public class Images {
         initialized = true;
     }
     
+    /**
+     * Adds the image specified by IMAGE_PATH to the internal data structure 
+     * under the name LABEL.
+     */
+    private static void addToImages(String label, String imagePath) {
+        images.put(label, new ImageIcon(Images.class.getResource(imagePath)).getImage());
+    }
+    
     /** 
      * Initializes (adds to the internal data structure) images pertaining to the main menu.
      * The images share the same background, with the only difference
@@ -52,20 +60,13 @@ public class Images {
      * - titleScr: the title screen image
      */
     private static void initializeMenuImages() {
-        images.put("storyH", 
-                new ImageIcon(Images.class.getResource("/images/menu1.png")).getImage());
-        images.put("minigamesH",
-                new ImageIcon(Images.class.getResource("/images/menu2.png")).getImage());
-        images.put("cutscenesH",
-                new ImageIcon(Images.class.getResource("/images/menu3.png")).getImage());
-        images.put("controlsH",
-                new ImageIcon(Images.class.getResource("/images/menu4.png")).getImage());
-        images.put("optionsH",
-                new ImageIcon(Images.class.getResource("/images/menu5.png")).getImage());
-        images.put("creditsH",
-                new ImageIcon(Images.class.getResource("/images/menu6.png")).getImage()); 
-        images.put("titleScr",
-                new ImageIcon(Images.class.getResource("/images/tripleT_titlesc.png")).getImage());
+        addToImages("storyH", "/images/menu1.png");
+        addToImages("minigamesH", "/images/menu2.png");
+        addToImages("cutscenesH", "/images/menu3.png");
+        addToImages("controlsH", "/images/menu4.png");
+        addToImages("optionsH", "/images/menu5.png");
+        addToImages("creditsH", "/images/menu6.png");
+        addToImages("titleScr", "/images/tripleT_titlesc.png");
     }
     
     /** 

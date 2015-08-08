@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import javax.swing.Timer;
@@ -12,12 +14,14 @@ import javax.swing.Timer;
  * The post-game screen for Dodge!.
  * @author Owen Jow
  */
-public class DodgePostGPanel extends MenuPanel {
+public class DodgePostGPanel extends MenuPanel implements ActionListener {
     private int score, scoreCounter;
     private boolean listenerActivated;
     private static final int SCORE_X = 165, SCORE_Y = 124, HSCORE_X = 234, HSCORE_Y = 157, 
             NUM_WIDTH = 18;
     private LinkedList<Integer> numStack = new LinkedList<Integer>();
+    private Timer timer;
+    private KeyAdapter kl;
     
     public DodgePostGPanel() {
         // Initialize the post-game background images
@@ -42,6 +46,15 @@ public class DodgePostGPanel extends MenuPanel {
         timer.start();
     }
     
+    /**
+     * Deactivates the panel.
+     * The key listener will be removed from the registry, and the timer will cease to run.
+     */
+    public void deactivate() {
+        removeKeyListener(kl);
+        timer.stop();
+    }
+    
     @Override
     public void actionPerformed(ActionEvent evt) {
         requestFocus();
@@ -62,7 +75,7 @@ public class DodgePostGPanel extends MenuPanel {
             }
             
             // The score display has finished updating, so the screen should be responsive to input
-            this.kl = new KeyListener();
+            kl = new KeyListener();
             addKeyListener(kl);
             listenerActivated = true;
             repaint();
@@ -103,10 +116,10 @@ public class DodgePostGPanel extends MenuPanel {
     }
     
     /**
-     * The KeyListener for the main menu.
+     * The KeyListener for the post-game panel.
      * Controls registered: UP, DOWN, LEFT, RIGHT, and ENTER.
      */
-    public class KeyListener extends MenuPanel.KeyListener {
+    public class KeyListener extends KeyAdapter {
         
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
@@ -118,7 +131,7 @@ public class DodgePostGPanel extends MenuPanel {
                 deactivate();
                 if (imgIndex % 2 == 0) {
                     GameState.layout.show(GameState.contentPanel, "mainMenu");
-                    GameState.menuPanel.activate();
+                    GameState.menuPanel.requestFocus();
                 } else {
                     GameState.layout.show(GameState.contentPanel, "dodge");
                     GameState.dodgePanel.reset();

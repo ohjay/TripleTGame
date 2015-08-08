@@ -5,17 +5,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.KeyStroke;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
 
 /** 
  * The credits panel.
  * @author Owen Jow
  */
 public class CreditsPanel extends JPanel implements ActionListener {
-    private KeyListener kl;
     private Timer timer;
     private static final Image CREDITS_BACKGROUND = Images.get("creditsBackground");
     private static final Image[] CREDITS = new Image[] { Images.get("owenjow"),
@@ -27,6 +27,7 @@ public class CreditsPanel extends JPanel implements ActionListener {
     private int[] xPositions = new int[CREDITS.length];
     private int crYPos;
     private boolean finished;
+    private static final String GO_BACK = "go back";
     
     /** 
      * Activates the credits panel.
@@ -39,8 +40,6 @@ public class CreditsPanel extends JPanel implements ActionListener {
             xPositions[i] = (i % 2 == 0) ? INIT_X : -INIT_X;
         }
         
-        kl = new KeyListener();
-        addKeyListener(kl);
         timer = new Timer(7, this);
         timer.start();
     }
@@ -111,27 +110,39 @@ public class CreditsPanel extends JPanel implements ActionListener {
         }
     }
     
+    void setKeyBindings() {
+        // Input maps
+        InputMap iMap = getInputMap();
+        iMap.put(KeyStroke.getKeyStroke("ENTER"), GO_BACK);
+        iMap.put(KeyStroke.getKeyStroke("BACK_SPACE"), GO_BACK);
+        iMap.put(KeyStroke.getKeyStroke("DELETE"), GO_BACK);
+        iMap.put(KeyStroke.getKeyStroke("ESCAPE"), GO_BACK);
+    
+        // Action maps
+        getActionMap().put(GO_BACK, new EscapeAction());
+    }
+    
+    void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, boolean shouldRemove) {
+        InputMap iMap = getInputMap();
+        iMap.put(newKey, iMap.get(oldKey));
+        if (shouldRemove) { iMap.remove(oldKey); }
+    }
+    
+    void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, String oldAction, 
+            boolean shouldRemove) {
+        getInputMap().put(newKey, oldAction);
+        if (shouldRemove) { getInputMap().remove(oldKey); }
+    }
+    
     /**
-     * A key listener for the credits panel.
-     * Controls registered: ENTER, BACKSPACE, DELETE.
+     * Returns to the main menu.
      */
-    public class KeyListener extends KeyAdapter {
-        /**
-         * Checks if the key pressed was ENTER, BACKSPACE, or DELETE.
-         * @param evt a KeyEvent containing information about the pressed key
-         */
-        public void keyPressed(KeyEvent evt) {
-            int keyCode = evt.getKeyCode();
-            
-            if (keyCode == KeyEvent.VK_ENTER || keyCode == KeyEvent.VK_BACK_SPACE 
-                    || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_ESCAPE) {
-                // Deactivate this panel
-                removeKeyListener(kl);
-                timer.stop();
-                
-                GameState.layout.show(GameState.contentPanel, "mainMenu");
-                GameState.menuPanel.activate();
-            }
+    protected class EscapeAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            timer.stop();
+            GameState.layout.show(GameState.contentPanel, "mainMenu");
+            GameState.menuPanel.requestFocus();
         }
     }
 }

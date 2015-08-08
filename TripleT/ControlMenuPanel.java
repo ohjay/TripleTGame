@@ -6,18 +6,25 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
+import java.awt.event.KeyAdapter;
+import javax.swing.KeyStroke;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.HashSet;
 
 /**
  * The panel for the controls menu, in which the user will be able to customize controls.
  * @author Owen Jow
  */
-public class ControlMenuPanel extends MenuPanel {
+public class ControlMenuPanel extends EscapableMenuPanel {
     private static final Image MENU_IMG = Images.get("controlsMenu");
     private static final Font NOVECENTO_20 = new Font("Novecento sans wide", Font.PLAIN, 20);
     private static final Font NOVECENTO_17 = new Font("Novecento sans wide", Font.PLAIN, 17);
     private static final int NAME_X = 146, KEY_X = 346, BASE_Y = 110, Y_OFFSET = 30, DESC_X = 84;
     private int controlSelected = -1; // the index of the control currently being changed
+    private KeyAdapter kl;
+    private LinkedList<ArrayList<String>> oldActions = new LinkedList<ArrayList<String>>();
+    private HashSet<KeyStroke> newKeys = new HashSet<KeyStroke>();
     
     // The name of each control
     private static final String[] CTRL_NAMES = new String[] { "Left", "Right", "Up", 
@@ -38,6 +45,14 @@ public class ControlMenuPanel extends MenuPanel {
         "uses a copy ability/special attack", // special attack
         "pauses the game; confirms on menus", // pause/confirm
     };
+    
+    public void activate() {
+        imgIndex = 0;
+        requestFocus();
+        
+        kl = new KeyListener();
+        addKeyListener(kl);
+    }
     
     @Override
     public void paintComponent(Graphics g) {
@@ -68,14 +83,10 @@ public class ControlMenuPanel extends MenuPanel {
                 BASE_Y + (keys.length + 1) * Y_OFFSET - 10);
     }
     
-    public void activate() {
-        activate(new KeyListener());
-    }
-    
     /**
      * Checks if the key specified by KEY_CODE is the same as any other control (or, to be precise,
      * any control that's not the one associated with KEY_INDEX). If so, we will select 
-     * the offending duplicate (by altering the imgIndex variable) 
+     * the offending duplicate (by altering the imgIndex and controlSelected variables) 
      * and thereby force the user to bind a new key for that control.
      * @param keyCode the key that we'll be checking for duplicates against
      * @param keyIndex the index of the control that we don't need to check against
@@ -90,6 +101,7 @@ public class ControlMenuPanel extends MenuPanel {
             }
         }
         
+        // We didn't find a duplicate, so the new control must be unique
         return false;
     }
     
@@ -97,19 +109,22 @@ public class ControlMenuPanel extends MenuPanel {
      * The KeyListener for the controls menu.
      * Controls registered: UP, DOWN, ENTER, DELETE
      */
-    public class KeyListener extends MenuPanel.KeyListener {
+    public class KeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent evt) {
             int keyCode = evt.getKeyCode();
             if (keyCode == KeyEvent.VK_UNDEFINED) { return; } // undefined? say whaaat?
             
             if (keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE
-                    || keyCode == KeyEvent.VK_ESCAPE && controlSelected < 0) {
-                // Back to the main menu for us!
-                deactivate();
-                TripleT.savePersistentInfo(GameState.pInfo);
-                GameState.layout.show(GameState.contentPanel, "mainMenu");
-                GameState.menuPanel.activate();
+                    || keyCode == KeyEvent.VK_ESCAPE) {
+                // If the user is changing a control, we don't want to leave. Otherwise...
+                if (controlSelected < 0) {
+                    // Back to the main menu for us!
+                    removeKeyListener(kl);
+                    TripleT.savePersistentInfo(GameState.pInfo);
+                    GameState.layout.show(GameState.contentPanel, "mainMenu");
+                    GameState.menuPanel.requestFocus();
+                }
             } else if (controlSelected >= 0) {
                 // Update the key associated with whatever control is selected
                 switch (imgIndex) {
@@ -136,10 +151,37 @@ public class ControlMenuPanel extends MenuPanel {
                         break;
                 }
                 
-                keys[imgIndex] = keyCode;
+                int currIndex = imgIndex; // saving this here, in case the uniqueness check mutates it
+                KeyStroke oldKey = KeyStroke.getKeyStroke(keys[imgIndex], 0);
+                KeyStroke newKey = KeyStroke.getKeyStroke(keyCode, 0);
+                boolean shouldRemove = !newKeys.contains(oldKey);
+                    
+                // Check if the new control is the same as any other control
                 if (!runUniquenessCheck(keyCode, imgIndex)) {
                     controlSelected = -1; // no duplicates keys! We good
+                    
+                    // Put changes into effect
+                    if (oldActions.size() > 0) {
+                        // There was a conflict earlier, so we'll need to pass in the old actions explicitly
+                        TripleTWindow.updateKeyBindings(oldKey, newKey, oldActions.removeFirst(), shouldRemove);
+                    } else {
+                        TripleTWindow.updateKeyBindings(oldKey, newKey, shouldRemove);
+                    }
+                    
+                    newKeys.clear(); // we don't have to worry about overwriting new keys anymore
+                } else {
+                    // Save the function of the new key so that the bindings don't get confused
+                    oldActions.add(TripleTWindow.getActionsForKey(newKey));
+                    if (oldActions.size() > 1) {
+                        TripleTWindow.updateKeyBindings(oldKey, newKey, oldActions.removeFirst(), shouldRemove);
+                    } else {
+                        TripleTWindow.updateKeyBindings(oldKey, newKey, shouldRemove);
+                    }
+                    
+                    newKeys.add(newKey);
                 }
+                
+                keys[currIndex] = keyCode;
             } else if (keyCode == GameState.pInfo.upKey) {
                 if (imgIndex > 0) { imgIndex--; }
             } else if (keyCode == GameState.pInfo.downKey) {

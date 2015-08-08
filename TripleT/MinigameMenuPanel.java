@@ -1,7 +1,7 @@
 package TripleT;
 
 import java.awt.Image;
-import java.awt.event.KeyEvent;
+import javax.swing.KeyStroke;
 
 /** 
  * A menu that serves as a gateway to different minigames.
@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
  * is the last man standing among the player and three CPUs.
  * @author Owen Jow
  */
-public class MinigameMenuPanel extends MenuPanel {
+public class MinigameMenuPanel extends EscapableMenuPanel {
     
     /** 
      * Constructs a minigame menu panel. Initializes images.
@@ -20,45 +20,33 @@ public class MinigameMenuPanel extends MenuPanel {
         menuImages = new Image[] { Images.get("dodgeH"), Images.get("kirbySMASHH") };
     }
     
-    /**
-     * Activates the minigame menu panel. 
-     * After this method is executed, the menu should be able to respond to keyboard inputs.
-     */
-    public void activate() {
-        imgIndex = 0;
-        activate(new KeyListener());
+    @Override
+    void setKeyBindings() {
+        // Input maps
+        getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0), SWITCH_UP);
+        getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0), SWITCH_DOWN);
+        getInputMap().put(KeyStroke.getKeyStroke("ENTER"), CONFIRM);
+        getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.pauseKey, 0), CONFIRM);
+        getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), GO_BACK);
+        getInputMap().put(KeyStroke.getKeyStroke("DELETE"), GO_BACK);
+        getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), GO_BACK);
+        
+        // Action maps
+        getActionMap().put(SWITCH_UP, new SwitchAction(-1));
+        getActionMap().put(SWITCH_DOWN, new SwitchAction(1));
+        getActionMap().put(CONFIRM, new ConfirmAction());
+        getActionMap().put(GO_BACK, new EscapeAction());
     }
     
-    /**
-     * The KeyListener for the minigame menu.
-     * Controls registered: LEFT, RIGHT, ENTER, and BACKSPACE.
-     */
-    public class KeyListener extends MenuPanel.KeyListener {
-        /**
-         * Handles the menu's response to keys being pressed.
-         * @param KeyEvent evt the extraordinary event that is a key being pressed
-         */
-        public void keyPressed(KeyEvent evt) {
-            int keyCode = evt.getKeyCode();
-            
-            if (keyCode == GameState.pInfo.leftKey || keyCode == GameState.pInfo.rightKey) {
-                imgIndex = 1 - imgIndex;
-            } else if (keyCode == KeyEvent.VK_ENTER || keyCode == GameState.pInfo.pauseKey) {
-                deactivate();
-                if (imgIndex == 0) {
-                    GameState.layout.show(GameState.contentPanel, "dodgePreG");
-                    GameState.dodgePreGPanel.activate();
-                } else {
-                    GameState.layout.show(GameState.contentPanel, "kirbySMASH");
-                }
-            } else if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE
-                    || keyCode == KeyEvent.VK_ESCAPE) {
-                deactivate();
-                GameState.layout.show(GameState.contentPanel, "mainMenu");
-                GameState.menuPanel.activate();
-            }
-            
-            repaint();
+    @Override
+    protected void confirm() {
+        if (imgIndex == 0) {
+            GameState.layout.show(GameState.contentPanel, "dodgePreG");
+            GameState.dodgePreGPanel.activate();
+        } else {
+            GameState.layout.show(GameState.contentPanel, "kirbySMASH");
         }
+        
+        repaint();
     }
 }

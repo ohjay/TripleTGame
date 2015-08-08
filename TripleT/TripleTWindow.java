@@ -3,6 +3,8 @@ package TripleT;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import java.util.ArrayList;
 
 /**
  * A representation of the on-screen window for the game.
@@ -30,8 +32,8 @@ public class TripleTWindow {
         
         // Add game panels to the card layout structure and the game state
         initializeGamePanels(contentPanel);
+        setKeyBindings(); // allow the game to respond to keyboard input
         
-        GameState.menuPanel.activate(); // activate the initial panel
         window.setContentPane(contentPanel);
         window.setVisible(true);
     }
@@ -84,5 +86,60 @@ public class TripleTWindow {
         // Level panels
         GameState.level1 = new Level1();
         contentPanel.add(GameState.level1, "level1");
+    }
+    
+    /**
+     * Sets the key bindings for each panel. Each individual panel 
+     * should have its own setKeyBindings method, which will be called here.
+     */
+    private static void setKeyBindings() {
+        GameState.menuPanel.setKeyBindings();
+        GameState.storyMPanel.setKeyBindings();
+        GameState.minigameMPanel.setKeyBindings();
+        GameState.creditsPanel.setKeyBindings();
+        GameState.dodgePausePanel.setKeyBindings();
+    }
+    
+    /**
+     * Updates panel key bindings for the OLD_KEY, replacing them with NEW_KEY.
+     * This change will take place in all panels that used to have a binding for OLD_KEY.
+     */
+    static void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, boolean shouldRemove) {
+        GameState.menuPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
+        GameState.storyMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
+        GameState.minigameMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
+        GameState.creditsPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
+        GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, shouldRemove);
+    }
+    
+    /**
+     * The same as the above, except with explicit old actions.
+     */
+    static void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, ArrayList<String> oldActions, 
+            boolean shouldRemove) {
+        GameState.menuPanel.updateKeyBindings(oldKey, newKey, oldActions.get(0), shouldRemove);
+        GameState.storyMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(1), shouldRemove);
+        GameState.minigameMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(2), shouldRemove);
+        GameState.creditsPanel.updateKeyBindings(oldKey, newKey, oldActions.get(3), shouldRemove);
+        GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, oldActions.get(4), shouldRemove);
+    }
+    
+    /**
+     * This method will return a String ArrayList containing the action bindings 
+     * for every panel with a key binding for KEY. The order of actions within 
+     * the ArrayList is important, because it determines which bindings will end up
+     * associated with each panel! (aka don't mess with the order man)
+     */
+    static ArrayList<String> getActionsForKey(KeyStroke key) {
+        ArrayList<String> actions = new ArrayList<String>();
+        
+        // Add the corresponding action for each panel
+        actions.add((String) GameState.menuPanel.getInputMap().get(key));
+        actions.add((String) GameState.storyMPanel.getInputMap().get(key));
+        actions.add((String) GameState.minigameMPanel.getInputMap().get(key));
+        actions.add((String) GameState.creditsPanel.getInputMap().get(key));
+        actions.add((String) GameState.dodgePausePanel.getInputMap().get(key));
+        
+        return actions;
     }
 }
