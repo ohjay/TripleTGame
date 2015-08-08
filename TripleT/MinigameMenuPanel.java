@@ -46,7 +46,5 @@ public class MinigameMenuPanel extends EscapableMenuPanel {
         } else {
             GameState.layout.show(GameState.contentPanel, "kirbySMASH");
         }
-        
-        repaint();
     }
 }

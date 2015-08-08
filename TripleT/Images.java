@@ -78,12 +78,9 @@ public class Images {
      * - controlsMenu: the background for the controls menu
      */
     private static void initializeSubmenuImages() {
-        images.put("dodgeH",
-                new ImageIcon(Images.class.getResource("/images/minimen1.png")).getImage());
-        images.put("kirbySMASHH",
-                new ImageIcon(Images.class.getResource("/images/minimen2.png")).getImage());
-        images.put("controlsMenu",
-                new ImageIcon(Images.class.getResource("/images/controlsMenu.png")).getImage());
+        addToImages("dodgeH", "/images/minimen1.png");
+        addToImages("kirbySMASHH", "/images/minimen2.png");
+        addToImages("controlsMenu", "/images/controlsMenu.png");
     }
     
     /**
@@ -101,44 +98,25 @@ public class Images {
      * - dodgePreG: pre-game screen
      */
     private static void initializeDodgeImages() {
-        images.put("dodgeBackground", 
-                new ImageIcon(Images.class.getResource("/images/dodgeBG.png")).getImage());
-        images.put("treasure",
-                new ImageIcon(Images.class.getResource("/images/treasure1.png")).getImage());
-        images.put("lifeCount",
-                new ImageIcon(Images.class.getResource("/images/lifeCount.png")).getImage());
-        images.put("zero", 
-                new ImageIcon(Images.class.getResource("/images/zero.png")).getImage());
-        images.put("one",
-                new ImageIcon(Images.class.getResource("/images/one.png")).getImage());
-        images.put("two",
-                new ImageIcon(Images.class.getResource("/images/two.png")).getImage());
-        images.put("three",
-                new ImageIcon(Images.class.getResource("/images/three.png")).getImage());
-        images.put("four",
-                new ImageIcon(Images.class.getResource("/images/four.png")).getImage());
-        images.put("five",
-                new ImageIcon(Images.class.getResource("/images/five.png")).getImage());
-        images.put("six",
-                new ImageIcon(Images.class.getResource("/images/six.png")).getImage());
-        images.put("seven",
-                new ImageIcon(Images.class.getResource("/images/seven.png")).getImage());
-        images.put("eight",
-                new ImageIcon(Images.class.getResource("/images/eight.png")).getImage());
-        images.put("nine",
-                new ImageIcon(Images.class.getResource("/images/nine.png")).getImage());
-        images.put("dodgePostGInitial",
-                new ImageIcon(Images.class.getResource("/images/dodgePostGInitial.png")).getImage());
-        images.put("dodgePostGRestart",
-                new ImageIcon(Images.class.getResource("/images/dodgePostGRestart.png")).getImage());
-        images.put("dodgePostGRagequit",
-                new ImageIcon(Images.class.getResource("/images/dodgePostGRagequit.png")).getImage());
-        images.put("dodgePostGCRestart",
-                new ImageIcon(Images.class.getResource("/images/dodgePostGCRestart.png")).getImage());
-        images.put("dodgePostGCRagequit",
-                new ImageIcon(Images.class.getResource("/images/dodgePostGCRagequit.png")).getImage());
-        images.put("dodgePreG",
-                new ImageIcon(Images.class.getResource("/images/dodgePreG.png")).getImage());
+        addToImages("dodgeBackground", "/images/dodgeBG.png");
+        addToImages("treasure", "/images/treasure1.png");
+        addToImages("lifeCount", "/images/lifeCount.png");
+        addToImages("zero", "/images/zero.png");
+        addToImages("one", "/images/one.png");
+        addToImages("two", "/images/two.png");
+        addToImages("three", "/images/three.png");
+        addToImages("four", "/images/four.png");
+        addToImages("five", "/images/five.png");
+        addToImages("six", "/images/six.png");
+        addToImages("seven", "/images/seven.png");
+        addToImages("eight", "/images/eight.png");
+        addToImages("nine", "/images/nine.png");
+        addToImages("dodgePostGInitial", "/images/dodgePostGInitial.png");
+        addToImages("dodgePostGRestart", "/images/dodgePostGRestart.png");
+        addToImages("dodgePostGRagequit", "/images/dodgePostGRagequit.png");
+        addToImages("dodgePostGCRestart", "/images/dodgePostGCRestart.png");
+        addToImages("dodgePostGCRagequit", "/images/dodgePostGCRagequit.png");
+        addToImages("dodgePreG", "/images/dodgePreG.png");
     }
     
     /**
@@ -148,10 +126,8 @@ public class Images {
      * - leftTedhaun: a Tedhaun facing left
      */
     private static void initializeTedhaunImages() {
-        images.put("rightTedhaun",
-                new ImageIcon(Images.class.getResource("/images/ghost1.png")).getImage());
-        images.put("leftTedhaun", 
-                new ImageIcon(Images.class.getResource("/images/ghost-1.png")).getImage());
+        addToImages("rightTedhaun", "/images/ghost1.png");
+        addToImages("leftTedhaun", "/images/ghost-1.png");
     }
     
     /** 
@@ -167,22 +143,14 @@ public class Images {
      * - redStarRight: Kirby on a star, facing right, red
      */
     private static void initializeStarKirbyImages() {
-        images.put("rightStarKirby",
-                new ImageIcon(Images.class.getResource("/images/kirbyStar1.png")).getImage());
-        images.put("leftStarKirby",
-                new ImageIcon(Images.class.getResource("/images/kirbyStar-1.png")).getImage());
-        images.put("rightStarTled",
-                new ImageIcon(Images.class.getResource("/images/kirbyStarHit.png")).getImage());
-        images.put("leftStarTled",
-                new ImageIcon(Images.class.getResource("/images/kirbyStarHit2.png")).getImage());
-        images.put("orangeStarLeft",
-                new ImageIcon(Images.class.getResource("/images/kirbyOrangeStar-1.png")).getImage());
-        images.put("orangeStarRight",
-                new ImageIcon(Images.class.getResource("/images/kirbyOrangeStar1.png")).getImage());
-        images.put("redStarLeft",
-                new ImageIcon(Images.class.getResource("/images/kirbyRedStar-1.png")).getImage());
-        images.put("redStarRight",
-                new ImageIcon(Images.class.getResource("/images/kirbyRedStar1.png")).getImage());
+        addToImages("rightStarKirby", "/images/kirbyStar1.png");
+        addToImages("leftStarKirby", "/images/kirbyStar-1.png");
+        addToImages("rightStarTled", "/images/kirbyStarHit.png");
+        addToImages("leftStarTled", "/images/kirbyStarHit2.png");
+        addToImages("orangeStarLeft", "/images/kirbyOrangeStar-1.png");
+        addToImages("orangeStarRight", "/images/kirbyOrangeStar1.png");
+        addToImages("redStarLeft", "/images/kirbyRedStar-1.png");
+        addToImages("redStarRight", "/images/kirbyRedStar1.png");
     }
     
     /**
@@ -191,10 +159,8 @@ public class Images {
      * - dodgePause2: has the "ragequit" option selected
      */
     private static void initializeDodgePauseImages() {
-        images.put("dodgePause1",
-                new ImageIcon(Images.class.getResource("/images/dodgePause1.png")).getImage());
-        images.put("dodgePause2",
-                new ImageIcon(Images.class.getResource("/images/dodgePause2.png")).getImage());
+        addToImages("dodgePause1", "/images/dodgePause1.png");
+        addToImages("dodgePause2", "/images/dodgePause2.png");
     }
     
     /**
@@ -204,12 +170,9 @@ public class Images {
      * - williamjow: the credits entry for William Jow
      */
     private static void initializeCreditsImages() {
-        images.put("creditsBackground",
-                new ImageIcon(Images.class.getResource("/images/credits.png")).getImage());
-        images.put("owenjow",
-                new ImageIcon(Images.class.getResource("/images/owenjow.png")).getImage());
-        images.put("williamjow",
-                new ImageIcon(Images.class.getResource("/images/williamjow.png")).getImage());
+        addToImages("creditsBackground", "/images/credits.png");
+        addToImages("owenjow", "/images/owenjow.png");
+        addToImages("williamjow", "/images/williamjow.png");
     }
     
     /**
@@ -219,12 +182,9 @@ public class Images {
      * - storyMenuSS: the "sheet" (as in 2 images) for the story menu
      */
     private static void initializeSheets() {
-        images.put("kirbySS",
-                new ImageIcon(Images.class.getResource("/images/kirby_spritesheet.png")).getImage());
-        images.put("kirbySS-1",
-                new ImageIcon(Images.class.getResource("/images/kirby_spritesheet-1.png")).getImage());
-        images.put("storyMenuSS",
-                new ImageIcon(Images.class.getResource("/images/storyMenu.png")).getImage());
+        addToImages("kirbySS", "/images/kirby_spritesheet.png");
+        addToImages("kirbySS-1", "/images/kirby_spritesheet-1.png");
+        addToImages("storyMenuSS", "/images/storyMenu.png");
     }
     
     /**
@@ -236,10 +196,8 @@ public class Images {
      * - level1Background
      */
     private static void initializeGrounds() {
-        images.put("demoForeground",
-                new ImageIcon(Images.class.getResource("/images/demoForeground.png")).getImage());
-        images.put("level1Background",
-                new ImageIcon(Images.class.getResource("/images/level1Background.png")).getImage());
+        addToImages("demoForeground", "/images/demoForeground.png");
+        addToImages("level1Background", "/images/level1Background.png");
     }
     
     /**
