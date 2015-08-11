@@ -119,6 +119,7 @@ public class StoryMenuPanel extends EscapableMenuPanel {
                     // This will need to be changed later:
                     GameState.layout.show(GameState.contentPanel, "level1");
                     GameState.level1.activate();
+                    break;
                 case 1:
                     // Save file #2
                     // Go to #2's game (this should take the player directly to #2's progress map)
@@ -126,6 +127,7 @@ public class StoryMenuPanel extends EscapableMenuPanel {
                     // This will need to be changed later:
                     GameState.layout.show(GameState.contentPanel, "level1");
                     GameState.level1.activate();
+                    break;
                 case 2:
                     // Save file #3
                     // Go to #3's game (this should take the player directly to #3's progress map)
@@ -133,6 +135,7 @@ public class StoryMenuPanel extends EscapableMenuPanel {
                     // This will need to be changed later:
                     GameState.layout.show(GameState.contentPanel, "level1");
                     GameState.level1.activate();
+                    break;
             }
         }
         

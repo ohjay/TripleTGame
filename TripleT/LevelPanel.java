@@ -18,13 +18,26 @@ abstract class LevelPanel extends JPanel implements ActionListener {
     protected Timer timer;
     protected KeyAdapter kl;
     protected Image backgroundImg;
+    protected boolean isPaused;
+    protected int pauseIndex;
+    
+    /**
+     * Reset values for the panel. Override this for individualized reset behavior.
+     */
+    protected void reset() {
+        /* By default this method will do very little */
+        isPaused = false;
+        pauseIndex = 0;
+    }
     
     protected void activate() {
+        reset();
         addKeyListener(kl);
         
         // Start the timer that will continually request focus for this panel
-        timer = new Timer(20, this);
+        timer = new Timer(5, this);
         timer.start();
+        requestFocus();
     }
     
     public void deactivate() {
@@ -34,7 +47,7 @@ abstract class LevelPanel extends JPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent evt) {
-        requestFocus();
+        /* Nothing to see here: override this for timer behavior! */
     }
     
     /**
@@ -47,6 +60,10 @@ abstract class LevelPanel extends JPanel implements ActionListener {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(backgroundImg, 0, 0, null);
         drawForeground(g2);
+        
+        if (isPaused) {
+            g2.drawImage(Images.get("pauseOverlay" + pauseIndex), 0, 0, null);
+        }
     }
     
     /**

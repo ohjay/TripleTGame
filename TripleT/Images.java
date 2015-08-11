@@ -190,6 +190,8 @@ public class Images {
     /**
      * Initializes images for backgrounds and foregrounds.
      * Listing:
+     * - pauseOverlay0: pause menu with "continue" highlighted
+     * - pauseOverlay1: pause menu with "return to main menu" highlighted
      * Foregrounds:
      * - demoForeground
      * Backgrounds:
@@ -198,6 +200,8 @@ public class Images {
     private static void initializeGrounds() {
         addToImages("demoForeground", "/images/demoForeground.png");
         addToImages("level1Background", "/images/level1Background.png");
+        addToImages("pauseOverlay0", "/images/pauseOverlay0.png");
+        addToImages("pauseOverlay1", "/images/pauseOverlay1.png");
     }
     
     /**

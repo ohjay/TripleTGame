@@ -7,7 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Level1 extends LevelPanel {
-    private static final int START_Y = 330;
+    private static final int START_Y = 330, FOREGROUND_Y = 260;
     private static final Image FOREGROUND_IMG = Images.get("demoForeground");
     private int counter;
     Kirby kirby;
@@ -20,6 +20,13 @@ public class Level1 extends LevelPanel {
         kirby = new Kirby(0, START_Y);
         backgroundImg = Images.get("level1Background");
         kl = new Level1KL();
+    }
+    
+    @Override
+    protected void reset() {
+        super.reset();
+        counter = 0;
+        kirby = new Kirby(0, START_Y);
     }
     
     @Override
@@ -40,19 +47,40 @@ public class Level1 extends LevelPanel {
     
     @Override
     protected void drawForeground(Graphics2D g2) {
-        g2.drawImage(FOREGROUND_IMG, 0, 260, null);
+        g2.drawImage(FOREGROUND_IMG, 0, FOREGROUND_Y, null);
         kirby.drawImage(g2);
     }
     
     /* To do: convert to key bindings! */
     public class Level1KL extends KeyAdapter {
         public void keyPressed(KeyEvent evt) {
-            kirby.keyPressed(evt);
+            int keyCode = evt.getKeyCode();
+            if (isPaused) {
+                if (keyCode == GameState.pInfo.upKey || keyCode == GameState.pInfo.downKey) {
+                    pauseIndex = 1 - pauseIndex;
+                } else if (keyCode == GameState.pInfo.pauseKey || keyCode == KeyEvent.VK_ENTER) {
+                    if (pauseIndex == 0) {
+                        isPaused = false;
+                    } else {
+                        deactivate();
+                        GameState.layout.show(GameState.contentPanel, "mainMenu");
+                        GameState.menuPanel.requestFocus();
+                    }
+                }
+            } else if (keyCode == GameState.pInfo.pauseKey) {
+                isPaused = true;
+            } else {
+                kirby.keyPressed(evt);
+            }
+            
             repaint();
         }
         
         public void keyReleased(KeyEvent evt) {
-            kirby.keyReleased(evt);
+            if (!isPaused) {
+                kirby.keyReleased(evt);
+            }
+            
             repaint();
         }
     }

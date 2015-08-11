@@ -54,6 +54,14 @@ public class Kirby extends ControllableSprite {
     }
     
     /**
+     * Setter method for Kirby's position on the x-axis.
+     * @param x the position that Kirby should be set to
+     */
+    void setX(int x) {
+        this.x = x;
+    }
+    
+    /**
      * This method will update the frame for Kirby's current animation.
      * If the frame changes, it will return true (so that the receiving class
      * or function knows to repaint the entire display).
