@@ -14,14 +14,20 @@ import java.awt.event.KeyEvent;
  * @author Owen Jow
  */
 public class Kirby extends ControllableSprite {
+    //================================================================================
+    // Properties
+    //================================================================================
+    
     private static final Image R_SPRITESHEET = Images.get("kirbySS"), 
             L_SPRITESHEET = Images.get("kirbySS-1");
     
     // Animation data: for each animation, this enum contains information about the length 
     // of each animation sequence and its position (measured by pixels) on the spritesheet.
     // It also keeps track of the sprite width and the distance between different frames.
-    private static enum Animation { 
-        STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24);
+    static enum Animation { 
+        STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 3, 121, 28, 25),
+                CROUCHING(2, 4, 25, 28, 25), SLIDING(2, 4, 47, 30, 28), HOPPING(10, 2, 68, 25, 25),
+                FLOATING(8, 2, 173, 28, 25);
         private final int length, x, y, spriteWidth, frameDist;
         
         private Animation(int length, int x, int y, int spriteWidth, int frameDist) {
@@ -45,6 +51,10 @@ public class Kirby extends ControllableSprite {
     private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
     private boolean facingLeft;
     
+    //================================================================================
+    // Constructors
+    //================================================================================
+    
     /**
      * A constructor for a Kirby that will place him at the given coordinates on the screen.
      */
@@ -53,6 +63,10 @@ public class Kirby extends ControllableSprite {
         this.y = y;
     }
     
+    //================================================================================
+    // Accessors (for external management or animation)
+    //================================================================================
+    
     /**
      * Setter method for Kirby's position on the x-axis.
      * @param x the position that Kirby should be set to
@@ -60,6 +74,51 @@ public class Kirby extends ControllableSprite {
     void setX(int x) {
         this.x = x;
     }
+    
+    /**
+     * Setter method for Kirby's position on the y-axis.
+     * @param y the y-coordinate for Kirby to take on
+     */
+    void setY(int y) {
+        this.y = y;
+    }
+    
+    /**
+     * Setter method for Kirby's horizontal delta value.
+     * To be used to control movement (ex. for animation).
+     * @param dx the new delta-x value
+     */
+    void setDX(int dx) {
+        this.dx = dx;
+    }
+    
+    /**
+     * Setter method for Kirby's vertical delta value.
+     * @param dy the new delta-y value
+     */
+    void setDY(int dy) {
+        this.dy = dy;
+    }
+    
+    /**
+     * This method sets whether or not Kirby is facing left.
+     * @param facingLeft if true, Kirby will be facing left after this method is executed
+     */
+    void setOrientation(boolean facingLeft) {
+        this.facingLeft = facingLeft;
+    }
+    
+    /**
+     * Updates Kirby's current animation to ANIMATION.
+     * @param animation Kirby's new animation
+     */
+    void setAnimation(Animation animation) {
+        this.currAnimation = animation;
+    }
+    
+    //================================================================================
+    // Drawing and animation methods
+    //================================================================================
     
     /**
      * This method will update the frame for Kirby's current animation.
@@ -115,6 +174,10 @@ public class Kirby extends ControllableSprite {
                     sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteWidth, null);
         }
     }
+    
+    //================================================================================
+    // Key input handlers
+    //================================================================================
     
     @Override
     public void keyPressed(KeyEvent evt) {
