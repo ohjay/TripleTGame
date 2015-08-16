@@ -40,8 +40,8 @@ public class Level1 extends LevelPanel {
         
         if (counter % 2 == 0) {
             // Because we don't want to move TOO fast!
-            kirby.moveWithinBoundaries(kirby.spriteWidth, 0, TripleTWindow.SCREEN_WIDTH, 
-                    0, TripleTWindow.SCREEN_HEIGHT);
+            kirby.moveWithinBoundaries(kirby.spriteWidth, 0, TripleTWindow.SCR_WIDTH, 
+                    0, TripleTWindow.SCR_HEIGHT);
         }
     }
     

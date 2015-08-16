@@ -11,14 +11,14 @@ import java.util.ArrayList;
  * @author Owen Jow
  */
 public class TripleTWindow {
-    static final int SCREEN_WIDTH = 512, SCREEN_HEIGHT = 412;
+    static final int SCR_WIDTH = 512, SCR_HEIGHT = 412; // (SCR = "screen")
     
     /** 
      * Initializes the GUI for the game.
      */
     public static void initializeGUI() {
         JFrame window = new JFrame("Kirby: The Tedhaun Treaty");
-        window.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        window.setSize(SCR_WIDTH, SCR_HEIGHT);
         window.setLocation(121, 121);
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,6 +98,7 @@ public class TripleTWindow {
         GameState.minigameMPanel.setKeyBindings();
         GameState.creditsPanel.setKeyBindings();
         GameState.dodgePausePanel.setKeyBindings();
+        GameState.cutsceneMPanel.setKeyBindings();
     }
     
     /**
@@ -110,6 +111,7 @@ public class TripleTWindow {
         GameState.minigameMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.creditsPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, shouldRemove);
+        GameState.cutsceneMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
     }
     
     /**
@@ -122,6 +124,7 @@ public class TripleTWindow {
         GameState.minigameMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(2), shouldRemove);
         GameState.creditsPanel.updateKeyBindings(oldKey, newKey, oldActions.get(3), shouldRemove);
         GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, oldActions.get(4), shouldRemove);
+        GameState.cutsceneMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(5), shouldRemove);
     }
     
     /**
@@ -139,6 +142,7 @@ public class TripleTWindow {
         actions.add((String) GameState.minigameMPanel.getInputMap().get(key));
         actions.add((String) GameState.creditsPanel.getInputMap().get(key));
         actions.add((String) GameState.dodgePausePanel.getInputMap().get(key));
+        actions.add((String) GameState.cutsceneMPanel.getInputMap().get(key));
         
         return actions;
     }

@@ -17,8 +17,6 @@ import javax.swing.KeyStroke;
  */
 public class StoryMenuPanel extends EscapableMenuPanel {
     private static final Image STORY_MENU_SHEET = Images.get("storyMenuSS");
-    // Sheet image offset values (SCR = "screen")
-    private static final int SCR_WIDTH = 512, SCR_HEIGHT = 412;
     // Save file data coordinates (SF = "save file")
     private static final int SF_X = 65, SF_STR_BASE_Y = 131, SF_LVL_Y_OFFSET = 23, 
             SF_Y_OFFSET = 82, PERCENT_X = 375, PERCENT_BASE_Y = 149;
@@ -42,8 +40,8 @@ public class StoryMenuPanel extends EscapableMenuPanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(STORY_MENU_SHEET, 0, 0, SCR_WIDTH, SCR_HEIGHT, sheetOffset, 0, 
-                sheetOffset + SCR_WIDTH, SCR_HEIGHT, null);
+        g2.drawImage(STORY_MENU_SHEET, 0, 0, TripleTWindow.SCR_WIDTH, TripleTWindow.SCR_HEIGHT, 
+                sheetOffset, 0, sheetOffset + TripleTWindow.SCR_WIDTH, TripleTWindow.SCR_HEIGHT, null);
         
         // Add save file information
         for (int i = 0; i < saveFiles.length; i++) {
@@ -58,7 +56,7 @@ public class StoryMenuPanel extends EscapableMenuPanel {
         }
         
         // If the confirmation popup is open, include text inside of the box
-        if (sheetOffset == SCR_WIDTH) {
+        if (sheetOffset == TripleTWindow.SCR_WIDTH) {
             g2.setColor(Color.WHITE);
             g.setFont(regFont);
             g2.drawString("Are you sure that you", L1_X, L1_Y);
@@ -103,7 +101,7 @@ public class StoryMenuPanel extends EscapableMenuPanel {
     
     @Override
     protected void confirm() {
-        if (sheetOffset == SCR_WIDTH) {
+        if (sheetOffset == TripleTWindow.SCR_WIDTH) {
             // The confirmation popup is open
             sheetOffset = 0;
             if (yesHighlighted) {
@@ -143,7 +141,7 @@ public class StoryMenuPanel extends EscapableMenuPanel {
     }
     
     private void delete() {
-        sheetOffset = SCR_WIDTH;
+        sheetOffset = TripleTWindow.SCR_WIDTH;
         repaint();
     }
     

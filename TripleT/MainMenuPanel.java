@@ -55,6 +55,7 @@ public class MainMenuPanel extends MenuPanel {
                     break;
                 case 2:
                     GameState.layout.show(GameState.contentPanel, "cutsceneMenu");
+                    GameState.cutsceneMPanel.activate();
                     break;
                 case 3:
                     GameState.layout.show(GameState.contentPanel, "controlMenu");
@@ -62,6 +63,7 @@ public class MainMenuPanel extends MenuPanel {
                     break;
                 case 4:
                     GameState.layout.show(GameState.contentPanel, "optionMenu");
+                    GameState.optionMPanel.activate();
                     break;
                 default:
                     GameState.layout.show(GameState.contentPanel, "credits");

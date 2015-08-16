@@ -76,11 +76,13 @@ public class Images {
      * - dodgeH: has the Dodge! minigame highlighted [minigame menu]
      * - kirbySMASHH: has the Kirby SMASH minigame highlighted [minigame menu]
      * - controlsMenu: the background for the controls menu
+     * - cutsceneMenu: the sheet of images for the cutscene menu
      */
     private static void initializeSubmenuImages() {
         addToImages("dodgeH", "/images/minimen1.png");
         addToImages("kirbySMASHH", "/images/minimen2.png");
         addToImages("controlsMenu", "/images/controlsMenu.png");
+        addToImages("cutsceneMenu", "/images/cutsceneMenuSheet.png");
     }
     
     /**

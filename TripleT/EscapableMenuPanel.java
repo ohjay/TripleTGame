@@ -6,6 +6,7 @@ import javax.swing.KeyStroke;
 
 /**
  * A menu that can be escaped from (i.e. a menu with a "back" option).
+ * @author Owen Jow
  */
 public class EscapableMenuPanel extends MenuPanel {
     protected static final String GO_BACK = "go back";
