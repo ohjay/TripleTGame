@@ -99,6 +99,7 @@ public class TripleTWindow {
         GameState.creditsPanel.setKeyBindings();
         GameState.dodgePausePanel.setKeyBindings();
         GameState.cutsceneMPanel.setKeyBindings();
+        GameState.optionMPanel.setKeyBindings();
     }
     
     /**
@@ -112,6 +113,7 @@ public class TripleTWindow {
         GameState.creditsPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.cutsceneMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
+        GameState.optionMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
     }
     
     /**
@@ -125,6 +127,7 @@ public class TripleTWindow {
         GameState.creditsPanel.updateKeyBindings(oldKey, newKey, oldActions.get(3), shouldRemove);
         GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, oldActions.get(4), shouldRemove);
         GameState.cutsceneMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(5), shouldRemove);
+        GameState.optionMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(6), shouldRemove);
     }
     
     /**
@@ -143,6 +146,7 @@ public class TripleTWindow {
         actions.add((String) GameState.creditsPanel.getInputMap().get(key));
         actions.add((String) GameState.dodgePausePanel.getInputMap().get(key));
         actions.add((String) GameState.cutsceneMPanel.getInputMap().get(key));
+        actions.add((String) GameState.optionMPanel.getInputMap().get(key));
         
         return actions;
     }

@@ -83,6 +83,7 @@ public class Images {
         addToImages("kirbySMASHH", "/images/minimen2.png");
         addToImages("controlsMenu", "/images/controlsMenu.png");
         addToImages("cutsceneMenu", "/images/cutsceneMenuSheet.png");
+        addToImages("optionsMenu", "/images/optionsMenuBackground.png");
     }
     
     /**

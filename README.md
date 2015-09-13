@@ -1,9 +1,20 @@
 # TripleTGame
 Triple T, aka Kirby: The Tedhaun Treaty. Currently in a state of development, playable only by downloading and compiling all of the files and subsequently running the command `java TripleT/TripleT` from the topmost directory.
 
-At present, there exists functionality only for the main menu, a minigame called Dodge!, and the credits screen. However, stay tuned for more updates! They'll be good, I ~~promise~~ hope.
+**Update [9/13/15]: A playable demo should be available in about a month!**
 
-**Update [8/5/15]: A playable demo should be available within the next two months!**
+## Features & Functionality
+Here's a quick listing of what you can expect:
 
+- A story mode, styled as a traditional Kirby platformer (with some twists)
+- Two minigames:
+  - **Dodge!**: A Tedhaun evasion game
+  - **kirbySMASH**: A Super Smash Bros-inspired fighter game
+- Control customization
+- Automatic game progress/high score retention
+- Options [to change sprite colors and volume]
+- Animated cutscenes that appear before major events in the storyline
+
+## Visuals
 ![alt text](https://cloud.githubusercontent.com/assets/8358648/8349809/def99f52-1ad4-11e5-9b4d-1ce7ddd340d2.png "Minigame menu")
-![alt text](https://cloud.githubusercontent.com/assets/8358648/8349811/e195fe4a-1ad4-11e5-96a4-b59483a6410e.png "Dodge! gameplay")
+![alt text](https://github.com/ohjay/TripleTGame/blob/master/sample_imgs/stctrls.png "Submenu images")
