@@ -18,3 +18,11 @@ Here's a quick listing of what you can expect:
 ## Visuals
 ![alt text](https://cloud.githubusercontent.com/assets/8358648/8349809/def99f52-1ad4-11e5-9b4d-1ce7ddd340d2.png "Minigame menu")
 ![alt text](https://github.com/ohjay/TripleTGame/blob/master/sample_imgs/stctrls.png "Submenu images")
+
+## Contributors
+If you'd like to join the team, you're in luck – we may just have a place for you! Either submit a pull request that's worthy of our acceptance (hint: not that hard... I think!), or [send Owen an email](mailto:owenjow@berkeley.edu) with a description of what you could bring to the table.
+
+For now, this is who we've got:
+
+- Owen Jow [development, design]
+- William Jow [graphics and aesthetics]

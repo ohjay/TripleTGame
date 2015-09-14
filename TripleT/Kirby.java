@@ -26,7 +26,7 @@ public class Kirby extends ControllableSprite {
     // It also keeps track of the sprite width and the distance between different frames.
     static enum Animation { 
         STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 3, 121, 28, 25),
-                CROUCHING(2, 4, 25, 28, 25), SLIDING(2, 4, 47, 30, 28), HOPPING(10, 2, 68, 25, 25),
+                CROUCHING(2, 4, 23, 28, 25), SLIDING(2, 4, 47, 30, 28), HOPPING(10, 2, 68, 25, 25),
                 FLOATING(8, 2, 173, 28, 25);
         private final int length, x, y, spriteWidth, frameDist;
         
@@ -49,7 +49,7 @@ public class Kirby extends ControllableSprite {
     private Animation currAnimation = Animation.STANDING;
     int spriteWidth = currAnimation.getSpriteWidth();
     private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
-    private boolean facingLeft;
+    private boolean facingLeft, inAir;
     
     //================================================================================
     // Constructors
@@ -181,49 +181,60 @@ public class Kirby extends ControllableSprite {
     
     @Override
     public void keyPressed(KeyEvent evt) {
-        switch (evt.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-                rightKeyPressed = true;
-                currAnimation = Animation.WALKING;
-                spriteWidth = Animation.WALKING.getSpriteWidth();
-                facingLeft = false;
-                dx = 1;
-                break;
-            case KeyEvent.VK_LEFT:
-                leftKeyPressed = true;
-                currAnimation = Animation.WALKING;
-                spriteWidth = Animation.WALKING.getSpriteWidth();
-                facingLeft = true;
-                dx = -1;
-                break;
+        int keyCode = evt.getKeyCode();
+        
+        if (keyCode == GameState.pInfo.rightKey) {
+            rightKeyPressed = true;
+            currAnimation = Animation.WALKING;
+            spriteWidth = Animation.WALKING.getSpriteWidth();
+            facingLeft = false;
+            dx = 1;
+        } else if (keyCode == GameState.pInfo.leftKey) {
+            leftKeyPressed = true;
+            currAnimation = Animation.WALKING;
+            spriteWidth = Animation.WALKING.getSpriteWidth();
+            facingLeft = true;
+            dx = -1;
+        } else if (keyCode == GameState.pInfo.downKey) {
+            downKeyPressed = true;
+            if (!inAir) {
+                currAnimation = Animation.CROUCHING;
+                spriteWidth = Animation.CROUCHING.getSpriteWidth();
+                dx = 0;
+            }
         }
     }
     
     @Override
     public void keyReleased(KeyEvent evt) {
-        switch (evt.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-                leftKeyPressed = false;
-                if (rightKeyPressed) {
-                    dx = 1;
-                    facingLeft = false;
-                } else {
-                    currAnimation = Animation.STANDING;
-                    spriteWidth = Animation.STANDING.getSpriteWidth();
-                    dx = 0;
-                }
-                break;
-            case KeyEvent.VK_RIGHT:
-                rightKeyPressed = false;
-                if (leftKeyPressed) {
-                    dx = -1;
-                    facingLeft = true;
-                } else {
-                    currAnimation = Animation.STANDING;
-                    spriteWidth = Animation.STANDING.getSpriteWidth();
-                    dx = 0; 
-                }
-                break;
+        int keyCode = evt.getKeyCode();
+        
+        if (keyCode == GameState.pInfo.leftKey) {
+            leftKeyPressed = false;
+            if (rightKeyPressed) {
+                dx = 1;
+                facingLeft = false;
+            } else {
+                currAnimation = Animation.STANDING;
+                spriteWidth = Animation.STANDING.getSpriteWidth();
+                dx = 0;
+            }
+        } else if (keyCode == GameState.pInfo.rightKey) {
+            rightKeyPressed = false;
+            if (leftKeyPressed) {
+                dx = -1;
+                facingLeft = true;
+            } else {
+                currAnimation = Animation.STANDING;
+                spriteWidth = Animation.STANDING.getSpriteWidth();
+                dx = 0; 
+            }
+        } else if (keyCode == GameState.pInfo.downKey) {
+            downKeyPressed = false;
+            if (currAnimation == Animation.CROUCHING) {
+                currAnimation = Animation.STANDING;
+                spriteWidth = Animation.STANDING.getSpriteWidth();
+            }
         }
     }
 }
