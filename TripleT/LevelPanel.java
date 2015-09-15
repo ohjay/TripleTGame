@@ -20,7 +20,8 @@ abstract class LevelPanel extends KPanel implements ActionListener {
     protected Timer timer;
     protected Image backgroundImg;
     protected boolean isPaused;
-    protected int pauseIndex;
+    protected int pauseIndex, counter, groundLevel;
+    Kirby kirby;
     
     // Action names (for key bindings)
     protected static final String PAUSELECT = "pauselect", RIGHT_PRESSED = "rightpr", LEFT_PRESSED = "leftpr", 
@@ -34,6 +35,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         /* By default this method will do very little */
         isPaused = false;
         pauseIndex = 0;
+        counter = 0;
     }
     
     protected void activate() {
@@ -51,7 +53,27 @@ abstract class LevelPanel extends KPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent evt) {
-        /* Nothing to see here: override this for timer behavior! */
+        counter++; // update this counter every time the timer fires an ActionEvent
+        if (kirby.updateFrame()) {
+            // Kirby's current frame has changed, so we'll need to repaint
+            repaint();
+        }
+        
+        // Set Kirby's aerial status (i.e. check if Kirby is at ground level)
+        if (kirby.isInAir()) {
+            if (kirby.getY() >= groundLevel) { 
+                kirby.setDY(0);
+                kirby.toggleInAir(); 
+            }
+        } else {
+            if (kirby.getY() < groundLevel) { kirby.toggleInAir(); }
+        }
+        
+        if (counter % 2 == 0) {
+            // Because we don't want to move TOO fast!
+            kirby.moveWithinBoundaries(kirby.spriteWidth, 0, TripleTWindow.SCR_WIDTH, 
+                    0, TripleTWindow.SCR_HEIGHT);
+        }
     }
     
     /**
@@ -110,7 +132,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
     }
     
     //================================================================================
-    // Action methods (to be overridden)
+    // Action methods (to be overridden for special behavior/controls)
     //================================================================================
     
     /**
@@ -130,15 +152,67 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         }
     }
     
-    abstract void rightPressed();
-    abstract void leftPressed();
-    abstract void downPressed();
-    abstract void upPressed();
+    protected void rightPressed() {
+        if (!isPaused) {
+            kirby.rightPressed();
+            repaint();
+        }
+    }
     
-    abstract void rightReleased();
-    abstract void leftReleased();
-    abstract void downReleased();
-    abstract void upReleased();
+    protected void leftPressed() {
+        if (!isPaused) {
+            kirby.leftPressed();
+            repaint();
+        }
+    }
+    
+    protected void downPressed() {
+        if (isPaused) {
+            pauseIndex = 1 - pauseIndex;
+        } else {
+            kirby.downPressed();
+        }
+        
+        repaint();
+    }
+    
+    protected void upPressed() {
+        if (isPaused) { 
+            pauseIndex = 1 - pauseIndex; 
+        } else {
+            kirby.upPressed();
+        }
+        
+        repaint();
+    }
+    
+    protected void rightReleased() {
+        if (!isPaused) {
+            kirby.rightReleased();
+            repaint();
+        }
+    }
+    
+    protected void leftReleased() {
+        if (!isPaused) {
+            kirby.leftReleased();
+            repaint();
+        }
+    }
+    
+    protected void downReleased() {
+        if (!isPaused) {
+            kirby.downReleased();
+            repaint();
+        }
+    }
+    
+    protected void upReleased() {
+        if (!isPaused) {
+            kirby.upReleased();
+            repaint();
+        }
+    }
     
     //================================================================================
     // Action classes (to be inherited)

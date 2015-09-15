@@ -93,6 +93,7 @@ public class TripleTWindow {
      * should have its own setKeyBindings method, which will be called here.
      */
     private static void setKeyBindings() {
+        // Menu panels
         GameState.menuPanel.setKeyBindings();
         GameState.storyMPanel.setKeyBindings();
         GameState.minigameMPanel.setKeyBindings();
@@ -110,6 +111,7 @@ public class TripleTWindow {
      * This change will take place in all panels that used to have a binding for OLD_KEY.
      */
     static void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, boolean shouldRemove) {
+        // Menu panels
         GameState.menuPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.storyMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.minigameMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
@@ -127,6 +129,7 @@ public class TripleTWindow {
      */
     static void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, ArrayList<String> oldActions, 
             boolean shouldRemove) {
+        // Menu panels
         GameState.menuPanel.updateKeyBindings(oldKey, newKey, oldActions.get(0), shouldRemove);
         GameState.storyMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(1), shouldRemove);
         GameState.minigameMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(2), shouldRemove);
@@ -149,6 +152,7 @@ public class TripleTWindow {
         ArrayList<String> actions = new ArrayList<String>();
         
         // Add the corresponding action for each panel
+        // Menu panels
         actions.add((String) GameState.menuPanel.getInputMap().get(key));
         actions.add((String) GameState.storyMPanel.getInputMap().get(key));
         actions.add((String) GameState.minigameMPanel.getInputMap().get(key));
