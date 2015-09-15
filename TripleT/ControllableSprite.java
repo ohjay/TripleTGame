@@ -1,7 +1,5 @@
 package TripleT;
 
-import java.awt.event.KeyEvent;
-
 /**
  * A sprite that can be controlled by the player (via the keyboard).
  * @author Owen Jow
@@ -9,17 +7,17 @@ import java.awt.event.KeyEvent;
 abstract class ControllableSprite extends Sprite {
     protected boolean leftKeyPressed, rightKeyPressed, upKeyPressed, downKeyPressed;
     
-    /**
-     * The method that will be called whenever a key is pressed.
-     * This should be overridden by subclasses for more custom control behavior.
-     * @param evt a KeyEvent representing the key that was pressed
-     */
-    abstract void keyPressed(KeyEvent evt);
+    //================================================================================
+    // Action methods (to be overridden by the actual sprite)
+    //================================================================================
     
-    /**
-     * The method that will be called whenever a key is released.
-     * This should be overridden by subclasses for more custom control behavior.
-     * @param evt a KeyEvent representing the key that was released.
-     */
-    abstract void keyReleased(KeyEvent evt);
+    abstract void rightPressed();
+    abstract void leftPressed();
+    abstract void downPressed();
+    abstract void upPressed();
+    
+    abstract void rightReleased();
+    abstract void leftReleased();
+    abstract void downReleased();
+    abstract void upReleased();
 }

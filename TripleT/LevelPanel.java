@@ -3,23 +3,29 @@ package TripleT;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.KeyStroke;
+import javax.swing.InputMap;
+import javax.swing.ActionMap;
+import javax.swing.AbstractAction;
 
 /**
  * An abstract blueprint for a level panel, which includes activation and painting methods
  * in addition to a drawForeground method that should be overridden by subclasses.
  * @author Owen Jow
  */
-abstract class LevelPanel extends JPanel implements ActionListener {
+abstract class LevelPanel extends KPanel implements ActionListener {
     protected Timer timer;
-    protected KeyAdapter kl;
     protected Image backgroundImg;
     protected boolean isPaused;
     protected int pauseIndex;
+    
+    // Action names (for key bindings)
+    protected static final String PAUSELECT = "pauselect", RIGHT_PRESSED = "rightpr", LEFT_PRESSED = "leftpr", 
+            DOWN_PRESSED = "downpr", UP_PRESSED = "uppr", RIGHT_RELEASED = "rightre", LEFT_RELEASED = "leftre",
+            DOWN_RELEASED = "downre", UP_RELEASED = "upre";
     
     /**
      * Reset values for the panel. Override this for individualized reset behavior.
@@ -32,7 +38,6 @@ abstract class LevelPanel extends JPanel implements ActionListener {
     
     protected void activate() {
         reset();
-        addKeyListener(kl);
         
         // Start the timer that will continually request focus for this panel
         timer = new Timer(5, this);
@@ -41,7 +46,6 @@ abstract class LevelPanel extends JPanel implements ActionListener {
     }
     
     public void deactivate() {
-        removeKeyListener(kl);
         timer.stop();
     }
     
@@ -72,4 +76,134 @@ abstract class LevelPanel extends JPanel implements ActionListener {
      * @param g2 a Graphics2D object used for [pick one: drawing, painting, what's the difference?]
      */
     abstract void drawForeground(Graphics2D g2);
+    
+    //================================================================================
+    // Key binding logic
+    //================================================================================
+    
+    void setKeyBindings() {
+        // Input map bindings [pressed]
+        InputMap iMap = getInputMap();
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0), RIGHT_PRESSED);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0), LEFT_PRESSED);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.downKey, 0), DOWN_PRESSED);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0), UP_PRESSED);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.pauseKey, 0), PAUSELECT);
+        // [Released]
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0, true), RIGHT_RELEASED);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0, true), LEFT_RELEASED);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.downKey, 0, true), DOWN_RELEASED);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0, true), UP_RELEASED);
+        
+        // Action map bindings [pressed]
+        ActionMap aMap = getActionMap();
+        aMap.put(RIGHT_PRESSED, new RightPressedAction());
+        aMap.put(LEFT_PRESSED, new LeftPressedAction());
+        aMap.put(DOWN_PRESSED, new DownPressedAction());
+        aMap.put(UP_PRESSED, new UpPressedAction());
+        aMap.put(PAUSELECT, new PauselectAction());
+        // [Released]
+        aMap.put(RIGHT_RELEASED, new RightReleasedAction());
+        aMap.put(LEFT_RELEASED, new LeftReleasedAction());
+        aMap.put(DOWN_RELEASED, new DownReleasedAction());
+        aMap.put(UP_RELEASED, new UpReleasedAction());
+    }
+    
+    //================================================================================
+    // Action methods (to be overridden)
+    //================================================================================
+    
+    /**
+     * Pauses the game, or selects an option if the game is already paused.
+     */
+    protected void pauselect() {
+        if (isPaused) {
+            if (pauseIndex == 0) {
+                isPaused = false;
+            } else {
+                deactivate();
+                GameState.layout.show(GameState.contentPanel, "mainMenu");
+                GameState.menuPanel.requestFocus();
+            }
+        } else {
+            isPaused = true;
+        }
+    }
+    
+    abstract void rightPressed();
+    abstract void leftPressed();
+    abstract void downPressed();
+    abstract void upPressed();
+    
+    abstract void rightReleased();
+    abstract void leftReleased();
+    abstract void downReleased();
+    abstract void upReleased();
+    
+    //================================================================================
+    // Action classes (to be inherited)
+    //================================================================================
+    
+    protected class PauselectAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            pauselect();
+        }
+    }
+    
+    protected class RightPressedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            rightPressed();
+        }
+    }
+    
+    protected class LeftPressedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            leftPressed();
+        }
+    }
+    
+    protected class DownPressedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            downPressed();
+        }
+    }
+    
+    protected class UpPressedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            upPressed();
+        }
+    }
+    
+    protected class RightReleasedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            rightReleased();
+        }
+    }
+    
+    protected class LeftReleasedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            leftReleased();
+        }
+    }
+    
+    protected class DownReleasedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            downReleased();
+        }
+    }
+    
+    protected class UpReleasedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            upReleased();
+        }
+    }
 }

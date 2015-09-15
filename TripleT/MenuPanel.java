@@ -4,9 +4,7 @@ import java.awt.Image;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import javax.swing.JPanel;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 import javax.swing.InputMap;
@@ -18,7 +16,7 @@ import javax.swing.ActionMap;
  * to switch between options (which will tend to be images).
  * @author Owen Jow
  */
-public abstract class MenuPanel extends JPanel {
+public abstract class MenuPanel extends KPanel {
     protected Image[] menuImages;
     protected int imgIndex = 0;
     
@@ -64,22 +62,6 @@ public abstract class MenuPanel extends JPanel {
     }
     
     /**
-     * Associates the KeyStroke KEY with ACTION in the input map I_MAP.
-     * This method is necessary because SHIFT and ALT have out-of-the-ordinary behavior 
-     * as key bindings, and due to custom controls we most likely don't know beforehand what 
-     * KEY will be.
-     */
-    protected void addToInputMap(InputMap iMap, KeyStroke key, String action) {
-        if (key == KeyStroke.getKeyStroke("SHIFT")) {
-            iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, InputEvent.SHIFT_DOWN_MASK), action);
-        } else if (key == KeyStroke.getKeyStroke("ALT")) {
-            iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, InputEvent.ALT_DOWN_MASK), action);
-        } else {
-            iMap.put(key, action);
-        }
-    }
-    
-    /**
      * An initialization of default key bindings. This method should always be overridden 
      * if different key bindings are required.
      */
@@ -98,26 +80,6 @@ public abstract class MenuPanel extends JPanel {
         aMap.put(SWITCH_UP, new SwitchAction(-1));
         aMap.put(SWITCH_DOWN, new SwitchAction(1));
         aMap.put(CONFIRM, new ConfirmAction());
-    }
-    
-    /**
-     * Here, we impeach OLD_KEY and give its function to a fresh young NEW_KEY.
-     * @param shouldRemove a boolean specifying whether to remove the old key's binding
-     */
-    void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, boolean shouldRemove) {
-        InputMap iMap = getInputMap();
-        iMap.put(newKey, iMap.get(oldKey));
-        if (shouldRemove) { iMap.remove(oldKey); }
-    }
-    
-    /**
-     * We will again impeach OLD_KEY and give OLD_ACTION to NEW_KEY.
-     * @param shouldRemove a boolean specifying whether to remove the old key's binding
-     */
-    void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, String oldAction, 
-            boolean shouldRemove) {
-        getInputMap().put(newKey, oldAction);
-        if (shouldRemove) { getInputMap().remove(oldKey); }
     }
     
     /**

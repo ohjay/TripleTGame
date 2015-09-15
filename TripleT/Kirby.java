@@ -2,7 +2,6 @@ package TripleT;
 
 import java.awt.Image;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 
 /**
  * This is story-mode Kirby in all his glory. As a controllable sprite, 
@@ -176,65 +175,79 @@ public class Kirby extends ControllableSprite {
     }
     
     //================================================================================
-    // Key input handlers
+    // Action methods for input response
     //================================================================================
     
     @Override
-    public void keyPressed(KeyEvent evt) {
-        int keyCode = evt.getKeyCode();
-        
-        if (keyCode == GameState.pInfo.rightKey) {
-            rightKeyPressed = true;
-            currAnimation = Animation.WALKING;
-            spriteWidth = Animation.WALKING.getSpriteWidth();
-            facingLeft = false;
-            dx = 1;
-        } else if (keyCode == GameState.pInfo.leftKey) {
-            leftKeyPressed = true;
-            currAnimation = Animation.WALKING;
-            spriteWidth = Animation.WALKING.getSpriteWidth();
-            facingLeft = true;
-            dx = -1;
-        } else if (keyCode == GameState.pInfo.downKey) {
-            downKeyPressed = true;
-            if (!inAir) {
-                currAnimation = Animation.CROUCHING;
-                spriteWidth = Animation.CROUCHING.getSpriteWidth();
-                dx = 0;
-            }
+    public void rightPressed() {
+        rightKeyPressed = true;
+        currAnimation = Animation.WALKING;
+        spriteWidth = Animation.WALKING.getSpriteWidth();
+        facingLeft = false;
+        dx = 1;
+    }
+    
+    @Override
+    public void leftPressed() {
+        leftKeyPressed = true;
+        currAnimation = Animation.WALKING;
+        spriteWidth = Animation.WALKING.getSpriteWidth();
+        facingLeft = true;
+        dx = -1;
+    }
+    
+    @Override
+    public void downPressed() {
+        downKeyPressed = true;
+        if (!inAir) {
+            currAnimation = Animation.CROUCHING;
+            spriteWidth = Animation.CROUCHING.getSpriteWidth();
+            dx = 0;
         }
     }
     
     @Override
-    public void keyReleased(KeyEvent evt) {
-        int keyCode = evt.getKeyCode();
-        
-        if (keyCode == GameState.pInfo.leftKey) {
-            leftKeyPressed = false;
-            if (rightKeyPressed) {
-                dx = 1;
-                facingLeft = false;
-            } else {
-                currAnimation = Animation.STANDING;
-                spriteWidth = Animation.STANDING.getSpriteWidth();
-                dx = 0;
-            }
-        } else if (keyCode == GameState.pInfo.rightKey) {
-            rightKeyPressed = false;
-            if (leftKeyPressed) {
-                dx = -1;
-                facingLeft = true;
-            } else {
-                currAnimation = Animation.STANDING;
-                spriteWidth = Animation.STANDING.getSpriteWidth();
-                dx = 0; 
-            }
-        } else if (keyCode == GameState.pInfo.downKey) {
-            downKeyPressed = false;
-            if (currAnimation == Animation.CROUCHING) {
-                currAnimation = Animation.STANDING;
-                spriteWidth = Animation.STANDING.getSpriteWidth();
-            }
+    public void upPressed() {
+        /* Currently does nothing */
+    }
+    
+    @Override
+    public void rightReleased() {
+        rightKeyPressed = false;
+        if (leftKeyPressed) {
+            dx = -1;
+            facingLeft = true;
+        } else {
+            currAnimation = Animation.STANDING;
+            spriteWidth = Animation.STANDING.getSpriteWidth();
+            dx = 0; 
         }
+    }
+    
+    @Override
+    public void leftReleased() {
+        leftKeyPressed = false;
+        if (rightKeyPressed) {
+            dx = 1;
+            facingLeft = false;
+        } else {
+            currAnimation = Animation.STANDING;
+            spriteWidth = Animation.STANDING.getSpriteWidth();
+            dx = 0;
+        }
+    }
+    
+    @Override
+    public void downReleased() {
+        downKeyPressed = false;
+        if (currAnimation == Animation.CROUCHING) {
+            currAnimation = Animation.STANDING;
+            spriteWidth = Animation.STANDING.getSpriteWidth();
+        }
+    }
+    
+    @Override
+    public void upReleased() {
+        /* Currently does nothing */
     }
 }

@@ -100,6 +100,9 @@ public class TripleTWindow {
         GameState.dodgePausePanel.setKeyBindings();
         GameState.cutsceneMPanel.setKeyBindings();
         GameState.optionMPanel.setKeyBindings();
+        
+        // Level panels
+        GameState.level1.setKeyBindings();
     }
     
     /**
@@ -114,6 +117,9 @@ public class TripleTWindow {
         GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.cutsceneMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.optionMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
+        
+        // Level panels
+        GameState.level1.updateKeyBindings(oldKey, newKey, shouldRemove);
     }
     
     /**
@@ -128,6 +134,9 @@ public class TripleTWindow {
         GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, oldActions.get(4), shouldRemove);
         GameState.cutsceneMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(5), shouldRemove);
         GameState.optionMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(6), shouldRemove);
+        
+        // Level panels
+        GameState.level1.updateKeyBindings(oldKey, newKey, oldActions.get(7), shouldRemove);
     }
     
     /**
@@ -147,6 +156,9 @@ public class TripleTWindow {
         actions.add((String) GameState.dodgePausePanel.getInputMap().get(key));
         actions.add((String) GameState.cutsceneMPanel.getInputMap().get(key));
         actions.add((String) GameState.optionMPanel.getInputMap().get(key));
+        
+        // Level panels
+        actions.add((String) GameState.level1.getInputMap().get(key));
         
         return actions;
     }

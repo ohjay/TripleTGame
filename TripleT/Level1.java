@@ -3,9 +3,11 @@ package TripleT;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
+/**
+ * The first level of the game.
+ * @author Owen Jow
+ */
 public class Level1 extends LevelPanel {
     private static final int START_Y = 330, FOREGROUND_Y = 260;
     private static final Image FOREGROUND_IMG = Images.get("demoForeground");
@@ -19,7 +21,6 @@ public class Level1 extends LevelPanel {
     public Level1() {
         kirby = new Kirby(0, START_Y);
         backgroundImg = Images.get("level1Background");
-        kl = new Level1KL();
     }
     
     @Override
@@ -51,36 +52,76 @@ public class Level1 extends LevelPanel {
         kirby.drawImage(g2);
     }
     
-    /* To do: convert to key bindings! */
-    public class Level1KL extends KeyAdapter {
-        public void keyPressed(KeyEvent evt) {
-            int keyCode = evt.getKeyCode();
-            if (isPaused) {
-                if (keyCode == GameState.pInfo.upKey || keyCode == GameState.pInfo.downKey) {
-                    pauseIndex = 1 - pauseIndex;
-                } else if (keyCode == GameState.pInfo.pauseKey || keyCode == KeyEvent.VK_ENTER) {
-                    if (pauseIndex == 0) {
-                        isPaused = false;
-                    } else {
-                        deactivate();
-                        GameState.layout.show(GameState.contentPanel, "mainMenu");
-                        GameState.menuPanel.requestFocus();
-                    }
-                }
-            } else if (keyCode == GameState.pInfo.pauseKey) {
-                isPaused = true;
-            } else {
-                kirby.keyPressed(evt);
-            }
-            
+    //================================================================================
+    // Overridden action methods
+    //================================================================================
+    
+    @Override
+    public void rightPressed() {
+        if (!isPaused) {
+            kirby.rightPressed();
             repaint();
         }
+    }
+    
+    @Override
+    public void leftPressed() {
+        if (!isPaused) {
+            kirby.leftPressed();
+            repaint();
+        }
+    }
+    
+    @Override
+    public void downPressed() {
+        if (isPaused) {
+            pauseIndex = 1 - pauseIndex;
+        } else {
+            kirby.downPressed();
+        }
         
-        public void keyReleased(KeyEvent evt) {
-            if (!isPaused) {
-                kirby.keyReleased(evt);
-            }
-            
+        repaint();
+    }
+    
+    @Override
+    public void upPressed() {
+        if (isPaused) { 
+            pauseIndex = 1 - pauseIndex; 
+        } else {
+            kirby.upPressed();
+        }
+        
+        repaint();
+    }
+    
+    @Override
+    public void rightReleased() {
+        if (!isPaused) {
+            kirby.rightReleased();
+            repaint();
+        }
+    }
+    
+    @Override
+    public void leftReleased() {
+        if (!isPaused) {
+            kirby.leftReleased();
+            repaint();
+        }
+    }
+    
+    @Override
+    public void downReleased() {
+        if (!isPaused) {
+            kirby.downReleased();
+            repaint();
+        }
+    }
+    
+    @Override
+    public void upReleased() {
+        if (!isPaused) {
+            kirby.upReleased();
             repaint();
         }
     }
