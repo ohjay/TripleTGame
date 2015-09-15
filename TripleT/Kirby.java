@@ -25,15 +25,28 @@ public class Kirby extends ControllableSprite {
     // It also keeps track of the sprite width and the distance between different frames.
     static enum Animation { 
         STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 3, 121, 28, 25),
-                CROUCHING(2, 4, 23, 28, 25), SLIDING(2, 4, 47, 30, 28), HOPPING(10, 2, 68, 25, 25),
+                CROUCHING(2, 4, 23, 28, 25), SLIDING(2, 4, 46, 30, 25, 28), HOPPING(10, 2, 68, 25, 25),
                 FLOATING(8, -3, 173, 28, 30);
-        private final int length, x, y, spriteWidth, frameDist;
+        private final int length, x, y, spriteWidth, spriteHeight, frameDist;
         
+        /**
+         * In this constructor, spriteHeight is assumed to be the same as spriteWidth.
+         */
         private Animation(int length, int x, int y, int spriteWidth, int frameDist) {
             this.length = length;
             this.x = x;
             this.y = y;
             this.spriteWidth = spriteWidth;
+            this.spriteHeight = spriteWidth;
+            this.frameDist = frameDist;
+        }
+        
+        private Animation(int length, int x, int y, int spriteWidth, int spriteHeight, int frameDist) {
+            this.length = length;
+            this.x = x;
+            this.y = y;
+            this.spriteWidth = spriteWidth;
+            this.spriteHeight = spriteHeight;
             this.frameDist = frameDist;
         }
         
@@ -41,12 +54,13 @@ public class Kirby extends ControllableSprite {
         private int getX() { return x; }
         private int getY() { return y; }
         private int getSpriteWidth() { return spriteWidth; }
+        private int getSpriteHeight() { return spriteHeight; }
         private int getFrameDist() { return frameDist; }
     };
     
-    private static final int BLINK_TIME = 14, FRAME_DELAY = 12, SS_WIDTH = 641;
+    private static final int BLINK_TIME = 14, SLIDING_TIME = 50, FRAME_DELAY = 12, SS_WIDTH = 641;
     private Animation currAnimation = Animation.STANDING;
-    int spriteWidth = currAnimation.getSpriteWidth();
+    int spriteWidth = currAnimation.getSpriteWidth(), spriteHeight = currAnimation.getSpriteHeight();
     private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
     private boolean facingLeft, inAir;
     
@@ -112,7 +126,9 @@ public class Kirby extends ControllableSprite {
      * @param animation Kirby's new animation
      */
     void setAnimation(Animation animation) {
-        this.currAnimation = animation;
+        currAnimation = animation;
+        spriteWidth = animation.getSpriteWidth();
+        spriteHeight = animation.getSpriteHeight();
     }
     
     /**
@@ -174,16 +190,27 @@ public class Kirby extends ControllableSprite {
             case FLOATING:
                 if (!inAir) {
                     if (rightKeyPressed || leftKeyPressed) {
-                        currAnimation = Animation.WALKING;
-                        spriteWidth = Animation.WALKING.getSpriteWidth();
+                        setAnimation(Animation.WALKING);
                     } else {
-                        currAnimation = Animation.STANDING;
-                        spriteWidth = Animation.STANDING.getSpriteWidth();
+                        setAnimation(Animation.STANDING);
                     }
                     return true;
                 } else {
                     return nextFrame();
                 }
+            case SLIDING:
+                if (counter > SLIDING_TIME) {
+                    dx = 0;
+                    if (downKeyPressed) {
+                        setAnimation(Animation.CROUCHING);
+                    } else if (rightKeyPressed || leftKeyPressed) {
+                        setAnimation(Animation.WALKING);
+                    } else {
+                        setAnimation(Animation.STANDING);
+                    }
+                    
+                    return true;
+                } else { return false; }
             default:
                 return false;
         }
@@ -200,15 +227,15 @@ public class Kirby extends ControllableSprite {
         if (!facingLeft) { // aka... facing right
             int sx1 = currAnimation.getX() + currFrame * currAnimation.getFrameDist() 
                     + (currAnimation.getFrameDist() - spriteWidth);
-            g2.drawImage(R_SPRITESHEET, x, y, x + spriteWidth, y + spriteWidth, 
-                    sx1 + 3, sy1, sx1 + spriteWidth + 3, sy1 + spriteWidth, null);
+            g2.drawImage(R_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight, 
+                    sx1 + 3, sy1, sx1 + spriteWidth + 3, sy1 + spriteHeight, null);
         } else {
             // Draw the reversed version of Kirby
             int sx1 = SS_WIDTH - currAnimation.getX() 
                     - (currFrame + 1) * currAnimation.getFrameDist()
                     - (currAnimation.getFrameDist() - spriteWidth);
-            g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteWidth,
-                    sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteWidth, null);
+            g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight,
+                    sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteHeight, null);
         }
     }
     
@@ -217,14 +244,23 @@ public class Kirby extends ControllableSprite {
     //================================================================================
     
     @Override
+    public void aPressed() {
+        if (currAnimation == Animation.CROUCHING) {
+            currFrame = 0;
+            counter = 0;
+            setAnimation(Animation.SLIDING);
+            dx = (facingLeft) ? -2 : 2;
+        }
+    }
+    
+    @Override
     public void rightPressed() {
         rightKeyPressed = true;
         facingLeft = false;
         dx = 1;
         
         if (!inAir) {
-            currAnimation = Animation.WALKING;
-            spriteWidth = Animation.WALKING.getSpriteWidth();
+            setAnimation(Animation.WALKING);
         }
     }
     
@@ -235,8 +271,7 @@ public class Kirby extends ControllableSprite {
         dx = -1;
         
         if (!inAir) {
-            currAnimation = Animation.WALKING;
-            spriteWidth = Animation.WALKING.getSpriteWidth();
+            setAnimation(Animation.WALKING);
         }
     }
     
@@ -244,8 +279,7 @@ public class Kirby extends ControllableSprite {
     public void downPressed() {
         downKeyPressed = true;
         if (!inAir) {
-            currAnimation = Animation.CROUCHING;
-            spriteWidth = Animation.CROUCHING.getSpriteWidth();
+            setAnimation(Animation.CROUCHING);
             dx = 0;
         }
     }
@@ -253,8 +287,7 @@ public class Kirby extends ControllableSprite {
     @Override
     public void upPressed() {
         upKeyPressed = true;
-        currAnimation = Animation.FLOATING;
-        spriteWidth = Animation.FLOATING.getSpriteWidth();
+        setAnimation(Animation.FLOATING);
         dy = -1;
         if (!inAir) {
             inAir = true;
@@ -271,8 +304,7 @@ public class Kirby extends ControllableSprite {
         } else {
             dx = 0;
             if (!inAir) {
-                currAnimation = Animation.STANDING;
-                spriteWidth = Animation.STANDING.getSpriteWidth();
+                setAnimation(Animation.STANDING);
             }
         }
     }
@@ -286,8 +318,7 @@ public class Kirby extends ControllableSprite {
         } else {
             dx = 0;
             if (!inAir) {
-                currAnimation = Animation.STANDING;
-                spriteWidth = Animation.STANDING.getSpriteWidth();
+                setAnimation(Animation.STANDING);
             }
         }
     }
@@ -296,8 +327,7 @@ public class Kirby extends ControllableSprite {
     public void downReleased() {
         downKeyPressed = false;
         if (currAnimation == Animation.CROUCHING) {
-            currAnimation = Animation.STANDING;
-            spriteWidth = Animation.STANDING.getSpriteWidth();
+            setAnimation(Animation.STANDING);
         }
     }
     

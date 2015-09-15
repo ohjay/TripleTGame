@@ -40,7 +40,7 @@ public class CreditsPanel extends JPanel implements ActionListener {
             xPositions[i] = (i % 2 == 0) ? INIT_X : -INIT_X;
         }
         
-        timer = new Timer(7, this);
+        timer = new Timer(4, this);
         timer.start();
     }
     

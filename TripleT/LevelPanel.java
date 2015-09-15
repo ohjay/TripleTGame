@@ -25,8 +25,8 @@ abstract class LevelPanel extends KPanel implements ActionListener {
     
     // Action names (for key bindings)
     protected static final String PAUSELECT = "pauselect", RIGHT_PRESSED = "rightpr", LEFT_PRESSED = "leftpr", 
-            DOWN_PRESSED = "downpr", UP_PRESSED = "uppr", RIGHT_RELEASED = "rightre", LEFT_RELEASED = "leftre",
-            DOWN_RELEASED = "downre", UP_RELEASED = "upre";
+            DOWN_PRESSED = "downpr", UP_PRESSED = "uppr", GBA_A_PRESSED = "gbaapr", RIGHT_RELEASED = "rightre", 
+            LEFT_RELEASED = "leftre", DOWN_RELEASED = "downre", UP_RELEASED = "upre";
     
     /**
      * Reset values for the panel. Override this for individualized reset behavior.
@@ -73,6 +73,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
             // Because we don't want to move TOO fast!
             kirby.moveWithinBoundaries(kirby.spriteWidth, 0, TripleTWindow.SCR_WIDTH, 
                     0, TripleTWindow.SCR_HEIGHT);
+            repaint();
         }
     }
     
@@ -111,6 +112,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.downKey, 0), DOWN_PRESSED);
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0), UP_PRESSED);
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.pauseKey, 0), PAUSELECT);
+        addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.jumpKey, 0), GBA_A_PRESSED);
         // [Released]
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0, true), RIGHT_RELEASED);
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0, true), LEFT_RELEASED);
@@ -124,6 +126,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         aMap.put(DOWN_PRESSED, new DownPressedAction());
         aMap.put(UP_PRESSED, new UpPressedAction());
         aMap.put(PAUSELECT, new PauselectAction());
+        aMap.put(GBA_A_PRESSED, new AAction());
         // [Released]
         aMap.put(RIGHT_RELEASED, new RightReleasedAction());
         aMap.put(LEFT_RELEASED, new LeftReleasedAction());
@@ -149,6 +152,13 @@ abstract class LevelPanel extends KPanel implements ActionListener {
             }
         } else {
             isPaused = true;
+        }
+    }
+    
+    protected void aPressed() {
+        if (!isPaused) {
+            kirby.aPressed();
+            repaint();
         }
     }
     
@@ -222,6 +232,17 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent evt) {
             pauselect();
+        }
+    }
+    
+    /**
+     * The action associated with a press of the "jump/attack" button.
+     * On a GBA Kirby game, this is the A button.
+     */
+    protected class AAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            aPressed();
         }
     }
     

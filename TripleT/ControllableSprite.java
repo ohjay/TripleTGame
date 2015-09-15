@@ -15,6 +15,7 @@ abstract class ControllableSprite extends Sprite {
     abstract void leftPressed();
     abstract void downPressed();
     abstract void upPressed();
+    abstract void aPressed();
     
     abstract void rightReleased();
     abstract void leftReleased();
