@@ -114,6 +114,14 @@ public class Kirby extends ControllableSprite {
     }
     
     /**
+     * Freezes Kirby momentarily (i.e. stops all positional movement).
+     */
+    void halt() {
+        this.dx = 0;
+        this.dy = 0;
+    }
+    
+    /**
      * This method sets whether or not Kirby is facing left.
      * @param facingLeft if true, Kirby will be facing left after this method is executed
      */
@@ -279,6 +287,7 @@ public class Kirby extends ControllableSprite {
     public void downPressed() {
         downKeyPressed = true;
         if (!inAir) {
+            currFrame = 0;
             setAnimation(Animation.CROUCHING);
             dx = 0;
         }
@@ -302,9 +311,14 @@ public class Kirby extends ControllableSprite {
             dx = -1;
             facingLeft = true;
         } else {
+            currFrame = 0;
             dx = 0;
             if (!inAir) {
-                setAnimation(Animation.STANDING);
+                if (downKeyPressed) {
+                    setAnimation(Animation.CROUCHING);
+                } else {
+                    setAnimation(Animation.STANDING);
+                }
             }
         }
     }
@@ -316,9 +330,14 @@ public class Kirby extends ControllableSprite {
             dx = 1;
             facingLeft = false;
         } else {
+            currFrame = 0;
             dx = 0;
             if (!inAir) {
-                setAnimation(Animation.STANDING);
+                if (downKeyPressed) {
+                    setAnimation(Animation.CROUCHING);
+                } else {
+                    setAnimation(Animation.STANDING);
+                }
             }
         }
     }
@@ -327,7 +346,12 @@ public class Kirby extends ControllableSprite {
     public void downReleased() {
         downKeyPressed = false;
         if (currAnimation == Animation.CROUCHING) {
-            setAnimation(Animation.STANDING);
+            if (rightKeyPressed || leftKeyPressed) {
+                setAnimation(Animation.WALKING);
+                dx = (facingLeft) ? -1 : 1;
+            } else {
+                setAnimation(Animation.STANDING);
+            }
         }
     }
     

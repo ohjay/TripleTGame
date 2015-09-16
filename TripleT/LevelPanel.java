@@ -53,27 +53,29 @@ abstract class LevelPanel extends KPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent evt) {
-        counter++; // update this counter every time the timer fires an ActionEvent
-        if (kirby.updateFrame()) {
-            // Kirby's current frame has changed, so we'll need to repaint
-            repaint();
-        }
-        
-        // Set Kirby's aerial status (i.e. check if Kirby is at ground level)
-        if (kirby.isInAir()) {
-            if (kirby.getY() >= groundLevel) { 
-                kirby.setDY(0);
-                kirby.toggleInAir(); 
+        if (!isPaused) {
+            counter++; // update this counter every time the timer fires an ActionEvent
+            if (kirby.updateFrame()) {
+                // Kirby's current frame has changed, so we'll need to repaint
+                repaint();
             }
-        } else {
-            if (kirby.getY() < groundLevel) { kirby.toggleInAir(); }
-        }
         
-        if (counter % 2 == 0) {
-            // Because we don't want to move TOO fast!
-            kirby.moveWithinBoundaries(kirby.spriteWidth, 0, TripleTWindow.SCR_WIDTH, 
-                    0, TripleTWindow.SCR_HEIGHT);
-            repaint();
+            // Set Kirby's aerial status (i.e. check if Kirby is at ground level)
+            if (kirby.isInAir()) {
+                if (kirby.getY() >= groundLevel) { 
+                    kirby.setDY(0);
+                    kirby.toggleInAir(); 
+                }
+            } else {
+                if (kirby.getY() < groundLevel) { kirby.toggleInAir(); }
+            }
+        
+            if (counter % 2 == 0) {
+                // Because we don't want to move TOO fast!
+                kirby.moveWithinBoundaries(kirby.spriteWidth, 0, TripleTWindow.SCR_WIDTH, 
+                        0, TripleTWindow.SCR_HEIGHT);
+                repaint();
+            }
         }
     }
     
@@ -152,6 +154,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
             }
         } else {
             isPaused = true;
+            repaint();
         }
     }
     
@@ -197,31 +200,23 @@ abstract class LevelPanel extends KPanel implements ActionListener {
     }
     
     protected void rightReleased() {
-        if (!isPaused) {
-            kirby.rightReleased();
-            repaint();
-        }
+        kirby.rightReleased();
+        repaint();
     }
     
     protected void leftReleased() {
-        if (!isPaused) {
-            kirby.leftReleased();
-            repaint();
-        }
+        kirby.leftReleased();
+        repaint();
     }
     
     protected void downReleased() {
-        if (!isPaused) {
-            kirby.downReleased();
-            repaint();
-        }
+        kirby.downReleased();
+        repaint();
     }
     
     protected void upReleased() {
-        if (!isPaused) {
-            kirby.upReleased();
-            repaint();
-        }
+        kirby.upReleased();
+        repaint();
     }
     
     //================================================================================
