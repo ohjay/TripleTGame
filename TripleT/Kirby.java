@@ -73,7 +73,6 @@ public class Kirby extends ControllableSprite {
     
     private static final int BLINK_TIME = 20, SLIDING_TIME = 50, FRAME_DELAY = 12, SS_WIDTH = 641;
     private Animation currAnimation = Animation.STANDING;
-    int spriteWidth = currAnimation.getSpriteWidth(), spriteHeight = currAnimation.getSpriteHeight();
     private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
     private boolean facingLeft, inAir;
     
@@ -87,6 +86,8 @@ public class Kirby extends ControllableSprite {
     public Kirby(int x, int y) {
         this.x = x;
         this.y = y;
+        spriteWidth = currAnimation.getSpriteWidth();
+        spriteHeight = currAnimation.getSpriteHeight();
     }
     
     //================================================================================

@@ -198,11 +198,11 @@ public class Images {
      * Foregrounds:
      * - demoForeground
      * Backgrounds:
-     * - level1Background
+     * - demoBackground
      */
     private static void initializeGrounds() {
         addToImages("demoForeground", "/images/demoForeground.png");
-        addToImages("level1Background", "/images/level1Background.png");
+        addToImages("demoBackground", "/images/demo_background.png");
         addToImages("pauseOverlay0", "/images/pauseOverlay0.png");
         addToImages("pauseOverlay1", "/images/pauseOverlay1.png");
     }

@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
  */
 abstract class Sprite {
     protected int x, y, dx, dy; // positional and delta values
+    int spriteWidth, spriteHeight;
     
     /**
      * Gets the current x-coordinate of the sprite.
@@ -41,10 +42,15 @@ abstract class Sprite {
     /**
      * Moves the sprite, but only within the boundaries given by X_MIN, X_MAX,
      * Y_MIN, and Y_MAX. These boundaries are inclusive!
+     * 
+     * Also refuses to move the sprite in a certain direction if making a move 
+     * in that direction would result in a collision with some object in the foreground.
      */
-    public void moveWithinBoundaries(int spriteWidth, int xMin, int xMax, int yMin, int yMax) {
-        if (x + dx >= xMin && x + dx + spriteWidth <= xMax) { x += dx; }
-        if (y + dy >= yMin && y + dy + spriteWidth <= yMax) { y += dy; } 
+    public void moveWithinBoundaries(int xMin, int xMax, int yMin, int yMax, Foreground foreground) {
+        int collisionStatus = foreground.intersects(spriteWidth, spriteHeight, x + dx, y + dy);
+        
+        if (x + dx >= xMin && x + dx + spriteWidth <= xMax && (collisionStatus & 0b10) == 0) { x += dx; }
+        if (y + dy >= yMin && y + dy + spriteHeight <= yMax && (collisionStatus & 0b01) == 0) { y += dy; } 
     }
     
     /**

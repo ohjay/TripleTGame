@@ -18,9 +18,10 @@ import javax.swing.AbstractAction;
  */
 abstract class LevelPanel extends KPanel implements ActionListener {
     protected Timer timer;
-    protected Image backgroundImg;
+    protected Image backgroundImg, fgImage; // fg = foreground
     protected boolean isPaused;
-    protected int pauseIndex, counter, groundLevel;
+    protected int pauseIndex, counter;
+    protected Foreground foreground;
     Kirby kirby;
     
     // Action names (for key bindings)
@@ -62,18 +63,18 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         
             // Set Kirby's aerial status (i.e. check if Kirby is at ground level)
             if (kirby.isInAir()) {
-                if (kirby.getY() >= groundLevel) { 
+                if (kirby.getY() >= foreground.groundLevel) {
                     kirby.setDY(0);
                     kirby.toggleInAir(); 
                 }
             } else {
-                if (kirby.getY() < groundLevel) { kirby.toggleInAir(); }
+                if (kirby.getY() < foreground.groundLevel) { kirby.toggleInAir(); }
             }
         
             if (counter % 2 == 0) {
                 // Because we don't want to move TOO fast!
-                kirby.moveWithinBoundaries(kirby.spriteWidth, 0, TripleTWindow.SCR_WIDTH, 
-                        0, TripleTWindow.SCR_HEIGHT);
+                kirby.moveWithinBoundaries(0, TripleTWindow.SCR_WIDTH, 0, 
+                        TripleTWindow.SCR_HEIGHT, foreground);
                 repaint();
             }
         }
