@@ -26,15 +26,16 @@ public class Kirby extends ControllableSprite {
     static enum Animation { 
         STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 3, 121, 28, 25),
                 CROUCHING(2, 4, 23, 28, 25), SLIDING(2, 4, 46, 30, 25, 28), HOPPING(10, 2, 68, 25, 25),
-                FLOATING(8, -3, 173, 28, 30);
-        private final int length, x, y, spriteWidth, spriteHeight, frameDist;
+                FLOATING(8, -3, 173, 28, 30), FALLING(7, 1, 2, 262, 25, 26, 25);
+        private final int length, rightX, leftX, y, spriteWidth, spriteHeight, frameDist;
         
         /**
          * In this constructor, spriteHeight is assumed to be the same as spriteWidth.
          */
         private Animation(int length, int x, int y, int spriteWidth, int frameDist) {
             this.length = length;
-            this.x = x;
+            this.rightX = x;
+            this.leftX = x;
             this.y = y;
             this.spriteWidth = spriteWidth;
             this.spriteHeight = spriteWidth;
@@ -43,7 +44,18 @@ public class Kirby extends ControllableSprite {
         
         private Animation(int length, int x, int y, int spriteWidth, int spriteHeight, int frameDist) {
             this.length = length;
-            this.x = x;
+            this.rightX = x;
+            this.leftX = x;
+            this.y = y;
+            this.spriteWidth = spriteWidth;
+            this.spriteHeight = spriteHeight;
+            this.frameDist = frameDist;
+        }
+        
+        private Animation(int length, int rightX, int leftX, int y, int spriteWidth, int spriteHeight, int frameDist) {
+            this.length = length;
+            this.rightX = rightX;
+            this.leftX = leftX;
             this.y = y;
             this.spriteWidth = spriteWidth;
             this.spriteHeight = spriteHeight;
@@ -51,14 +63,15 @@ public class Kirby extends ControllableSprite {
         }
         
         private int getLength() { return length; }
-        private int getX() { return x; }
+        private int getRightX() { return rightX; }
+        private int getLeftX() { return leftX; }
         private int getY() { return y; }
         private int getSpriteWidth() { return spriteWidth; }
         private int getSpriteHeight() { return spriteHeight; }
         private int getFrameDist() { return frameDist; }
     };
     
-    private static final int BLINK_TIME = 14, SLIDING_TIME = 50, FRAME_DELAY = 12, SS_WIDTH = 641;
+    private static final int BLINK_TIME = 20, SLIDING_TIME = 50, FRAME_DELAY = 12, SS_WIDTH = 641;
     private Animation currAnimation = Animation.STANDING;
     int spriteWidth = currAnimation.getSpriteWidth(), spriteHeight = currAnimation.getSpriteHeight();
     private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
@@ -180,10 +193,14 @@ public class Kirby extends ControllableSprite {
         counter++; // update the counter every time this method is called
         switch (currAnimation) {
             case STANDING:
-                if (currFrame == 1 && counter > BLINK_TIME) {
-                    currFrame = 0; // open Kirby's eyes
-                    counter = 0;
-                    return true;
+                if (currFrame == 1) {
+                    if (counter > BLINK_TIME) {
+                        currFrame = 0; // open Kirby's eyes
+                        counter = 0;
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else if (currFrame == 0 && counter > noBlinkPeriod) {
                     currFrame = 1; // change to a blinking state (eyes closed)
                     noBlinkPeriod = (int) (Math.random() * 750) + 50;
@@ -196,15 +213,31 @@ public class Kirby extends ControllableSprite {
             case WALKING:
                 return nextFrame();
             case FLOATING:
-                if (!inAir) {
+                if (inAir) {
+                    return nextFrame();
+                } else {
+                    dy = 0;
                     if (rightKeyPressed || leftKeyPressed) {
                         setAnimation(Animation.WALKING);
                     } else {
                         setAnimation(Animation.STANDING);
                     }
                     return true;
+                }
+            case FALLING:
+                if (inAir) {
+                    if (currFrame < 6) { 
+                        // 6 is the last frame of the falling animation
+                        return nextFrame(); 
+                    } else { return false; }
                 } else {
-                    return nextFrame();
+                    dy = 0;
+                    if (rightKeyPressed || leftKeyPressed) {
+                        setAnimation(Animation.WALKING);
+                    } else {
+                        setAnimation(Animation.STANDING);
+                    }
+                    return true;
                 }
             case SLIDING:
                 if (counter > SLIDING_TIME) {
@@ -233,13 +266,13 @@ public class Kirby extends ControllableSprite {
         // Draw Kirby! Note: the 3s are offsets
         int sy1 = currAnimation.getY(); // the source y-coordinate (from the spritesheet)
         if (!facingLeft) { // aka... facing right
-            int sx1 = currAnimation.getX() + currFrame * currAnimation.getFrameDist() 
+            int sx1 = currAnimation.getRightX() + currFrame * currAnimation.getFrameDist() 
                     + (currAnimation.getFrameDist() - spriteWidth);
             g2.drawImage(R_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight, 
                     sx1 + 3, sy1, sx1 + spriteWidth + 3, sy1 + spriteHeight, null);
         } else {
             // Draw the reversed version of Kirby
-            int sx1 = SS_WIDTH - currAnimation.getX() 
+            int sx1 = SS_WIDTH - currAnimation.getLeftX() 
                     - (currFrame + 1) * currAnimation.getFrameDist()
                     - (currAnimation.getFrameDist() - spriteWidth);
             g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight,
@@ -255,7 +288,7 @@ public class Kirby extends ControllableSprite {
     public void aPressed() {
         if (currAnimation == Animation.CROUCHING) {
             currFrame = 0;
-            counter = 0;
+            counter = 0; // (to begin the sliding time count)
             setAnimation(Animation.SLIDING);
             dx = (facingLeft) ? -2 : 2;
         }
@@ -359,6 +392,9 @@ public class Kirby extends ControllableSprite {
     public void upReleased() {
         upKeyPressed = false;
         if (inAir) {
+            currFrame = 0;
+            counter = 0;
+            setAnimation(Animation.FALLING);
             dy = 1;
         }
     }
