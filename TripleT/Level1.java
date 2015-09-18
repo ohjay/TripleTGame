@@ -18,10 +18,13 @@ public class Level1 extends LevelPanel {
      */
     public Level1() {
         // Foreground data (incl. construction of foreground Rectangle objects)
-        foreground = new Foreground(Images.get("demoForeground"), 260, new Rectangle[] {
+        foreground = new Foreground(Images.get("demoForeground"), 260, 1006, new Rectangle[] {
             new Rectangle(0, 355, 1006, 82), /* the ground (to begin with) */
             new Rectangle(282, 339, 28, 20), /* first bump in the road */
             new Rectangle(537, 339, 96, 20), /* second bump in the road */
+            new Rectangle(697, 339, 309, 20), /* the long elevated part at the end */
+            new Rectangle(793, 273, 31, 86), /* the tall part of the hedge-like block at the end */
+            new Rectangle(823, 305, 17, 53) /* the short part of the hedge-like block at the end */
         });
         fgImage = foreground.img;
         
@@ -37,7 +40,8 @@ public class Level1 extends LevelPanel {
     
     @Override
     protected void drawForeground(Graphics2D g2) {
-        g2.drawImage(fgImage, 0, foreground.origTop + foreground.topOffset, null);
+        g2.drawImage(fgImage, (int) foreground.leftOffset, 
+                foreground.origTop + (int) foreground.topOffset, null);
         kirby.drawImage(g2);
     }
 }

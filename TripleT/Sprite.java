@@ -101,15 +101,25 @@ abstract class Sprite {
     /**
      * Moves the sprite, but only within the boundaries given by X_MIN, X_MAX,
      * Y_MIN, and Y_MAX. These boundaries are inclusive!
-     * 
-     * Also refuses to move the sprite in a certain direction if making a move 
-     * in that direction would result in a collision with some object in the foreground.
+     *
+     * Also refuses to move the sprite in a certain direction if making such a move 
+     * would result in a collision with some object in the foreground.
      */
     public void moveWithinBoundaries(int xMin, int xMax, int yMin, int yMax, Foreground foreground) {
+        // Vertical movement
+        if (y + dy >= yMin && y + dy + spriteHeight <= yMax 
+                && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x, y + dy)) { y += dy; }
+        // Horizontal movement
         if (x + dx >= xMin && x + dx + spriteWidth <= xMax 
                 && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x + dx, y)) { x += dx; }
-        if (y + dy >= yMin && y + dy + spriteHeight <= yMax 
-                && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x, y + dy)) { y += dy; } 
+    }
+    
+    /**
+     * Does the same thing as moveWithinBoundaries, except it only moves the sprite vertically.
+     */
+    public void moveVertically(int yMin, int yMax, Foreground foreground) {
+        if (y + dy >= yMin && y + dy + spriteHeight <= yMax
+                && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x, y + dy)) { y += dy; }
     }
     
     /**

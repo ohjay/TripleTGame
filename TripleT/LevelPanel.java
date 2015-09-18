@@ -21,6 +21,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
     protected Image backgroundImg, fgImage; // fg = foreground
     protected boolean isPaused;
     protected int pauseIndex, counter;
+    protected double backgroundX, bgDXMultiplier = 1.1, fgDXMultiplier = 1.3;
     protected Foreground foreground;
     Kirby kirby;
     
@@ -52,6 +53,24 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         timer.stop();
     }
     
+    /**
+     * Returns true if the foreground should be moved.
+     * @param dx Kirby's intended horizontal delta value
+     */
+    private boolean shouldMoveForeground(int dx) {
+        if (dx == 0 || foreground.intersects(Math.min(22, kirby.spriteWidth), kirby.spriteHeight, 
+                kirby.getX() + dx, kirby.getY())) {
+            return false;   
+        } else if (dx > 0) {
+            return kirby.getX() + kirby.spriteWidth >= TripleTWindow.SCR_WIDTH / 2
+                    && foreground.leftOffset - dx * fgDXMultiplier
+                    >= -foreground.length + TripleTWindow.SCR_WIDTH;
+        } else {
+            return kirby.getX() <= TripleTWindow.SCR_WIDTH / 2 
+                    && foreground.leftOffset - dx * fgDXMultiplier <= 0;
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (!isPaused) {
@@ -80,8 +99,17 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         
             if (counter % 2 == 0) {
                 // Modulo two because we don't want to move TWO fast!
-                kirby.moveWithinBoundaries(0, TripleTWindow.SCR_WIDTH, 0, 
-                        TripleTWindow.SCR_HEIGHT, foreground);
+                int dx = kirby.getDX();
+                if (shouldMoveForeground(dx)) {
+                    // Move the background/foreground alongside Kirby
+                    backgroundX -= bgDXMultiplier * dx;
+                    foreground.horizontalShift(fgDXMultiplier * (-dx));
+                    kirby.moveVertically(0, TripleTWindow.SCR_HEIGHT, foreground);
+                } else {
+                    kirby.moveWithinBoundaries(0, TripleTWindow.SCR_WIDTH, 0, 
+                            TripleTWindow.SCR_HEIGHT, foreground);
+                }
+                
                 repaint();
             }
         }
@@ -95,7 +123,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(backgroundImg, 0, 0, null);
+        g2.drawImage(backgroundImg, (int) backgroundX, 0, null);
         drawForeground(g2);
         
         if (isPaused) {
