@@ -12,16 +12,15 @@ import java.awt.geom.Line2D.Double;
  */
 public class Foreground {
     Image img;
-    int origTop, origLeft, topOffset, leftOffset, groundLevel;
+    int origTop, origLeft, topOffset, leftOffset;
     Rectangle[] objects; // foreground objects in their original positions
     
     /**
      * This constructor assumes that origLeft should be initialized to 0.
      */
-    public Foreground(Image img, int origTop, int groundLevel, Rectangle[] objects) {
+    public Foreground(Image img, int origTop, Rectangle[] objects) {
         this.img = img;
         this.origTop = origTop;
-        this.groundLevel = groundLevel;
         this.objects = objects;
     }
     
@@ -37,33 +36,19 @@ public class Foreground {
      */
     void verticalShift(int dy) {
         topOffset += dy;
-        groundLevel += dy;
     }
     
     /**
-     * Returns an integer representation of the manner by which the given rectangle
-     * (technically rectangle coordinates) intersects any of the objects in the foreground:
-     * - If the rectangle collides b/c of both horizontal and vertical factors, returns 3 (0b11).
-     * - If the rectangle collides because of its horizontal position, returns 2 (0b10).
-     * - If the rectangle collides because of its vertical position, returns 1 (0b01).
-     * - If the rectangle does not collide with any objects, returns 0 (0b00).
+     * Returns true if the given rectangle (or more precisely, the given rectangle COORDINATES)
+     * intersects/collides with any of the objects in the foreground.
      */
-    int intersects(int spriteWidth, int spriteHeight, int x, int y) {
+    boolean intersects(int width, int height, int x, int y) {
         for (Rectangle obj : objects) {
-            if (new Rectangle(x, y, spriteWidth, spriteHeight).intersects(obj)) {
-                // Check if the collision is because of the x-position or the y-position (or both)
-                if (new Line2D.Double(x, y, x + spriteWidth, y).intersects(obj)
-                        || new Line2D.Double(x, y + spriteHeight, x + spriteWidth, y).intersects(obj)) {
-                    if (new Line2D.Double(x, y, x, y + spriteHeight).intersects(obj)
-                            || new Line2D.Double(x + spriteWidth, y, x, y + spriteHeight).intersects(obj)) {
-                        return 3;
-                    } else {
-                        return 2;
-                    }
-                } else { return 1; }
+            if (new Rectangle(x, y, width, height).intersects(obj)) {
+                return true;
             }
         }
         
-        return 0; // no collisions detected!
+        return false; // no collisions detected!
     }
 }

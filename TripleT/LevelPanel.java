@@ -63,16 +63,23 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         
             // Set Kirby's aerial status (i.e. check if Kirby is at ground level)
             if (kirby.isInAir()) {
-                if (kirby.getY() >= foreground.groundLevel) {
+                if (kirby.getDY() > 0 && foreground.intersects(Math.min(22, kirby.spriteWidth), 
+                        kirby.spriteHeight, kirby.getX(), kirby.getY() + 1)) {
+                    // Looks like Kirby's made his landing!
                     kirby.setDY(0);
                     kirby.toggleInAir(); 
                 }
-            } else {
-                if (kirby.getY() < foreground.groundLevel) { kirby.toggleInAir(); }
+            } else if (!foreground.intersects(Math.min(22, kirby.spriteWidth), 
+                    kirby.prevHeight + 3, kirby.getX(), kirby.getY() + 2)) { 
+                // Kirby is actually in the air (after falling/walking off something)
+                kirby.setDY(1);
+                kirby.setAnimation(Kirby.Animation.FALLING);
+                kirby.setCurrentFrame(0);
+                kirby.toggleInAir();
             }
         
             if (counter % 2 == 0) {
-                // Because we don't want to move TOO fast!
+                // Modulo two because we don't want to move TWO fast!
                 kirby.moveWithinBoundaries(0, TripleTWindow.SCR_WIDTH, 0, 
                         TripleTWindow.SCR_HEIGHT, foreground);
                 repaint();

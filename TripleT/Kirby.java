@@ -75,6 +75,7 @@ public class Kirby extends ControllableSprite {
     private Animation currAnimation = Animation.STANDING;
     private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
     private boolean facingLeft, inAir;
+    int prevHeight = currAnimation.getSpriteHeight();
     
     //================================================================================
     // Constructors
@@ -95,47 +96,6 @@ public class Kirby extends ControllableSprite {
     //================================================================================
     
     /**
-     * Setter method for Kirby's position on the x-axis.
-     * @param x the position that Kirby should be set to
-     */
-    void setX(int x) {
-        this.x = x;
-    }
-    
-    /**
-     * Setter method for Kirby's position on the y-axis.
-     * @param y the y-coordinate for Kirby to take on
-     */
-    void setY(int y) {
-        this.y = y;
-    }
-    
-    /**
-     * Setter method for Kirby's horizontal delta value.
-     * To be used to control movement (ex. for animation).
-     * @param dx the new delta-x value
-     */
-    void setDX(int dx) {
-        this.dx = dx;
-    }
-    
-    /**
-     * Setter method for Kirby's vertical delta value.
-     * @param dy the new delta-y value
-     */
-    void setDY(int dy) {
-        this.dy = dy;
-    }
-    
-    /**
-     * Freezes Kirby momentarily (i.e. stops all positional movement).
-     */
-    void halt() {
-        this.dx = 0;
-        this.dy = 0;
-    }
-    
-    /**
      * This method sets whether or not Kirby is facing left.
      * @param facingLeft if true, Kirby will be facing left after this method is executed
      */
@@ -148,9 +108,18 @@ public class Kirby extends ControllableSprite {
      * @param animation Kirby's new animation
      */
     void setAnimation(Animation animation) {
+        prevHeight = spriteHeight;
         currAnimation = animation;
         spriteWidth = animation.getSpriteWidth();
         spriteHeight = animation.getSpriteHeight();
+    }
+    
+    /**
+     * Sets the current frame of the animation to be FRAME_NUM.
+     * Numbering begins at 0.
+     */
+    void setCurrentFrame(int frameNum) {
+        this.currFrame = frameNum;
     }
     
     /**
@@ -236,6 +205,7 @@ public class Kirby extends ControllableSprite {
                     if (rightKeyPressed || leftKeyPressed) {
                         setAnimation(Animation.WALKING);
                     } else {
+                        dx = 0;
                         setAnimation(Animation.STANDING);
                     }
                     return true;
@@ -333,8 +303,8 @@ public class Kirby extends ControllableSprite {
         setAnimation(Animation.FLOATING);
         dy = -1;
         if (!inAir) {
+            y -= spriteHeight - prevHeight + 1;
             inAir = true;
-            y -= 1;
         }
     }
     

@@ -18,6 +18,7 @@ abstract class Sprite {
     
     /**
      * Gets the current x-coordinate of the sprite.
+     * @return the sprite's x-coordinate
      */
     public int getX() {
         return x;
@@ -25,9 +26,67 @@ abstract class Sprite {
     
     /**
      * Gets the current y-coordinate of the sprite.
+     * @return the sprite's y-coordinate
      */
     public int getY() {
         return y;
+    }
+    
+    /**
+     * Returns the sprite's horizontal delta value.
+     * @return the sprite's dx value
+     */
+    public int getDX() {
+        return dx;
+    }
+    
+    /**
+     * Returns the sprite's vertical delta value.
+     * @return the sprite's dy value
+     */
+    public int getDY() {
+        return dy;
+    }
+    
+    /**
+     * Setter method for the sprite's position on the x-axis.
+     * @param x the position that the sprite should be set to
+     */
+    void setX(int x) {
+        this.x = x;
+    }
+    
+    /**
+     * Setter method for the sprite's position on the y-axis.
+     * @param y the y-coordinate for the sprite to take on
+     */
+    void setY(int y) {
+        this.y = y;
+    }
+    
+    /**
+     * Setter method for the sprite's horizontal delta value.
+     * To be used to control movement (ex. for animation).
+     * @param dx the new delta-x value
+     */
+    void setDX(int dx) {
+        this.dx = dx;
+    }
+    
+    /**
+     * Setter method for the sprite's vertical delta value.
+     * @param dy the new delta-y value
+     */
+    void setDY(int dy) {
+        this.dy = dy;
+    }
+    
+    /**
+     * Freezes the sprite momentarily (i.e. stops all positional movement).
+     */
+    void halt() {
+        this.dx = 0;
+        this.dy = 0;
     }
     
     /**
@@ -47,10 +106,10 @@ abstract class Sprite {
      * in that direction would result in a collision with some object in the foreground.
      */
     public void moveWithinBoundaries(int xMin, int xMax, int yMin, int yMax, Foreground foreground) {
-        int collisionStatus = foreground.intersects(spriteWidth, spriteHeight, x + dx, y + dy);
-        
-        if (x + dx >= xMin && x + dx + spriteWidth <= xMax && (collisionStatus & 0b10) == 0) { x += dx; }
-        if (y + dy >= yMin && y + dy + spriteHeight <= yMax && (collisionStatus & 0b01) == 0) { y += dy; } 
+        if (x + dx >= xMin && x + dx + spriteWidth <= xMax 
+                && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x + dx, y)) { x += dx; }
+        if (y + dy >= yMin && y + dy + spriteHeight <= yMax 
+                && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x, y + dy)) { y += dy; } 
     }
     
     /**
