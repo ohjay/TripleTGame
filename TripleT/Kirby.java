@@ -24,7 +24,7 @@ public class Kirby extends ControllableSprite {
     // of each animation sequence and its position (measured by pixels) on the spritesheet.
     // It also keeps track of the sprite width and the distance between different frames.
     static enum Animation { 
-        STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 3, 121, 28, 25),
+        STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 3, 6, 121, 25, 25, 24),
                 CROUCHING(2, 4, 23, 28, 25), SLIDING(2, 4, 46, 30, 25, 28), HOPPING(10, 2, 68, 25, 25),
                 FLOATING(8, -3, 173, 28, 30), FALLING(7, 1, 2, 262, 25, 26, 25);
         private final int length, rightX, leftX, y, spriteWidth, spriteHeight, frameDist;
@@ -71,9 +71,11 @@ public class Kirby extends ControllableSprite {
         private int getFrameDist() { return frameDist; }
     };
     
-    private static final int BLINK_TIME = 20, SLIDING_TIME = 50, FRAME_DELAY = 12, SS_WIDTH = 641;
+    private static final int BLINK_TIME = 20, SLIDING_TIME = 50, FRAME_DELAY = 12, 
+            SS_WIDTH = 641, DASH_TIME_LIMIT = 100;
     private Animation currAnimation = Animation.STANDING;
     private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
+    private long lastDashKeyPress; // information about the last left/right key press
     private boolean facingLeft, inAir;
     int prevHeight = currAnimation.getSpriteHeight();
     
@@ -181,6 +183,7 @@ public class Kirby extends ControllableSprite {
                     return true;
                 }
             case WALKING:
+            case RUNNING:
                 return nextFrame();
             case FLOATING:
                 if (inAir) {
@@ -269,10 +272,20 @@ public class Kirby extends ControllableSprite {
     public void rightPressed() {
         rightKeyPressed = true;
         facingLeft = false;
-        dx = 1;
         
-        if (!inAir) {
-            setAnimation(Animation.WALKING);
+        if (dx <= 0) {
+            // Was the right key just pressed? If so, Kirby should be running
+            if (!inAir && (lastDashKeyPress & 1) == 1 &&
+                    System.currentTimeMillis() - (lastDashKeyPress >> 1) < DASH_TIME_LIMIT) {
+                // This is a dash input
+                dx = 2;
+                setAnimation(Animation.RUNNING);
+            } else {
+                dx = 1;
+                if (!inAir) {
+                    setAnimation(Animation.WALKING);
+                }
+            }
         }
     }
     
@@ -280,10 +293,19 @@ public class Kirby extends ControllableSprite {
     public void leftPressed() {
         leftKeyPressed = true;
         facingLeft = true;
-        dx = -1;
         
-        if (!inAir) {
-            setAnimation(Animation.WALKING);
+        if (dx >= 0) {
+            // Distinguish between walking and running
+            if (!inAir && (lastDashKeyPress & 1) == 0 &&
+                    System.currentTimeMillis() - (lastDashKeyPress >> 1) < DASH_TIME_LIMIT) {
+                dx = -2;
+                setAnimation(Animation.RUNNING);
+            } else {
+                dx = -1;
+                if (!inAir) {
+                    setAnimation(Animation.WALKING);
+                }
+            }
         }
     }
     
@@ -305,12 +327,16 @@ public class Kirby extends ControllableSprite {
         if (!inAir) {
             y -= spriteHeight - prevHeight + 1;
             inAir = true;
+            if (Math.abs(dx) > 1) { dx /= 2; }
         }
     }
     
     @Override
     public void rightReleased() {
         rightKeyPressed = false;
+        lastDashKeyPress = (System.currentTimeMillis() << 1) | 1;
+        // ^the 1 at the end signifies a right key release
+        
         if (leftKeyPressed) {
             dx = -1;
             facingLeft = true;
@@ -330,6 +356,9 @@ public class Kirby extends ControllableSprite {
     @Override
     public void leftReleased() {
         leftKeyPressed = false;
+        lastDashKeyPress = System.currentTimeMillis() << 1;
+        // ^the 0 at the end signifies a left key release
+        
         if (rightKeyPressed) {
             dx = 1;
             facingLeft = false;

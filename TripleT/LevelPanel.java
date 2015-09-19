@@ -87,6 +87,10 @@ abstract class LevelPanel extends KPanel implements ActionListener {
                     // Looks like Kirby's made his landing!
                     kirby.setDY(0);
                     kirby.toggleInAir(); 
+                    
+                    if (Math.abs(kirby.getDX()) == 2) {
+                        kirby.setAnimation(Kirby.Animation.RUNNING);
+                    }
                 }
             } else if (!foreground.intersects(Math.min(22, kirby.spriteWidth), 
                     kirby.prevHeight + 3, kirby.getX(), kirby.getY() + 2)) { 
