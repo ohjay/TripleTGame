@@ -108,7 +108,7 @@ abstract class Sprite {
     public void moveWithinBoundaries(int xMin, int xMax, int yMin, int yMax, Foreground foreground) {
         // Vertical movement
         if (y + dy >= yMin && y + dy + spriteHeight <= yMax 
-                && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x, y + dy)) { y += dy; }
+                && !foreground.intersects(Math.min(20, spriteWidth), spriteHeight, x + 1, y + dy)) { y += dy; }
         // Horizontal movement
         if (x + dx >= xMin && x + dx + spriteWidth <= xMax 
                 && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x + dx, y)) { x += dx; }
@@ -119,7 +119,7 @@ abstract class Sprite {
      */
     public void moveVertically(int yMin, int yMax, Foreground foreground) {
         if (y + dy >= yMin && y + dy + spriteHeight <= yMax
-                && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x, y + dy)) { y += dy; }
+                && !foreground.intersects(Math.min(20, spriteWidth), spriteHeight, x + 1, y + dy)) { y += dy; }
     }
     
     /**
