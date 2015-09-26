@@ -19,7 +19,7 @@ import javax.swing.AbstractAction;
 abstract class LevelPanel extends KPanel implements ActionListener {
     protected Timer timer;
     protected Image backgroundImg, fgImage; // fg = foreground
-    protected boolean isPaused;
+    protected boolean isPaused, isSlideOff; // isSlideOff: indicates whether or not Kirby just slid off a ledge
     protected int pauseIndex, counter;
     protected double backgroundX, bgDXMultiplier = 1.1, fgDXMultiplier = 1.3;
     protected Foreground foreground;
@@ -88,13 +88,14 @@ abstract class LevelPanel extends KPanel implements ActionListener {
                     kirby.setDY(0);
                     kirby.toggleInAir(); 
                     
-                    if (Math.abs(kirby.getDX()) == 2) {
+                    if (Math.abs(kirby.getDX()) == 2 && !isSlideOff) {
                         kirby.setAnimation(Kirby.Animation.RUNNING);
                     }
                 }
             } else if (!foreground.intersects(Math.min(22, kirby.spriteWidth), 
                     kirby.prevHeight + 3, kirby.getX(), kirby.getY() + 2)) { 
                 // Kirby is actually in the air (after falling/walking off something)
+                isSlideOff = (kirby.animationEquals(Kirby.Animation.SLIDING)) ? true : false;
                 kirby.setDY(1);
                 kirby.setAnimation(Kirby.Animation.FALLING);
                 kirby.setCurrentFrame(0);
