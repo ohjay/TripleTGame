@@ -49,7 +49,7 @@ A folder containing source code (`.java`) files for TripleTGame.
 - [Level2Kirby](https://github.com/ohjay/TripleTGame/blob/master/TripleT/Level2Kirby.java): 
   Kirby in his Level 2 form, which is different than most other forms in that he's being pulled into the air and therefore requires less controls + less animations.
 - [LevelPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/LevelPanel.java): 
-  An abstract blueprint for a level panel, which includes activation and painting methods (in addition to a drawForeground method that should be overridden by subclasses): .
+  An abstract blueprint for a level panel, which includes activation and painting methods (in addition to a drawForeground method that should be overridden by subclasses).
 - [LoadingScreen](https://github.com/ohjay/TripleTGame/blob/master/TripleT/LoadingScreen.java): 
   A placeholder screen to tide the users over while resources load.
 - [MainMenuPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/MainMenuPanel.java): 

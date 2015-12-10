@@ -50,7 +50,7 @@ Here's a quick listing of what you ~~can expect~~ might have been expecting:
 ## Directory Structure
 - [TripleT](https://github.com/ohjay/TripleTGame/tree/master/TripleT)
 
-   Source code for the game, all of which resides in the TripleT package. Feel free to browse! I documented a bunch of it – and I definitely wouldn't want all that work to go to waste.
+   Source code for the game, all of which resides in the TripleT package. Feel free to browse! I documented a bunch of it; I definitely wouldn't want all that work to go to waste.
 - [images](https://github.com/ohjay/TripleTGame/tree/master/images)
 
    Visual resources used in the game. Includes menu screens, spritesheets, and miscellaneous in-game elements.
