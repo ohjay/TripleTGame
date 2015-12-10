@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import javax.swing.KeyStroke;
@@ -20,7 +21,7 @@ public class ControlMenuPanel extends EscapableMenuPanel {
     private static final Image MENU_IMG = Images.get("controlsMenu");
     private static final Font NOVECENTO_20 = new Font("Novecento sans wide", Font.PLAIN, 20);
     private static final Font NOVECENTO_17 = new Font("Novecento sans wide", Font.PLAIN, 17);
-    private static final int NAME_X = 146, KEY_X = 346, BASE_Y = 110, Y_OFFSET = 30, DESC_X = 84;
+    private static final int NAME_X = 146, KEY_X = 346, BASE_Y = 100, Y_OFFSET = 30, DESC_X = 84;
     private int controlSelected = -1; // the index of the control currently being changed
     private KeyAdapter kl;
     private LinkedList<ArrayList<String>> oldActions = new LinkedList<ArrayList<String>>();
@@ -62,6 +63,8 @@ public class ControlMenuPanel extends EscapableMenuPanel {
         // Set up text font and color
         g.setFont(NOVECENTO_20);
         g.setColor(Color.GRAY);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         
         for (int i = 0; i < keys.length; i++) {
             // Change color if the current key should be highlighted

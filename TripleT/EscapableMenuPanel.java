@@ -10,7 +10,6 @@ import javax.swing.KeyStroke;
  */
 public class EscapableMenuPanel extends MenuPanel {
     protected static final String GO_BACK = "go back";
-    protected boolean usesArrows; // (whether or not the panel has directional controls)
     
     /**
      * Activates the panel by resetting the menu and requesting focus.
@@ -27,14 +26,6 @@ public class EscapableMenuPanel extends MenuPanel {
         super.setKeyBindings();
         getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), GO_BACK);
         getActionMap().put(GO_BACK, new EscapeAction());
-        
-        if (!usesArrows) {
-            // Remove mappings for UP / LEFT / DOWN / RIGHT
-            getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0), "none");
-            getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0), "none");
-            getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.downKey, 0), "none");
-            getInputMap().put(KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0), "none");
-        }
     }
     
     /**

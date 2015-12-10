@@ -106,7 +106,7 @@ public class Images {
      */
     private static void initializeDodgeImages() {
         addToImages("dodgeBackground", "/images/dodgeBG.png");
-        addToImages("treasure", "/images/treasure1.png");
+        addToImages("treasure", "/images/treasure2.png");
         addToImages("lifeCount", "/images/lifeCount.png");
         addToImages("zero", "/images/zero.png");
         addToImages("one", "/images/one.png");

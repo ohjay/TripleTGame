@@ -104,13 +104,10 @@ public class TripleTWindow {
         GameState.minigameMPanel.setKeyBindings();
         GameState.creditsPanel.setKeyBindings();
         GameState.dodgePausePanel.setKeyBindings();
-        GameState.cutsceneMPanel.setKeyBindings();
-        GameState.optionMPanel.setKeyBindings();
         
         // Level panels
         GameState.level1.setKeyBindings();
         GameState.level2.setKeyBindings();
-        GameState.smashPanel.setKeyBindings();
     }
     
     /**
@@ -124,13 +121,10 @@ public class TripleTWindow {
         GameState.minigameMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.creditsPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, shouldRemove);
-        GameState.cutsceneMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
-        GameState.optionMPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
         
         // Level panels
         GameState.level1.updateKeyBindings(oldKey, newKey, shouldRemove);
         GameState.level2.updateKeyBindings(oldKey, newKey, shouldRemove);
-        GameState.smashPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
     }
     
     /**
@@ -144,13 +138,10 @@ public class TripleTWindow {
         GameState.minigameMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(2), shouldRemove);
         GameState.creditsPanel.updateKeyBindings(oldKey, newKey, oldActions.get(3), shouldRemove);
         GameState.dodgePausePanel.updateKeyBindings(oldKey, newKey, oldActions.get(4), shouldRemove);
-        GameState.cutsceneMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(5), shouldRemove);
-        GameState.optionMPanel.updateKeyBindings(oldKey, newKey, oldActions.get(6), shouldRemove);
         
         // Level panels
-        GameState.level1.updateKeyBindings(oldKey, newKey, oldActions.get(7), shouldRemove);
-        GameState.level2.updateKeyBindings(oldKey, newKey, oldActions.get(8), shouldRemove);
-        GameState.smashPanel.updateKeyBindings(oldKey, newKey, oldActions.get(9), shouldRemove);
+        GameState.level1.updateKeyBindings(oldKey, newKey, oldActions.get(5), shouldRemove);
+        GameState.level2.updateKeyBindings(oldKey, newKey, oldActions.get(6), shouldRemove);
     }
     
     /**
@@ -169,13 +160,10 @@ public class TripleTWindow {
         actions.add((String) GameState.minigameMPanel.getInputMap().get(key));
         actions.add((String) GameState.creditsPanel.getInputMap().get(key));
         actions.add((String) GameState.dodgePausePanel.getInputMap().get(key));
-        actions.add((String) GameState.cutsceneMPanel.getInputMap().get(key));
-        actions.add((String) GameState.optionMPanel.getInputMap().get(key));
         
         // Level panels
         actions.add((String) GameState.level1.getInputMap().get(key));
         actions.add((String) GameState.level2.getInputMap().get(key));
-        actions.add((String) GameState.smashPanel.getInputMap().get(key));
         
         return actions;
     }

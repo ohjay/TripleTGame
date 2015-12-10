@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -153,6 +154,10 @@ public class DodgePanel extends JPanel implements ActionListener {
         if (kirby.numLives >= 0) {
             g2.drawImage(Images.numbers[kirby.numLives], NUM_X, NUM_Y, null); // assumes 0-9 lives
         }
+        
+        // Antialiasing
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         
         // Display score / powerup count / other relevant information
         g.setFont(new Font("Verdana", Font.BOLD, 14));

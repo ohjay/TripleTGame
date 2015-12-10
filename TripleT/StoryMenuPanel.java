@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
@@ -34,14 +35,6 @@ public class StoryMenuPanel extends EscapableMenuPanel {
     private static final String DELETE = "delete";
     
     /**
-     * Constructor.
-     * The story menu panel makes use of the directional pad for switching options.
-     */
-    public StoryMenuPanel() {
-        usesArrows = true;
-    }
-    
-    /**
      * Paints the part of the sheet that should currently be in effect.
      * @param g the graphics object
      */
@@ -50,6 +43,10 @@ public class StoryMenuPanel extends EscapableMenuPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(STORY_MENU_SHEET, 0, 0, TripleTWindow.SCR_WIDTH, TripleTWindow.SCR_HEIGHT, 
                 sheetOffset, 0, sheetOffset + TripleTWindow.SCR_WIDTH, TripleTWindow.SCR_HEIGHT, null);
+        
+        // Make sure that the text is antialiased
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         
         // Add save file information
         for (int i = 0; i < saveFiles.length; i++) {
