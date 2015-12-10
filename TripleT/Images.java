@@ -207,6 +207,9 @@ public class Images {
      * - demoBackground
      * - level2Backdrop
      * - smashMessage
+     * - congratulations
+     * - gameOver1
+     * - gameOver2
      */
     private static void initializeGrounds() {
         addToImages("demoForeground", "/images/demoForeground.png");
@@ -215,6 +218,9 @@ public class Images {
         addToImages("pauseOverlay1", "/images/pauseOverlay1.png");
         addToImages("level2Backdrop", "/images/level2Backdrop.png");
         addToImages("smashMessage", "/images/kirbySMASH_message.png");
+        addToImages("congratulations", "/images/congratulations.png");
+        addToImages("gameOver1", "/images/gameOver1.png");
+        addToImages("gameOver2", "/images/gameOver2.png");
     }
     
     /**

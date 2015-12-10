@@ -1,8 +1,11 @@
 package TripleT;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -21,12 +24,18 @@ import java.util.Iterator;
  * @author Owen Jow
  */
 public class Level2 extends LevelPanel implements ActionListener {
-    private int yTraveled;
+    private int yTraveled, timeRemaining, blockDamage, postGameTimer;
     private LinkedList<Block> blocks = new LinkedList<Block>();
     
     // Constants
     private static final int NUM_BLOCKS = 145, XRANGE = 400, Y_DIST = 105, 
-            INITIAL_IMG_OFFSET = -14500, KIRBY_INITIAL_Y = 142;
+            INITIAL_IMG_OFFSET = 14500, KIRBY_INITIAL_Y = 142, DAMAGE_GOAL = 170,
+            POST_GAME_HANGTIME = 350, FONT_SIZE_SM = 14, FONT_SIZE_BIG = 21,
+            BASE_POSTG_Y = 200;
+    
+    // Constants that are also text/meter coordinates. 
+    // (There are actually additional coordinates in paintComponent.)
+    private static final int CLOGMETER_X = 318, CLOGMETER_Y = 25;
     
     public Level2() {
         backgroundImg = Images.get("level2Backdrop");
@@ -42,6 +51,9 @@ public class Level2 extends LevelPanel implements ActionListener {
         pauseIndex = 0;
         yTraveled = 0;
         kirby = new Level2Kirby(42, KIRBY_INITIAL_Y, Kirby.Animation.SOMERSAULTING);
+        blockDamage = 0;
+        postGameTimer = 0;
+        timeRemaining = INITIAL_IMG_OFFSET;
         
         // Initialize our collection of blocks
         for (int i = 0; i < NUM_BLOCKS; i++) {
@@ -52,28 +64,66 @@ public class Level2 extends LevelPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (!isPaused) {
-            yTraveled += 2;
-            kirby.move();
+            if (blockDamage >= DAMAGE_GOAL) {
+                // You win! ...the whole game, now that I've ceased development!
+                postGameTimer += 1;
+                if (postGameTimer >= POST_GAME_HANGTIME) {
+                    // Transition to the congratulatory screen
+                    deactivate();
+                    GameState.layout.show(GameState.contentPanel, "congratulations");
+                    GameState.congratulatoryPanel.activate();
+                    
+                    // Save the player into the hall of fame (100% hooray)
+                    file.incrementLevel();
+                    file.updatePercentage();
+                    TripleT.savePersistentInfo(GameState.pInfo);
+                }
+            } else if (timeRemaining <= 0) {
+                // You lose! Dang, you suck even more than that vacuum. ;)
+                kirby.flyUpward();
+                if (kirby.getY() < -kirby.spriteHeight) {
+                    postGameTimer += 1;
+                    if (postGameTimer >= POST_GAME_HANGTIME) {
+                        // Transition to the game over screen
+                        deactivate();
+                        GameState.layout.show(GameState.contentPanel, "gameOver");
+                        GameState.gameOverPanel.activate(file);
+                    }
+                }
+            } else {
+                yTraveled += 2;
+                timeRemaining -= 2;
+                kirby.move();
             
-            if (kirby.getFrame() == kirby.getAnimation().getLength()) {
-                kirby.setCurrentFrame(0);
-            } else if (kirby.getFrame() > 0) {
-                kirby.updateFrame();
-            }
-            
-            Iterator<Block> blockIter = blocks.iterator();
-            while (blockIter.hasNext()) {
-               Block b = blockIter.next();
-               if (b.getRectangle().intersects(kirby.getRectangle())) {
-                   b.accelerated = true;
-                   kirby.setCurrentFrame(1);
-               }
-               
-               b.yPos -= (b.accelerated) ? 3 : 1;
+                if (kirby.getFrame() == kirby.getAnimation().getLength()) {
+                    kirby.setCurrentFrame(0);
+                } else if (kirby.getFrame() > 0) {
+                    kirby.updateFrame();
+                }
+                
+                // Iterate through the blocks
+                Iterator<Block> blockIter = blocks.iterator();
+                while (blockIter.hasNext()) {
+                   Block b = blockIter.next();
+                   if (b.getRectangle().intersects(kirby.getRectangle())) {
+                       b.accelerated = true;
+                       kirby.setCurrentFrame(1);
+                   }
            
-               if (b.yPos < -Block.BIG_BLOCKSIZE) {
-                   blockIter.remove();
-               }
+                   if (b.accelerated) {
+                       b.yPos -= 3;
+                       if (b.yPos < -Block.BIG_BLOCKSIZE) {
+                           // This one was hit by Kirby, so it does block damage
+                           blockDamage += (b.isBig) ? 5 : 2;
+                       }
+                   } else {
+                       b.yPos -= 1;
+                   }
+       
+                   if (b.yPos < -Block.BIG_BLOCKSIZE) {
+                       blockIter.remove();
+                   }
+                }
             }
             
             repaint();
@@ -84,7 +134,7 @@ public class Level2 extends LevelPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(backgroundImg, 0, INITIAL_IMG_OFFSET + yTraveled, null);
+        g2.drawImage(backgroundImg, 0, -INITIAL_IMG_OFFSET + yTraveled, null);
         
         for (Block b : blocks) {
             g2.drawImage(b.img, b.xPos, b.yPos, null);
@@ -94,6 +144,56 @@ public class Level2 extends LevelPanel implements ActionListener {
         }
         
         kirby.drawImage(g2);
+        
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+        
+        // Draw the objective + "clog meter" text
+        g.setFont(new Font("Verdana", Font.BOLD, FONT_SIZE_SM));
+        g.setColor(Color.WHITE);
+        g2.drawString("Objective:", 5, 21); // (x, y) coordinates
+        g2.drawString("Hit blocks upward", 5, 40);
+		g2.drawString("and clog the vacuum!", 5, 54);
+		g2.drawString("ClogMeter: ", CLOGMETER_X + 1, 21);
+		g2.drawString("Time Remaining: " + timeRemaining, CLOGMETER_X + 1, 56);
+		g.setColor(Color.BLACK);
+		g2.drawString("Objective: ", 4, 20);
+		g2.drawString("Hit blocks upward", 4, 39);
+		g2.drawString("and clog the vacuum!", 4, 53);
+		g2.drawString("ClogMeter: ", CLOGMETER_X, 20);
+		g2.drawString("Time Remaining: " + timeRemaining, CLOGMETER_X, 55);
+        
+        // The clog meter itself
+		g.setColor(Color.WHITE);
+		g2.fill3DRect(CLOGMETER_X, CLOGMETER_Y, DAMAGE_GOAL + 2, 15, true);
+		g.setColor(Color.BLACK);
+		g2.fill3DRect(CLOGMETER_X + 1, CLOGMETER_Y + 1, DAMAGE_GOAL, 13, true);
+		g.setColor(Color.GREEN);
+        
+        if (blockDamage < DAMAGE_GOAL) {
+            g2.fill3DRect(CLOGMETER_X + 1, CLOGMETER_Y + 1, blockDamage, 13, true);
+        } else {
+            g2.fill3DRect(CLOGMETER_X + 1, CLOGMETER_Y + 1, DAMAGE_GOAL, 13, true);
+        }
+        
+        // Post-game text display
+        if (postGameTimer > 0) {
+            if (blockDamage >= DAMAGE_GOAL) {
+    			g.setFont(new Font("Verdana", Font.BOLD, FONT_SIZE_BIG));
+    			g.setColor(Color.WHITE);
+    			g2.drawString("You did it!", 151, BASE_POSTG_Y + 1);
+    			g2.drawString("That vacuum isn't getting YOU...", 51, BASE_POSTG_Y + 25);
+    			g.setColor(Color.BLACK);
+    			g2.drawString("Nice!  You win!!", 150, BASE_POSTG_Y);
+    			g2.drawString("That vacuum isn't getting YOU...", 50, BASE_POSTG_Y + 24);
+            } else {
+    			g.setFont(new Font("Verdana", Font.BOLD, 21));
+    			g.setColor(Color.WHITE);
+    			g2.drawString("The vacuum got you...", 129, BASE_POSTG_Y + 1);
+    			g.setColor(Color.BLACK);
+    			g2.drawString("The vacuum got you...", 128, BASE_POSTG_Y);
+            }
+        }
         
         if (isPaused) {
             g2.drawImage(Images.get("pauseOverlay" + pauseIndex), 0, 0, null);
@@ -197,7 +297,7 @@ public class Level2 extends LevelPanel implements ActionListener {
     private class Block {
         int xPos, yPos;
         Image img;
-        private boolean isBig;
+        boolean isBig;
         boolean accelerated;
         static final int BIG_BLOCKSIZE = 32, SMALL_BLOCKSIZE = 16;
         
@@ -213,6 +313,7 @@ public class Level2 extends LevelPanel implements ActionListener {
             
             if (Math.random() >= 0.5) {
                 img = Images.get("bigBlock");
+                isBig = true;
             } else {
                 img = Images.get("smallBlock");
             }

@@ -3,6 +3,7 @@ A folder containing source code (.java) files for TripleTGame.
 
 ## Class Directory
 - [Animator](https://github.com/ohjay/TripleTGame/blob/master/TripleT/Animator.java)
+- [CongratulatoryPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/CongratulatoryPanel.java)
 - [ControlMenuPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/ControlMenuPanel.java)
 - [ControllableSprite](https://github.com/ohjay/TripleTGame/blob/master/TripleT/ControllableSprite.java)
 - [CreditsPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/CreditsPanel.java)
@@ -16,6 +17,7 @@ A folder containing source code (.java) files for TripleTGame.
 - [Door](https://github.com/ohjay/TripleTGame/blob/master/TripleT/Door.java)
 - [EscapableMenuPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/EscapableMenuPanel.java)
 - [Foreground](https://github.com/ohjay/TripleTGame/blob/master/TripleT/Foreground.java)
+- [GameOverPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/GameOverPanel.java)
 - [GameState](https://github.com/ohjay/TripleTGame/blob/master/TripleT/GameState.java)
 - [Images](https://github.com/ohjay/TripleTGame/blob/master/TripleT/Images.java)
 - [KPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/KPanel.java)

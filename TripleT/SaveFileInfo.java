@@ -27,7 +27,7 @@ public class SaveFileInfo implements Serializable {
     void incrementLevel() {
         level += 1;
         if (level == 2) {
-            worldStr = "Syrup Stronghold";
+            worldStr = "Vacuum Vista";
         } else if (level == 3) {
             worldStr = "Congratulations!";
         }

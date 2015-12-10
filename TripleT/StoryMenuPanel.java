@@ -119,6 +119,10 @@ public class StoryMenuPanel extends EscapableMenuPanel {
                         GameState.layout.show(GameState.contentPanel, "level2");
                         GameState.level2.activate(file);
                         break;
+                    case 3:
+                        GameState.layout.show(GameState.contentPanel, "congratulations");
+                        GameState.congratulatoryPanel.activate();
+                        break;
                 }
                 
                 break;

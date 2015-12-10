@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
  * @author Owen Jow
  */
 public class Level2Kirby extends Kirby {
+    private static final int FLY_FACTOR = 3;
     
     public Level2Kirby(int x, int y, Animation animation) {
         super(x, y, animation);
@@ -19,6 +20,13 @@ public class Level2Kirby extends Kirby {
         if (x + dx >= 0 && x + dx + spriteWidth <= TripleTWindow.SCR_WIDTH) {
             x += dx;
         }
+    }
+    
+    /**
+     * A level 2 thing. This is what Kirby does when he fails to clog the vacuum in time.
+     */
+    public void flyUpward() {
+        y -= FLY_FACTOR;
     }
     
     @Override

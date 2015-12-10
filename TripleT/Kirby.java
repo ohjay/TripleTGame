@@ -198,6 +198,13 @@ public class Kirby extends ControllableSprite {
         return entered;
     }
     
+    /**
+     * For flying upward, if any subclasses of Kirby desire this behavior.
+     */
+    public void flyUpward() {
+        /* Implement "fly upward" behavior if you want it! */
+    }
+    
     //================================================================================
     // Drawing and animation methods
     //================================================================================

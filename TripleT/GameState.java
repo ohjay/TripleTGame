@@ -29,4 +29,6 @@ public class GameState {
     static SmashPanel smashPanel;
     static Level1 level1;
     static Level2 level2;
+    static CongratulatoryPanel congratulatoryPanel;
+    static GameOverPanel gameOverPanel;
 }
