@@ -216,6 +216,62 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         aMap.put(UP_RELEASED, new UpReleasedAction());
     }
     
+    protected void updateReleasedKeyBindings(InputMap iMap, KeyStroke newKey, String releasedStr) {
+        // We need to change and remove the binding for RELEASED_STR
+        // First we'll remove...
+        for (KeyStroke k : iMap.allKeys()) {
+            if (iMap.get(k).equals(releasedStr)) {
+                iMap.remove(k);
+                break;
+            }
+        }
+        
+        // And then we'll change
+        addToInputMap(iMap, newKey, releasedStr);
+    }
+    
+    @Override
+    void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, boolean shouldRemove) {
+        InputMap iMap = getInputMap();
+        if (RIGHT_PRESSED.equals(iMap.get(oldKey))) {
+            updateReleasedKeyBindings(iMap, KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0, true), 
+                    RIGHT_RELEASED);
+        } else if (LEFT_PRESSED.equals(iMap.get(oldKey))) {
+            updateReleasedKeyBindings(iMap, KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0, true), 
+                    LEFT_RELEASED);
+        } else if (DOWN_PRESSED.equals(iMap.get(oldKey))) {
+            updateReleasedKeyBindings(iMap, KeyStroke.getKeyStroke(GameState.pInfo.downKey, 0, true), 
+                    DOWN_RELEASED);
+        } else if (UP_PRESSED.equals(iMap.get(oldKey))) {
+            updateReleasedKeyBindings(iMap, KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0, true), 
+                    UP_RELEASED);
+        }
+        
+        iMap.put(newKey, iMap.get(oldKey));
+        if (shouldRemove) { iMap.remove(oldKey); }
+    }
+    
+    @Override
+    void updateKeyBindings(KeyStroke oldKey, KeyStroke newKey, String oldAction, boolean shouldRemove) {
+        InputMap iMap = getInputMap();
+        if (RIGHT_PRESSED.equals(oldAction)) {
+            updateReleasedKeyBindings(iMap, KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0, true), 
+                    RIGHT_RELEASED);
+        } else if (LEFT_PRESSED.equals(oldAction)) {
+            updateReleasedKeyBindings(iMap, KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0, true), 
+                    LEFT_RELEASED);
+        } else if (DOWN_PRESSED.equals(oldAction)) {
+            updateReleasedKeyBindings(iMap, KeyStroke.getKeyStroke(GameState.pInfo.downKey, 0, true), 
+                    DOWN_RELEASED);
+        } else if (UP_PRESSED.equals(oldAction)) {
+            updateReleasedKeyBindings(iMap, KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0, true), 
+                    UP_RELEASED);
+        }
+        
+        iMap.put(newKey, oldAction);
+        if (shouldRemove) { iMap.remove(oldKey); }
+    }
+    
     //================================================================================
     // Action methods (to be overridden for special behavior/controls)
     //================================================================================
