@@ -29,7 +29,7 @@ public class SaveFileInfo implements Serializable {
         if (level == 2) {
             worldStr = "Vacuum Vista";
         } else if (level == 3) {
-            worldStr = "Congratulations!";
+            worldStr = "Congratulatory message";
         }
     }
     

@@ -95,6 +95,8 @@ public class TripleTWindow {
         
         // Aaand doors for level panels
         GameState.level1.initializeDoors();
+        GameState.storyMPanel.initialize();
+        GameState.controlMPanel.initialize();
     }
     
     /**

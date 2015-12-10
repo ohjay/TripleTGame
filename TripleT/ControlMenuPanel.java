@@ -24,17 +24,15 @@ public class ControlMenuPanel extends EscapableMenuPanel {
     private static final int NAME_X = 146, KEY_X = 346, BASE_Y = 100, Y_OFFSET = 30, DESC_X = 84;
     private int controlSelected = -1; // the index of the control currently being changed
     private KeyAdapter kl;
-    private LinkedList<ArrayList<String>> oldActions = new LinkedList<ArrayList<String>>();
-    private HashSet<KeyStroke> newKeys = new HashSet<KeyStroke>();
+    private LinkedList<ArrayList<String>> oldActions;
+    private HashSet<KeyStroke> newKeys;
     
     // The name of each control
     private static final String[] CTRL_NAMES = new String[] { "Left", "Right", "Up", 
             "Down", "Jump/Attack", "Special Attack", "Pause/Confirm" };
     
     // The keys associated with each control
-    private int[] keys = new int[] { GameState.pInfo.leftKey, 
-            GameState.pInfo.rightKey, GameState.pInfo.upKey, GameState.pInfo.downKey,
-            GameState.pInfo.jumpKey, GameState.pInfo.attackKey, GameState.pInfo.pauseKey };
+    private int[] keys;
     
     // Descriptions of the controls
     private static final String[] CTRL_DESCRIPTIONS = new String[] { 
@@ -53,6 +51,18 @@ public class ControlMenuPanel extends EscapableMenuPanel {
         
         kl = new KeyListener();
         addKeyListener(kl);
+    }
+    
+    /**
+     * Initializes a bunch of attributes, most notably the pInfo's keys.
+     * Should be called basically ASAP.
+     */
+    public void initialize() {
+        oldActions = new LinkedList<ArrayList<String>>();
+        newKeys = new HashSet<KeyStroke>();
+        keys = new int[] { GameState.pInfo.leftKey, 
+                GameState.pInfo.rightKey, GameState.pInfo.upKey, GameState.pInfo.downKey,
+                GameState.pInfo.jumpKey, GameState.pInfo.attackKey, GameState.pInfo.pauseKey };
     }
     
     @Override

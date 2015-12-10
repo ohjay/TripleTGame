@@ -20,19 +20,26 @@ public class StoryMenuPanel extends EscapableMenuPanel {
     private static final Image STORY_MENU_SHEET = Images.get("storyMenuSS");
     // Save file data coordinates (SF = "save file")
     private static final int SF_X = 65, SF_STR_BASE_Y = 131, SF_LVL_Y_OFFSET = 23, 
-            SF_Y_OFFSET = 82, PERCENT_X = 375, PERCENT_BASE_Y = 149;
+            SF_Y_OFFSET = 82, PERCENT_X = 370, PERCENT_BASE_Y = 149;
     // Confirmation tab coordinates
     private static final int L1_X = 166, L1_Y = 174, L2_X_OFFSET = -1, L3_X_OFFSET = -42,
             L23_Y_OFFSET = 25, YES_X = 200, NO_X = 284, YESNO_Y = 267;
     private int sheetOffset; // the offset for the story menu "sprite"sheet
-    private static final SaveFileInfo[] saveFiles = new SaveFileInfo[] { GameState.pInfo.saveFile1,
-            GameState.pInfo.saveFile2, GameState.pInfo.saveFile3 };
+    private static SaveFileInfo[] saveFiles;
     private boolean yesHighlighted;
     private static final Font regFont = new Font("Optima", Font.BOLD, 19);
     private static final Font percentFont = new Font("Palatino", Font.BOLD, 45);
     
     // Action names
     private static final String DELETE = "delete";
+    
+    /**
+     * Performs setup that would otherwise delay screen loading.
+     */
+    public void initialize() {
+        saveFiles = new SaveFileInfo[] { GameState.pInfo.saveFile1,
+                GameState.pInfo.saveFile2, GameState.pInfo.saveFile3 };
+    }
     
     /**
      * Paints the part of the sheet that should currently be in effect.
