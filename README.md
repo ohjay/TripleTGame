@@ -14,20 +14,21 @@ Triple T, aka Kirby: The Tedhaun Treaty. A full-fledged – albeit Java-based �
 ## Important Announcement
 All of the features that I had initially planned – a full storyline, complete with animations and three worlds (/ 12 levels!) – will probably never be released. The reasons for this are twofold: **(a)** I have no users and therefore no external liability, and **(b)** I've lost interest in game design and the tedium of doing all this work myself. 
 
-With regard to my second point, let's just say that I feel as if I've accomplished what I originally set out to do. That is, I've gotten a feel for elementary platformer logic (spritesheet animation, collision detection, movement / parallax scrolling, ...) and Swing GUI basics. From here on out, it'd mostly be fine-tuning positional coordinates, mapping out hundreds of spritesheet pixels, and animating a ton of movement sequences. Most of this would feel pretty repetitive, and again with my lack of a userbase I find myself with little motivation to continue in my game-creating endeavors. I've set my sights on bigger and more exciting projects (what are they, you ask? Well, you'll just have to stay tuned), and I think that it's time I gave this one some closure. Thus, I'm going to publish the game in its current unpolished form, and say that this, my friends, is the "beta gold" (final!) release.
+With regard to my second point, let's just say that I feel as if I've accomplished what I originally set out to do. That is, I've gotten a feel for elementary platformer logic (spritesheet animation, collision detection, movement / parallax scrolling, ...) and Swing GUI basics. From here on out, it'd mostly be fine-tuning positional coordinates, mapping out hundreds of spritesheet pixels, and animating a ton of movement sequences. Most of this would feel pretty repetitive, and again with my lack of a userbase I find myself with little motivation to continue in my game-creating endeavors. I've set my sights on bigger and more exciting projects (_what are they, you ask? Well, you'll just have to stay tuned_), and I think that it's time I gave this one some closure. Thus, I'm going to publish the game in its current unpolished form, and say that this, my friends, is the "**beta gold**" (final!) release.
 
-Yes, it pains me a little to leave Triple T in this state, but I take a bit of solace in two of the things that I mentioned above (i.e. literally no one cares, and I have better things to spend my time on). So yes, I'm declaring now that work on Triple T has ceased; it's time to close up shop at last.
+Yes, it pains me a little to leave Triple T in this state, but I take a bit of solace in two of the things that I mentioned above (...i.e. literally no one cares, and I have better things to spend my time on). So yes, I'm declaring now that work on Triple T has ceased; it's time to close up shop at last.
 
-Many thanks to all [0?] of you who supported me throughout this relatively brief development process, and I tell you now: look out for some much cooler stuff to come!
+Many thanks to all [0?] of you who supported me throughout this relatively brief development process, and I tell you now: look out for the much cooler stuff to come!
 
 A download link for the "beta gold" version of Triple T can be found below.
 
 ## Download Link [FINAL RELEASE]
-Note that by "final," I'm really trying to say "this should've still been in development, but then I lost interest in game dev and moved on with my life."
+Note that by "final," I'm really trying to say "_this should've still been in development, but then I lost interest in game dev and moved on with my life._"
 
 - [JAR file [8.1 MB]](../master/dist/v1.0/TripleT.jar?raw=true)
   - May or may not require you to change your security settings or CTRL-click (on OS X) to open.
   - Also may or may not require you to download Java.
+  - By the way, if any fonts look weird on your computer, please let me know!
 
 ## Features & Functionality
 Here's a quick listing of what you ~~can expect~~ might have been expecting:

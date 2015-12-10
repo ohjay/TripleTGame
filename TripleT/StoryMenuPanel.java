@@ -64,7 +64,7 @@ public class StoryMenuPanel extends EscapableMenuPanel {
         
         // Make sure that the text is antialiased
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+                RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         
         // Add save file information
         for (int i = 0; i < saveFiles.length; i++) {
