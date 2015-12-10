@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Owen Jow
  */
 public class SaveFileInfo implements Serializable {
-    int world, level, percentage;
+    int world = 1, level = 1, percentage;
     String worldStr = "Start new game!"; // for example, "Honey Haunt" or "Syrup Stronghold"
     
     /**
@@ -16,16 +16,29 @@ public class SaveFileInfo implements Serializable {
      * If the percentage is already up-to-date, this method will do nothing.
      */
     void updatePercentage() {
-        // There are 15 stages total (3 worlds, each with 4 levels and 1 boss)
-        percentage = world * level / 15 * 100;
+        // There are 2 stages total (1 world, with 2 levels)
+        percentage = (int) (((double) (world + level - 2) * 100) / 2);
+    }
+    
+    /**
+     * Sets the most recently unlocked level to LEVEL + 1.
+     * Also updates the file's world description.
+     */
+    void incrementLevel() {
+        level += 1;
+        if (level == 2) {
+            worldStr = "Syrup Stronghold";
+        } else if (level == 3) {
+            worldStr = "Congratulations!";
+        }
     }
     
     /**
      * Restores all data to initial values, as if it were a brand-new save file.
      */
     void clear() {
-        world = 0;
-        level = 0;
+        world = 1;
+        level = 1;
         percentage = 0;
         worldStr = "Start new game!";
     }

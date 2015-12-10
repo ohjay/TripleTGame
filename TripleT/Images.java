@@ -35,6 +35,10 @@ public class Images {
         initializeSheets();
         initializeGrounds();
         
+        // Miscellaneous images (i.e. blocks for level 2)
+        addToImages("bigBlock", "/images/bigBlock.png");
+        addToImages("smallBlock", "/images/smallBlock.png");
+        
         // All images have been initalized now!
         initialized = true;
     }
@@ -171,11 +175,13 @@ public class Images {
      * - credits: the credits screen background
      * - owenjow: the credits entry for Owen Jow
      * - williamjow: the credits entry for William Jow
+     * - pirra: the credits entry for Pirra
      */
     private static void initializeCreditsImages() {
         addToImages("creditsBackground", "/images/credits.png");
         addToImages("owenjow", "/images/owenjow.png");
         addToImages("williamjow", "/images/williamjow.png");
+        addToImages("pirra", "/images/pirra.png");
     }
     
     /**
@@ -199,12 +205,16 @@ public class Images {
      * - demoForeground
      * Backgrounds:
      * - demoBackground
+     * - level2Backdrop
+     * - smashMessage
      */
     private static void initializeGrounds() {
         addToImages("demoForeground", "/images/demoForeground.png");
         addToImages("demoBackground", "/images/demo_background.png");
         addToImages("pauseOverlay0", "/images/pauseOverlay0.png");
         addToImages("pauseOverlay1", "/images/pauseOverlay1.png");
+        addToImages("level2Backdrop", "/images/level2Backdrop.png");
+        addToImages("smashMessage", "/images/kirbySMASH_message.png");
     }
     
     /**

@@ -86,6 +86,11 @@ public class TripleTWindow {
         // Level panels
         GameState.level1 = new Level1();
         contentPanel.add(GameState.level1, "level1");
+        GameState.level2 = new Level2();
+        contentPanel.add(GameState.level2, "level2");
+        
+        // Aaand doors for level panels
+        GameState.level1.initializeDoors();
     }
     
     /**
@@ -104,6 +109,8 @@ public class TripleTWindow {
         
         // Level panels
         GameState.level1.setKeyBindings();
+        GameState.level2.setKeyBindings();
+        GameState.smashPanel.setKeyBindings();
     }
     
     /**
@@ -122,6 +129,8 @@ public class TripleTWindow {
         
         // Level panels
         GameState.level1.updateKeyBindings(oldKey, newKey, shouldRemove);
+        GameState.level2.updateKeyBindings(oldKey, newKey, shouldRemove);
+        GameState.smashPanel.updateKeyBindings(oldKey, newKey, shouldRemove);
     }
     
     /**
@@ -140,6 +149,8 @@ public class TripleTWindow {
         
         // Level panels
         GameState.level1.updateKeyBindings(oldKey, newKey, oldActions.get(7), shouldRemove);
+        GameState.level2.updateKeyBindings(oldKey, newKey, oldActions.get(8), shouldRemove);
+        GameState.smashPanel.updateKeyBindings(oldKey, newKey, oldActions.get(9), shouldRemove);
     }
     
     /**
@@ -163,6 +174,8 @@ public class TripleTWindow {
         
         // Level panels
         actions.add((String) GameState.level1.getInputMap().get(key));
+        actions.add((String) GameState.level2.getInputMap().get(key));
+        actions.add((String) GameState.smashPanel.getInputMap().get(key));
         
         return actions;
     }

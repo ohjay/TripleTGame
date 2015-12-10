@@ -34,6 +34,14 @@ public class StoryMenuPanel extends EscapableMenuPanel {
     private static final String DELETE = "delete";
     
     /**
+     * Constructor.
+     * The story menu panel makes use of the directional pad for switching options.
+     */
+    public StoryMenuPanel() {
+        usesArrows = true;
+    }
+    
+    /**
      * Paints the part of the sheet that should currently be in effect.
      * @param g the graphics object
      */
@@ -99,6 +107,27 @@ public class StoryMenuPanel extends EscapableMenuPanel {
         repaint();
     }
     
+    /**
+     * Loads the game at the save file's latest unlocked level.
+     */
+    private void loadAtCheckpoint(SaveFileInfo file) {
+        switch (file.world) {
+            case 1:
+                switch (file.level) {
+                    case 1:
+                        GameState.layout.show(GameState.contentPanel, "level1");
+                        GameState.level1.activate(file);
+                        break;
+                    case 2:
+                        GameState.layout.show(GameState.contentPanel, "level2");
+                        GameState.level2.activate(file);
+                        break;
+                }
+                
+                break;
+        }
+    }
+    
     @Override
     protected void confirm() {
         if (sheetOffset == TripleTWindow.SCR_WIDTH) {
@@ -107,32 +136,24 @@ public class StoryMenuPanel extends EscapableMenuPanel {
             if (yesHighlighted) {
                 // the selected save file should be cleared
                 saveFiles[imgIndex].clear();
+                TripleT.savePersistentInfo(GameState.pInfo);
             }
         } else {
             switch (imgIndex) {
                 case 0:
                     // Save file #1
                     // Go to #1's game (this should take the player directly to #1's progress map)
-                    // For testing purposes, we will go directly to level 1-1 for now
-                    // This will need to be changed later:
-                    GameState.layout.show(GameState.contentPanel, "level1");
-                    GameState.level1.activate();
+                    loadAtCheckpoint(saveFiles[0]);
                     break;
                 case 1:
                     // Save file #2
                     // Go to #2's game (this should take the player directly to #2's progress map)
-                    // For testing purposes, we will go directly to level 1-1 for now
-                    // This will need to be changed later:
-                    GameState.layout.show(GameState.contentPanel, "level1");
-                    GameState.level1.activate();
+                    loadAtCheckpoint(saveFiles[1]);
                     break;
                 case 2:
                     // Save file #3
                     // Go to #3's game (this should take the player directly to #3's progress map)
-                    // For testing purposes, we will go directly to level 1-1 for now
-                    // This will need to be changed later:
-                    GameState.layout.show(GameState.contentPanel, "level1");
-                    GameState.level1.activate();
+                    loadAtCheckpoint(saveFiles[2]);
                     break;
             }
         }

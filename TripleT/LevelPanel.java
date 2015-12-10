@@ -10,6 +10,7 @@ import javax.swing.KeyStroke;
 import javax.swing.InputMap;
 import javax.swing.ActionMap;
 import javax.swing.AbstractAction;
+import java.util.LinkedList;
 
 /**
  * An abstract blueprint for a level panel, which includes activation and painting methods
@@ -19,16 +20,21 @@ import javax.swing.AbstractAction;
 abstract class LevelPanel extends KPanel implements ActionListener {
     protected Timer timer;
     protected Image backgroundImg, fgImage; // fg = foreground
-    protected boolean isPaused, isSlideOff; // isSlideOff: indicates whether or not Kirby just slid off a ledge
+    protected boolean isPaused, isSlideOff, isLeft; 
+    // ^ isSlideOff: indicates whether or not Kirby just slid off a ledge
+    // ^ isLeft: indicates whether or not this level is the level on the "LEFT" side of a door
     protected int pauseIndex, counter;
     protected double backgroundX, bgDXMultiplier = 1.1, fgDXMultiplier = 1.3;
     protected Foreground foreground;
+    protected LinkedList<Door> doors = new LinkedList<Door>();
+    protected Door activeDoor;
+    protected SaveFileInfo file;
     Kirby kirby;
     
     // Action names (for key bindings)
     protected static final String PAUSELECT = "pauselect", RIGHT_PRESSED = "rightpr", LEFT_PRESSED = "leftpr", 
             DOWN_PRESSED = "downpr", UP_PRESSED = "uppr", GBA_A_PRESSED = "gbaapr", RIGHT_RELEASED = "rightre", 
-            LEFT_RELEASED = "leftre", DOWN_RELEASED = "downre", UP_RELEASED = "upre";
+            LEFT_RELEASED = "leftre", DOWN_RELEASED = "downre", UP_RELEASED = "upre", ENTER_PRESSED = "enterpre";
     
     /**
      * Reset values for the panel. Override this for individualized reset behavior.
@@ -38,19 +44,33 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         isPaused = false;
         pauseIndex = 0;
         counter = 0;
+        activeDoor = null;
+        backgroundX = 0;
     }
     
-    protected void activate() {
+    protected void activate(SaveFileInfo file) {
         reset();
         
         // Start the timer that will continually request focus for this panel
         timer = new Timer(5, this);
         timer.start();
         requestFocus();
+        this.file = file;
     }
     
     public void deactivate() {
         timer.stop();
+    }
+    
+    /**
+     * Initializes doors for the level. This method is necessary because door setup
+     * must occur after all of the levels have been constructed.
+     * 
+     * Since LevelPanel is an abstract class, this method must be overridden
+     * by any panels that include doors.
+     */
+    public void initializeDoors() {
+        /* Default behavior: nothing. No doors as of present. */
     }
     
     /**
@@ -79,43 +99,58 @@ abstract class LevelPanel extends KPanel implements ActionListener {
                 // Kirby's current frame has changed, so we'll need to repaint
                 repaint();
             }
-        
-            // Set Kirby's aerial status (i.e. check if Kirby is at ground level)
-            if (kirby.isInAir()) {
-                if (kirby.getDY() > 0 && foreground.intersects(Math.min(22, kirby.spriteWidth), 
-                        kirby.spriteHeight, kirby.getX(), kirby.getY() + 1)) {
-                    // Looks like Kirby's made his landing!
-                    kirby.setDY(0);
-                    kirby.toggleInAir(); 
+            
+            if (kirby.animationEquals(Kirby.Animation.ENTERING)) {
+                // We're getting out of here, man. Don't do anything else!
+                if (kirby.hasEntered()) {
+                    kirby.toggleEntered();
+                    deactivate();
+                    GameState.layout.show(GameState.contentPanel, activeDoor.getDesc(!isLeft));
+                    activeDoor.getLevel(!isLeft).activate(file);
                     
-                    if (Math.abs(kirby.getDX()) == 2 && !isSlideOff) {
-                        kirby.setAnimation(Kirby.Animation.RUNNING);
+                    file.incrementLevel();
+                    file.updatePercentage();
+                    TripleT.savePersistentInfo(GameState.pInfo);
+                }
+            } else {
+                // Life proceeds as normal
+                // Set Kirby's aerial status (i.e. check if Kirby is at ground level)
+                if (kirby.isInAir()) {
+                    if (kirby.getDY() > 0 && foreground.intersects(Math.min(22, kirby.spriteWidth), 
+                            kirby.spriteHeight, kirby.getX(), kirby.getY() + 1)) {
+                        // Looks like Kirby's made his landing!
+                        kirby.setDY(0);
+                        kirby.toggleInAir(); 
+                    
+                        if (Math.abs(kirby.getDX()) == 2 && !isSlideOff) {
+                            kirby.setAnimation(Kirby.Animation.RUNNING);
+                        }
                     }
+                } else if (!foreground.intersects(Math.min(22, kirby.spriteWidth), 
+                        kirby.prevHeight + 3, kirby.getX(), kirby.getY() + 2)) { 
+                    // Kirby is actually in the air (after falling/walking off something)
+                    isSlideOff = (kirby.animationEquals(Kirby.Animation.SLIDING)) ? true : false;
+                    kirby.setDY(1);
+                    kirby.setAnimation(Kirby.Animation.FALLING);
+                    kirby.setCurrentFrame(0);
+                    kirby.toggleInAir();
                 }
-            } else if (!foreground.intersects(Math.min(22, kirby.spriteWidth), 
-                    kirby.prevHeight + 3, kirby.getX(), kirby.getY() + 2)) { 
-                // Kirby is actually in the air (after falling/walking off something)
-                isSlideOff = (kirby.animationEquals(Kirby.Animation.SLIDING)) ? true : false;
-                kirby.setDY(1);
-                kirby.setAnimation(Kirby.Animation.FALLING);
-                kirby.setCurrentFrame(0);
-                kirby.toggleInAir();
-            }
         
-            if (counter % 2 == 0) {
-                // Modulo two because we don't want to move TWO fast!
-                int dx = kirby.getDX();
-                if (shouldMoveForeground(dx)) {
-                    // Move the background/foreground alongside Kirby
-                    backgroundX -= bgDXMultiplier * dx;
-                    foreground.horizontalShift(fgDXMultiplier * (-dx));
-                    kirby.moveVertically(0, TripleTWindow.SCR_HEIGHT, foreground);
-                } else {
-                    kirby.moveWithinBoundaries(0, TripleTWindow.SCR_WIDTH, 0, 
-                            TripleTWindow.SCR_HEIGHT, foreground);
-                }
+                if (counter % 2 == 0) {
+                    // Modulo two because we don't want to move TWO fast!
+                    int dx = kirby.getDX();
+                    if (shouldMoveForeground(dx)) {
+                        // Move the background/foreground alongside Kirby
+                        backgroundX -= bgDXMultiplier * dx;
+                        foreground.horizontalShift(fgDXMultiplier * (-dx));
+                        kirby.moveVertically(0, TripleTWindow.SCR_HEIGHT, foreground);
+                    } else {
+                        kirby.moveWithinBoundaries(0, TripleTWindow.SCR_WIDTH, 0, 
+                                TripleTWindow.SCR_HEIGHT, foreground);
+                    }
                 
-                repaint();
+                    repaint();
+                }
             }
         }
     }
@@ -141,7 +176,9 @@ abstract class LevelPanel extends KPanel implements ActionListener {
      * overridden by subclasses that want foregrounds and/or sprites to be drawn!
      * @param g2 a Graphics2D object used for [pick one: drawing, painting, what's the difference?]
      */
-    abstract void drawForeground(Graphics2D g2);
+    protected void drawForeground(Graphics2D g2) {
+        /* Extend me, levels with foregrounds! */
+    }
     
     //================================================================================
     // Key binding logic
@@ -156,6 +193,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.upKey, 0), UP_PRESSED);
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.pauseKey, 0), PAUSELECT);
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.jumpKey, 0), GBA_A_PRESSED);
+        iMap.put(KeyStroke.getKeyStroke("ENTER"), ENTER_PRESSED);
         // [Released]
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.rightKey, 0, true), RIGHT_RELEASED);
         addToInputMap(iMap, KeyStroke.getKeyStroke(GameState.pInfo.leftKey, 0, true), LEFT_RELEASED);
@@ -170,6 +208,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         aMap.put(UP_PRESSED, new UpPressedAction());
         aMap.put(PAUSELECT, new PauselectAction());
         aMap.put(GBA_A_PRESSED, new AAction());
+        aMap.put(ENTER_PRESSED, new EnterPressedAction());
         // [Released]
         aMap.put(RIGHT_RELEASED, new RightReleasedAction());
         aMap.put(LEFT_RELEASED, new LeftReleasedAction());
@@ -193,71 +232,105 @@ abstract class LevelPanel extends KPanel implements ActionListener {
                 GameState.layout.show(GameState.contentPanel, "mainMenu");
                 GameState.menuPanel.requestFocus();
             }
-        } else {
+        } else if (!kirby.animationEquals(Kirby.Animation.ENTERING)) {
             isPaused = true;
             repaint();
         }
     }
     
     protected void aPressed() {
-        if (!isPaused) {
+        if (!isPaused && !kirby.animationEquals(Kirby.Animation.ENTERING)) {
             kirby.aPressed();
             repaint();
         }
     }
     
     protected void rightPressed() {
-        if (!isPaused) {
+        if (!isPaused && !kirby.animationEquals(Kirby.Animation.ENTERING)) {
             kirby.rightPressed();
             repaint();
         }
     }
     
     protected void leftPressed() {
-        if (!isPaused) {
+        if (!isPaused && !kirby.animationEquals(Kirby.Animation.ENTERING)) {
             kirby.leftPressed();
             repaint();
         }
     }
     
     protected void downPressed() {
-        if (isPaused) {
-            pauseIndex = 1 - pauseIndex;
-        } else {
-            kirby.downPressed();
-        }
+        if (!kirby.animationEquals(Kirby.Animation.ENTERING)) {
+            if (isPaused) {
+                pauseIndex = 1 - pauseIndex;
+            } else {
+                kirby.downPressed();
+            }
         
-        repaint();
+            repaint();
+        }
     }
     
     protected void upPressed() {
-        if (isPaused) { 
-            pauseIndex = 1 - pauseIndex; 
-        } else {
-            kirby.upPressed();
-        }
+        if (!kirby.animationEquals(Kirby.Animation.ENTERING)) {
+            if (isPaused) { 
+                pauseIndex = 1 - pauseIndex; 
+            } else {
+                if (!kirby.isInAir()) {
+                    for (Door d : doors) {
+                        if (Math.abs(d.getX(isLeft) + foreground.leftOffset - kirby.getX()) <= 2) {
+                            kirby.enterDoor();
+                            activeDoor = d;
+                            return;
+                        }
+                    }
+                }
+            
+                kirby.upPressed();
+            }
         
-        repaint();
+            repaint();
+        }
+    }
+    
+    protected void enterPressed() {
+        if (isPaused) {
+            if (pauseIndex == 0) {
+                isPaused = false;
+            } else {
+                deactivate();
+                GameState.layout.show(GameState.contentPanel, "mainMenu");
+                GameState.menuPanel.requestFocus();
+            }
+        }
     }
     
     protected void rightReleased() {
-        kirby.rightReleased();
-        repaint();
+        if (!kirby.animationEquals(Kirby.Animation.ENTERING)) {
+            kirby.rightReleased();
+            repaint();
+        }
     }
     
     protected void leftReleased() {
-        kirby.leftReleased();
-        repaint();
+        if (!kirby.animationEquals(Kirby.Animation.ENTERING)) {
+            kirby.leftReleased();
+            repaint();
+        }
     }
     
     protected void downReleased() {
-        kirby.downReleased();
-        repaint();
+        if (!kirby.animationEquals(Kirby.Animation.ENTERING)) {
+            kirby.downReleased();
+            repaint();
+        }
     }
     
     protected void upReleased() {
-        kirby.upReleased();
-        repaint();
+        if (!kirby.animationEquals(Kirby.Animation.ENTERING)) {
+            kirby.upReleased();
+            repaint();
+        }
     }
     
     //================================================================================
@@ -307,6 +380,13 @@ abstract class LevelPanel extends KPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent evt) {
             upPressed();
+        }
+    }
+    
+    protected class EnterPressedAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            enterPressed();
         }
     }
     

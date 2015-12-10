@@ -25,8 +25,9 @@ public class Kirby extends ControllableSprite {
     // It also keeps track of the sprite width and the distance between different frames.
     static enum Animation { 
         STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 3, 6, 121, 25, 25, 24),
-                CROUCHING(2, 4, 23, 28, 25), SLIDING(2, 4, 46, 30, 25, 28), HOPPING(10, 2, 68, 25, 25),
-                FLOATING(8, -3, 173, 28, 30), FALLING(7, 1, 2, 262, 25, 26, 25);
+                CROUCHING(2, 1, 26, 28, 25, 30), SLIDING(2, 4, 46, 30, 25, 28), HOPPING(10, 2, 68, 25, 25),
+                FLOATING(8, -3, 173, 28, 30), FALLING(7, 1, 2, 262, 25, 26, 25),
+                ENTERING(4, 2, 347, 22, 24), SOMERSAULTING(12, 50, 266, 25, 26);
         private final int length, rightX, leftX, y, spriteWidth, spriteHeight, frameDist;
         
         /**
@@ -63,21 +64,21 @@ public class Kirby extends ControllableSprite {
             this.frameDist = frameDist;
         }
         
-        private int getLength() { return length; }
+        protected int getLength() { return length; }
         private int getRightX() { return rightX; }
         private int getLeftX() { return leftX; }
         private int getY() { return y; }
-        private int getSpriteWidth() { return spriteWidth; }
-        private int getSpriteHeight() { return spriteHeight; }
+        protected int getSpriteWidth() { return spriteWidth; }
+        protected int getSpriteHeight() { return spriteHeight; }
         private int getFrameDist() { return frameDist; }
     };
     
     private static final int BLINK_TIME = 20, SLIDING_TIME = 50, FRAME_DELAY = 12, 
             SS_WIDTH = 641, DASH_TIME_LIMIT = 100;
-    private Animation currAnimation = Animation.STANDING;
-    private int currFrame = 0, counter = 0, noBlinkPeriod = 500;
+    protected Animation currAnimation = Animation.STANDING;
+    protected int currFrame = 0, counter = 0, noBlinkPeriod = 500;
     private long lastDashKeyPress; // information about the last left/right key press
-    private boolean facingLeft, inAir;
+    protected boolean facingLeft, inAir, entered;
     int prevHeight = currAnimation.getSpriteHeight();
     
     //================================================================================
@@ -94,6 +95,17 @@ public class Kirby extends ControllableSprite {
         spriteHeight = currAnimation.getSpriteHeight();
     }
     
+    /**
+     * Does the same as the above, while also explicitly setting the current animation.
+     */
+    public Kirby(int x, int y, Animation animation) {
+        this.x = x;
+        this.y = y;
+        currAnimation = animation;
+        spriteWidth = currAnimation.getSpriteWidth();
+        spriteHeight = currAnimation.getSpriteHeight();
+    }
+    
     //================================================================================
     // Accessors (for external management or animation)
     //================================================================================
@@ -104,6 +116,13 @@ public class Kirby extends ControllableSprite {
      */
     void setOrientation(boolean facingLeft) {
         this.facingLeft = facingLeft;
+    }
+    
+    /**
+     * Returns Kirby's current animation.
+     */
+    Animation getAnimation() {
+        return currAnimation;
     }
     
     /**
@@ -125,11 +144,23 @@ public class Kirby extends ControllableSprite {
     }
     
     /**
+     * Getter method for Kirby's current animation frame.
+     */
+    int getFrame() {
+        return currFrame;
+    }
+    
+    /**
      * Sets the current frame of the animation to be FRAME_NUM.
      * Numbering begins at 0.
      */
     void setCurrentFrame(int frameNum) {
         this.currFrame = frameNum;
+    }
+    
+    void enterDoor() {
+        setAnimation(Animation.ENTERING);
+        setCurrentFrame(0);
     }
     
     /**
@@ -149,6 +180,24 @@ public class Kirby extends ControllableSprite {
         return inAir;
     }
     
+    /**
+     * Changes the "entered" attribute to false if currently true,
+     * and true if currently false.
+     * 
+     * Should be called after Kirby enters a door.
+     */
+    void toggleEntered() {
+        entered = !entered;
+    }
+    
+    /**
+     * Under the assumption that Kirby is/was entering a door (or SOME enter-able object),
+     * this method indicates whether or not Kirby has completed the entering animation.
+     */
+    boolean hasEntered() {
+        return entered;
+    }
+    
     //================================================================================
     // Drawing and animation methods
     //================================================================================
@@ -157,7 +206,7 @@ public class Kirby extends ControllableSprite {
      * Switches to the next frame in the current animation (if the time is right).
      * Returns true if the switch actually happens.
      */
-    private boolean nextFrame() {
+    protected boolean nextFrame() {
         if (counter % FRAME_DELAY == 0) {
             currFrame = (currFrame + 1) % currAnimation.getLength();
             return true;
@@ -173,6 +222,7 @@ public class Kirby extends ControllableSprite {
         counter++; // update the counter every time this method is called
         switch (currAnimation) {
             case STANDING:
+            case CROUCHING:
                 if (currFrame == 1) {
                     if (counter > BLINK_TIME) {
                         currFrame = 0; // open Kirby's eyes
@@ -213,7 +263,10 @@ public class Kirby extends ControllableSprite {
                     } else { return false; }
                 } else {
                     dy = 0;
-                    if (rightKeyPressed || leftKeyPressed) {
+                    if (downKeyPressed) {
+                        setAnimation(Animation.CROUCHING);
+                        currFrame = 0;
+                    } else if (rightKeyPressed || leftKeyPressed) {
                         setAnimation(Animation.WALKING);
                     } else {
                         dx = 0;
@@ -234,6 +287,14 @@ public class Kirby extends ControllableSprite {
                     
                     return true;
                 } else { return false; }
+            case ENTERING:
+                if (currFrame < 3) {
+                    // 3 being the final frame of the ENTERING animation
+                    return nextFrame();
+                } else if (currFrame == 3) {
+                    entered = true; // signal that Kirby has entered the door
+                    return false; // then return false, since the animation didn't change
+                } else { return false; }
             default:
                 return false;
         }
@@ -250,15 +311,26 @@ public class Kirby extends ControllableSprite {
         if (!facingLeft) { // aka... facing right
             int sx1 = currAnimation.getRightX() + currFrame * currAnimation.getFrameDist() 
                     + (currAnimation.getFrameDist() - spriteWidth);
-            g2.drawImage(R_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight, 
-                    sx1 + 3, sy1, sx1 + spriteWidth + 3, sy1 + spriteHeight, null);
+            if (currAnimation == Animation.CROUCHING) {
+                // Offset intervention
+                g2.drawImage(R_SPRITESHEET, x, y + 4, x + spriteWidth, y + 4 + spriteHeight, 
+                        sx1 + 3, sy1, sx1 + spriteWidth + 3, sy1 + spriteHeight, null);
+            } else {
+                g2.drawImage(R_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight, 
+                        sx1 + 3, sy1, sx1 + spriteWidth + 3, sy1 + spriteHeight, null);
+            }
         } else {
             // Draw the reversed version of Kirby
             int sx1 = SS_WIDTH - currAnimation.getLeftX() 
                     - (currFrame + 1) * currAnimation.getFrameDist()
                     - (currAnimation.getFrameDist() - spriteWidth);
-            g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight,
-                    sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteHeight, null);
+            if (currAnimation == Animation.CROUCHING) {
+                g2.drawImage(L_SPRITESHEET, x, y + 4, x + spriteWidth, y + 4 + spriteHeight,
+                        sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteHeight, null);
+            } else {
+                g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight,
+                        sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteHeight, null);
+            }
         }
     }
     

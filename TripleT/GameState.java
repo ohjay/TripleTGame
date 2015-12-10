@@ -28,4 +28,5 @@ public class GameState {
     static OptionMenuPanel optionMPanel;
     static SmashPanel smashPanel;
     static Level1 level1;
+    static Level2 level2;
 }

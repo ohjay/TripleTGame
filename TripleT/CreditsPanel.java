@@ -19,7 +19,7 @@ public class CreditsPanel extends JPanel implements ActionListener {
     private Timer timer;
     private static final Image CREDITS_BACKGROUND = Images.get("creditsBackground");
     private static final Image[] CREDITS = new Image[] { Images.get("owenjow"),
-            Images.get("williamjow") }; // the credits will be printed in this order
+            Images.get("williamjow"), Images.get("pirra") }; // (printed in this order)
     // Positional coordinates for the actual credits [note: CR = credits]
     private static final int ODD_FINAL_X = -1, INIT_X = 512, CR_INIT_Y = 130, CR_Y_OFFSET = 66,
             SPEEDUP_DIST = 130;

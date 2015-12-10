@@ -28,6 +28,8 @@ public class Level1 extends LevelPanel {
         });
         fgImage = foreground.img;
         
+        isLeft = true; // this level is a LEFT level
+        
         kirby = new Kirby(0, KIRBY_INITIAL_Y);
         backgroundImg = Images.get("demoBackground");
     }
@@ -36,6 +38,13 @@ public class Level1 extends LevelPanel {
     protected void reset() {
         super.reset();
         kirby = new Kirby(0, KIRBY_INITIAL_Y);
+        foreground.reset();
+    }
+    
+    @Override
+    public void initializeDoors() {
+        // There's only one in this level
+        doors.add(new Door(967, GameState.level2, "level2", isLeft));
     }
     
     @Override

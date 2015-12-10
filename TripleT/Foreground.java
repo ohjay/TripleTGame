@@ -31,6 +31,14 @@ public class Foreground {
     }
     
     /**
+     * Resets offsets to their initial positions.
+     */
+    void reset() {
+        leftOffset = 0;
+        topOffset = 0;
+    }
+    
+    /**
      * Shifts (moves) the foreground horizontally, by DX pixels.
      */
     void horizontalShift(double dx) {

@@ -49,6 +49,7 @@ public class MinigameMenuPanel extends EscapableMenuPanel {
             GameState.dodgePreGPanel.activate();
         } else {
             GameState.layout.show(GameState.contentPanel, "kirbySMASH");
+            GameState.smashPanel.activate();
         }
     }
 }

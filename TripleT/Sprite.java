@@ -2,6 +2,7 @@ package TripleT;
 
 import java.awt.Image;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 /**
  * An abstract representation of a sprite that will be extended by all sprites
@@ -46,6 +47,14 @@ abstract class Sprite {
      */
     public int getDY() {
         return dy;
+    }
+    
+    /**
+     * Returns the rectangular representation of this sprite, 
+     * presumably to be used for collision detection.
+     */
+    public Rectangle getRectangle() {
+        return new Rectangle(x, y, spriteWidth, spriteHeight);
     }
     
     /**
