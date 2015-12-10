@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
  * @author Owen Jow
  */
 public class Level2Kirby extends Kirby {
-    private static final int FLY_FACTOR = 3;
+    private static final int FLY_FACTOR = 3, L2_FRAME_DEL = 6;
     
     public Level2Kirby(int x, int y, Animation animation) {
         super(x, y, animation);
@@ -32,7 +32,10 @@ public class Level2Kirby extends Kirby {
     @Override
     boolean updateFrame() {
         counter++;
-        return nextFrame();
+        if (counter % L2_FRAME_DEL == 0) {
+            currFrame = (currFrame + 1) % currAnimation.getLength();
+            return true;
+        } else { return false; }
     }
     
     @Override

@@ -46,6 +46,12 @@ public class StoryMenuPanel extends EscapableMenuPanel {
         percentFont = new Font("Palatino", Font.BOLD, 45);
     }
     
+    @Override
+    public void activate() {
+        super.activate();
+        yesHighlighted = false;
+    }
+    
     /**
      * Paints the part of the sheet that should currently be in effect.
      * @param g the graphics object
@@ -151,6 +157,9 @@ public class StoryMenuPanel extends EscapableMenuPanel {
                 saveFiles[imgIndex].clear();
                 TripleT.savePersistentInfo(GameState.pInfo);
             }
+            
+            // Reset the default popup response to "no"
+            yesHighlighted = false;
         } else {
             switch (imgIndex) {
                 case 0:

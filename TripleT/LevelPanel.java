@@ -278,7 +278,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
             } else {
                 if (!kirby.isInAir()) {
                     for (Door d : doors) {
-                        if (Math.abs(d.getX(isLeft) + foreground.leftOffset - kirby.getX()) < 5) {
+                        if (Math.abs(d.getX(isLeft) + foreground.leftOffset - kirby.getX()) <= 5) {
                             kirby.enterDoor();
                             activeDoor = d;
                             return;

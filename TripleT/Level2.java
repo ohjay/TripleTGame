@@ -31,7 +31,7 @@ public class Level2 extends LevelPanel implements ActionListener {
     private static final int NUM_BLOCKS = 145, XRANGE = 400, Y_DIST = 105, 
             INITIAL_IMG_OFFSET = 14500, KIRBY_INITIAL_Y = 142, DAMAGE_GOAL = 180,
             POST_GAME_HANGTIME = 350, FONT_SIZE_SM = 14, FONT_SIZE_BIG = 21,
-            BASE_POSTG_Y = 200;
+            BASE_POSTG_Y = 195;
     
     // Constants that are also text/meter coordinates. 
     // (There are actually additional coordinates in paintComponent.)

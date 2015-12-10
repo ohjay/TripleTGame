@@ -24,10 +24,10 @@ public class Kirby extends ControllableSprite {
     // of each animation sequence and its position (measured by pixels) on the spritesheet.
     // It also keeps track of the sprite width and the distance between different frames.
     static enum Animation { 
-        STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 3, 6, 121, 25, 25, 24),
+        STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 0, 6, 121, 24, 22, 24),
                 CROUCHING(2, 1, 26, 28, 25, 30), SLIDING(2, 4, 46, 30, 25, 28), HOPPING(10, 2, 68, 25, 25),
                 FLOATING(8, -3, 173, 28, 30), FALLING(7, 1, 2, 262, 25, 26, 25),
-                ENTERING(4, 2, 347, 22, 24), SOMERSAULTING(12, 50, 266, 25, 26);
+                ENTERING(4, 0, 347, 20, 22, 20), SOMERSAULTING(11, 0, 397, 22, 20, 22);
         private final int length, rightX, leftX, y, spriteWidth, spriteHeight, frameDist;
         
         /**
@@ -316,6 +316,13 @@ public class Kirby extends ControllableSprite {
         // Draw Kirby! Note: the 3s are offsets
         int sy1 = currAnimation.getY(); // the source y-coordinate (from the spritesheet)
         if (!facingLeft) { // aka... facing right
+            if (currAnimation == Animation.SOMERSAULTING || currAnimation == Animation.ENTERING) {
+                int sx1 = currFrame * currAnimation.getFrameDist();
+                g2.drawImage(R_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight,
+                        sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                return;
+            }
+            
             int sx1 = currAnimation.getRightX() + currFrame * currAnimation.getFrameDist() 
                     + (currAnimation.getFrameDist() - spriteWidth);
             if (currAnimation == Animation.CROUCHING) {
@@ -328,12 +335,23 @@ public class Kirby extends ControllableSprite {
             }
         } else {
             // Draw the reversed version of Kirby
+            if (currAnimation == Animation.SOMERSAULTING || currAnimation == Animation.ENTERING) {
+                // Special coordinates (since I hand-edited the spritesheet pixel-by-pixel)
+                int sx1 = SS_WIDTH - (currFrame + 1) * currAnimation.getFrameDist();
+                g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight,
+                        sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                return;
+            }
+            
             int sx1 = SS_WIDTH - currAnimation.getLeftX() 
                     - (currFrame + 1) * currAnimation.getFrameDist()
                     - (currAnimation.getFrameDist() - spriteWidth);
             if (currAnimation == Animation.CROUCHING) {
                 g2.drawImage(L_SPRITESHEET, x, y + 4, x + spriteWidth, y + 4 + spriteHeight,
                         sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteHeight, null);
+            } else if (currAnimation == Animation.RUNNING) {
+                g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight,
+                        sx1 + 3, sy1, sx1 + 3 + spriteWidth, sy1 + spriteHeight, null);
             } else {
                 g2.drawImage(L_SPRITESHEET, x, y, x + spriteWidth, y + spriteHeight,
                         sx1 - 1, sy1, sx1 + spriteWidth - 1, sy1 + spriteHeight, null);
