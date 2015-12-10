@@ -14,7 +14,7 @@ import java.util.LinkedList;
 
 /**
  * An abstract blueprint for a level panel, which includes activation and painting methods
- * in addition to a drawForeground method that should be overridden by subclasses.
+ * (in addition to a drawForeground method that should be overridden by subclasses).
  * @author Owen Jow
  */
 abstract class LevelPanel extends KPanel implements ActionListener {
@@ -278,7 +278,7 @@ abstract class LevelPanel extends KPanel implements ActionListener {
             } else {
                 if (!kirby.isInAir()) {
                     for (Door d : doors) {
-                        if (Math.abs(d.getX(isLeft) + foreground.leftOffset - kirby.getX()) <= 3) {
+                        if (Math.abs(d.getX(isLeft) + foreground.leftOffset - kirby.getX()) < 5) {
                             kirby.enterDoor();
                             activeDoor = d;
                             return;

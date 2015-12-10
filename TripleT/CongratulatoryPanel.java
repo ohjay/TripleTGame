@@ -28,6 +28,7 @@ public class CongratulatoryPanel extends PosterMenuPanel implements ActionListen
     public void activate() {
         timer = new Timer(15, this);
         timer.start();
+        counter = 0;
     }
     
     @Override

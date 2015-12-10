@@ -12,7 +12,7 @@ import javax.swing.KeyStroke;
 
 /** 
  * The menu for the story mode, which includes a choice between each of the three save files.
- * It also allows for the option of deleting save files. Also, within the story menu we will use
+ * It also allows for the option of deleting save files. Incidentally, within the story menu we will use
  * the inherited "imgIndex" variable to represent the save file that is currently selected.
  * @author Owen Jow
  */

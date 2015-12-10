@@ -29,7 +29,7 @@ public class Level2 extends LevelPanel implements ActionListener {
     
     // Constants
     private static final int NUM_BLOCKS = 145, XRANGE = 400, Y_DIST = 105, 
-            INITIAL_IMG_OFFSET = 14500, KIRBY_INITIAL_Y = 142, DAMAGE_GOAL = 170,
+            INITIAL_IMG_OFFSET = 14500, KIRBY_INITIAL_Y = 142, DAMAGE_GOAL = 180,
             POST_GAME_HANGTIME = 350, FONT_SIZE_SM = 14, FONT_SIZE_BIG = 21,
             BASE_POSTG_Y = 200;
     
@@ -59,6 +59,14 @@ public class Level2 extends LevelPanel implements ActionListener {
         for (int i = 0; i < NUM_BLOCKS; i++) {
             blocks.add(new Block((int) (Math.random() * XRANGE), i * Y_DIST));
         }
+    }
+
+    /**
+     * Specifies whether all action should have ceased.
+     * Like the development of this game.
+     */
+    private boolean isGameOver() {
+        return (blockDamage >= DAMAGE_GOAL) || (timeRemaining <= 0);
     }
     
     @Override
@@ -184,7 +192,7 @@ public class Level2 extends LevelPanel implements ActionListener {
     			g2.drawString("You did it!", 151, BASE_POSTG_Y + 1);
     			g2.drawString("That vacuum isn't getting YOU...", 51, BASE_POSTG_Y + 25);
     			g.setColor(Color.BLACK);
-    			g2.drawString("Nice!  You win!!", 150, BASE_POSTG_Y);
+    			g2.drawString("You did it!", 150, BASE_POSTG_Y);
     			g2.drawString("That vacuum isn't getting YOU...", 50, BASE_POSTG_Y + 24);
             } else {
     			g.setFont(new Font("Verdana", Font.BOLD, 21));
@@ -235,14 +243,14 @@ public class Level2 extends LevelPanel implements ActionListener {
     //================================================================================
     
     protected void rightPressed() {
-        if (!isPaused) {
+        if (!isPaused && !isGameOver()) {
             kirby.rightPressed();
             repaint();
         }
     }
     
     protected void leftPressed() {
-        if (!isPaused) {
+        if (!isPaused && !isGameOver()) {
             kirby.leftPressed();
             repaint();
         }
@@ -277,13 +285,17 @@ public class Level2 extends LevelPanel implements ActionListener {
     }
     
     protected void rightReleased() {
-        kirby.rightReleased();
-        repaint();
+        if (!isGameOver()) {
+            kirby.rightReleased();
+            repaint();
+        }
     }
     
     protected void leftReleased() {
-        kirby.leftReleased();
-        repaint();
+        if (!isGameOver()) {
+            kirby.leftReleased();
+            repaint();
+        }
     }
     
     //================================================================================

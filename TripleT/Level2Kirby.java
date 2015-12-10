@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 /**
  * Kirby in his Level 2 form, which is different than most other forms
- * because he's being pulled into the air and therefore requires less control + less animations.
+ * in that he's being pulled into the air and therefore requires less controls + less animations.
  * @author Owen Jow
  */
 public class Level2Kirby extends Kirby {

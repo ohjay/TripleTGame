@@ -121,6 +121,11 @@ abstract class Sprite {
         // Horizontal movement
         if (x + dx >= xMin && x + dx + spriteWidth <= xMax 
                 && !foreground.intersects(Math.min(22, spriteWidth), spriteHeight, x + dx, y)) { x += dx; }
+        else if (dx < 0 && x + dx + spriteWidth > xMax) {
+            x += dx; // this should fix the "sticky wall" glitch
+        } else if (dx > 0 && x + dx < xMin) {
+            x += dx; // this should fix the "sticky left wall" glitch, if there is one
+        }
     }
     
     /**
