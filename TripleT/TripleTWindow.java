@@ -30,12 +30,17 @@ public class TripleTWindow {
         GameState.contentPanel = contentPanel;
         GameState.layout = (CardLayout) contentPanel.getLayout();
         
+        // Loading screen
+        contentPanel.add(new LoadingScreen(), "loadingScr");
+        window.setContentPane(contentPanel);
+        window.setVisible(true);
+        
         // Add game panels to the card layout structure and the game state
         initializeGamePanels(contentPanel);
         setKeyBindings(); // allow the game to respond to keyboard input
         
-        window.setContentPane(contentPanel);
-        window.setVisible(true);
+        GameState.layout.show(GameState.contentPanel, "mainMenu");
+        GameState.menuPanel.requestFocus();
     }
     
     /**

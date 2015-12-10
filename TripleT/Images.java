@@ -62,6 +62,7 @@ public class Images {
      * - optionsH: has the "options" option highlighted
      * - creditsH: has the "credits" option highlighted
      * - titleScr: the title screen image
+     * - loadingScr: the title loading page
      */
     private static void initializeMenuImages() {
         addToImages("storyH", "/images/menu1.png");
@@ -71,6 +72,7 @@ public class Images {
         addToImages("optionsH", "/images/menu5.png");
         addToImages("creditsH", "/images/menu6.png");
         addToImages("titleScr", "/images/tripleT_titlesc.png");
+        addToImages("loadingScr", "/images/loadingScreen.png");
     }
     
     /** 

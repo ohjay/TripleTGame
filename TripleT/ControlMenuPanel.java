@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.FontFormatException;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
@@ -12,6 +14,7 @@ import javax.swing.KeyStroke;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashSet;
+import java.io.IOException;
 
 /**
  * The panel for the controls menu, in which the user will be able to customize controls.
@@ -19,8 +22,8 @@ import java.util.HashSet;
  */
 public class ControlMenuPanel extends EscapableMenuPanel {
     private static final Image MENU_IMG = Images.get("controlsMenu");
-    private static final Font NOVECENTO_20 = new Font("Novecento sans wide", Font.PLAIN, 20);
-    private static final Font NOVECENTO_17 = new Font("Novecento sans wide", Font.PLAIN, 17);
+    private static Font novecento20;
+    private static Font novecento17;
     private static final int NAME_X = 146, KEY_X = 346, BASE_Y = 100, Y_OFFSET = 30, DESC_X = 84;
     private int controlSelected = -1; // the index of the control currently being changed
     private KeyAdapter kl;
@@ -63,6 +66,18 @@ public class ControlMenuPanel extends EscapableMenuPanel {
         keys = new int[] { GameState.pInfo.leftKey, 
                 GameState.pInfo.rightKey, GameState.pInfo.upKey, GameState.pInfo.downKey,
                 GameState.pInfo.jumpKey, GameState.pInfo.attackKey, GameState.pInfo.pauseKey };
+             
+        // Fonts
+        try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, 
+                    getClass().getResourceAsStream("/fonts/Novecento.ttf")));
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+        
+        novecento20 = new Font("Novecento sans wide", Font.PLAIN, 20);
+        novecento17 = new Font("Novecento sans wide", Font.PLAIN, 17);
     }
     
     @Override
@@ -71,7 +86,7 @@ public class ControlMenuPanel extends EscapableMenuPanel {
         g2.drawImage(MENU_IMG, 0, 0, null);
         
         // Set up text font and color
-        g.setFont(NOVECENTO_20);
+        g.setFont(novecento20);
         g.setColor(Color.GRAY);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
                         RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
@@ -90,7 +105,7 @@ public class ControlMenuPanel extends EscapableMenuPanel {
         }
         
         // Draw the currently highlighted key's description on the bottom
-        g.setFont(NOVECENTO_17);
+        g.setFont(novecento17);
         g.setColor(Color.GRAY);
         g2.drawString(CTRL_DESCRIPTIONS[imgIndex], DESC_X, 
                 BASE_Y + (keys.length + 1) * Y_OFFSET - 10);

@@ -5,10 +5,13 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.FontFormatException;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
+import java.io.IOException;
 
 /** 
  * The menu for the story mode, which includes a choice between each of the three save files.
@@ -27,8 +30,8 @@ public class StoryMenuPanel extends EscapableMenuPanel {
     private int sheetOffset; // the offset for the story menu "sprite"sheet
     private static SaveFileInfo[] saveFiles;
     private boolean yesHighlighted;
-    private static final Font regFont = new Font("Optima", Font.BOLD, 19);
-    private static final Font percentFont = new Font("Palatino", Font.BOLD, 45);
+    private static Font regFont;
+    private static Font percentFont;
     
     // Action names
     private static final String DELETE = "delete";
@@ -39,6 +42,8 @@ public class StoryMenuPanel extends EscapableMenuPanel {
     public void initialize() {
         saveFiles = new SaveFileInfo[] { GameState.pInfo.saveFile1,
                 GameState.pInfo.saveFile2, GameState.pInfo.saveFile3 };
+        regFont = new Font("Optima", Font.BOLD, 19);
+        percentFont = new Font("Palatino", Font.BOLD, 45);
     }
     
     /**

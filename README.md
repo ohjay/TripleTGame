@@ -35,6 +35,9 @@ Here's a quick listing of what you ~~can expect~~ might have been expecting:
 
 ## Visuals
 ![alt text](https://cloud.githubusercontent.com/assets/8358648/8349809/def99f52-1ad4-11e5-9b4d-1ce7ddd340d2.png "Minigame menu")
+![alt text](https://github.com/ohjay/TripleTGame/blob/master/sample_imgs/sample1-1.png "The first level")
+![alt text](https://github.com/ohjay/TripleTGame/blob/master/sample_imgs/sample1-2.png "The second level")
+![alt text](https://github.com/ohjay/TripleTGame/blob/master/sample_imgs/sample-dodge.png "Dodge!: the minigame")
 
 ## Directory Structure
 - [TripleT](https://github.com/ohjay/TripleTGame/tree/master/TripleT)

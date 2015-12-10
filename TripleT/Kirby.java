@@ -431,9 +431,9 @@ public class Kirby extends ControllableSprite {
                 setAnimation(Animation.WALKING);
             }
         } else {
-            currFrame = 0;
             dx = 0;
             if (!inAir) {
+                currFrame = 0;
                 if (downKeyPressed) {
                     setAnimation(Animation.CROUCHING);
                 } else {
@@ -456,9 +456,9 @@ public class Kirby extends ControllableSprite {
                 setAnimation(Animation.WALKING);
             }
         } else {
-            currFrame = 0;
             dx = 0;
             if (!inAir) {
+                currFrame = 0;
                 if (downKeyPressed) {
                     setAnimation(Animation.CROUCHING);
                 } else {
