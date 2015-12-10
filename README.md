@@ -1,7 +1,15 @@
-# TripleTGame
-Triple T, aka Kirby: The Tedhaun Treaty. A full-fledged – albeit Java-based – Kirby platformer, containing among other things minigames and animations. Originally created as a final project for my first semester of AP Computer Science (during the first week of December 2013).
+# TripleTGame [v1.0]
+Triple T, aka Kirby: The Tedhaun Treaty. A full-fledged – albeit Java-based – Kirby platformer, containing minigames and animations (among other things). Originally created as a final project for my first semester of AP Computer Science, during the first week of December 2013.
 
-**Jump to**: [[Important Announcement]](#importantannouncement) | [[Download Link]](#downloadlinkfinalrelease) | [[Features & Functionality]](#features&functionality) | [[Visuals]](#visuals) | [[Directory Structure]](#directorystructure) | [[TIL]](#til) | [[Contributors]](#contributorsing)
+**Jump to**: 
+
+- [[Important Announcement]](#important-announcement)
+- [[Download Link]](#download-link-final-release)
+- [[Features & Functionality]](#features--functionality)
+- [[Visuals]](#visuals)
+- [[Directory Structure]](#directory-structure)
+- [[TIL]](#til)
+- [[Contributors]](#contributors-ing)
 
 ## Important Announcement
 All of the features that I had initially planned – a full storyline, complete with animations and three worlds (/ 12 levels!) – will probably never be released. The reasons for this are twofold: **(a)** I have no users and therefore no external liability, and **(b)** I've lost interest in game design and the tedium of doing all this work myself. 
@@ -17,7 +25,7 @@ A download link for the "beta gold" version of Triple T can be found below.
 ## Download Link [FINAL RELEASE]
 Note that by "final," I'm really trying to say "this should've still been in development, but then I lost interest in game dev and moved on with my life."
 
-- JAR file [xx.xx MB]
+- [JAR file [8.1 MB]](../master/dist/v1.0/TripleT.jar?raw=true)
   - May or may not require you to change your security settings or CTRL-click (on OS X) to open.
   - Also may or may not require you to download Java.
 
@@ -41,9 +49,11 @@ Here's a quick listing of what you ~~can expect~~ might have been expecting:
 
 ## Directory Structure
 - [TripleT](https://github.com/ohjay/TripleTGame/tree/master/TripleT)
-  Source code for the game, all of which resides in the TripleT package. Feel free to browse! I documented a bunch of it – and I definitely wouldn't want all that work to go to waste.
+
+   Source code for the game, all of which resides in the TripleT package. Feel free to browse! I documented a bunch of it – and I definitely wouldn't want all that work to go to waste.
 - [images](https://github.com/ohjay/TripleTGame/tree/master/images)
-  Visual resources used in the game. Includes menu screens, spritesheets, and miscellaneous in-game elements.
+
+   Visual resources used in the game. Includes menu screens, spritesheets, and miscellaneous in-game elements.
 
 ## TIL
 If I had used a framework or a game engine (ex. Unity) instead of writing everything from scratch, this all would have been a lot easier and probably better quality too. Still – it's about the journey, right?
