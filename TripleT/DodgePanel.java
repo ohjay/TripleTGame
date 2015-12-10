@@ -157,7 +157,7 @@ public class DodgePanel extends JPanel implements ActionListener {
         
         // Antialiasing
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+                RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         
         // Display score / powerup count / other relevant information
         g.setFont(new Font("Verdana", Font.BOLD, 14));

@@ -23,11 +23,12 @@ Many thanks to all [0?] of you who supported me throughout this relatively brief
 A download link for the "beta gold" version of Triple T can be found below.
 
 ## Download Link [FINAL RELEASE]
-Note that by "final," I'm really trying to say "this should've still been in development, but then I lost interest in game dev and moved on with my life."
+Note that by "final," I'm really trying to say "_this should've still been in development, but then I lost interest in game dev and moved on with my life._"
 
 - [JAR file [8.1 MB]](../master/dist/v1.0/TripleT.jar?raw=true)
   - May or may not require you to change your security settings or CTRL-click (on OS X) to open.
   - Also may or may not require you to download Java.
+  - By the way, if any fonts look weird on your computer, please let me know!
 
 ## Features & Functionality
 Here's a quick listing of what you ~~can expect~~ might have been expecting:

@@ -89,7 +89,7 @@ public class ControlMenuPanel extends EscapableMenuPanel {
         g.setFont(novecento20);
         g.setColor(Color.GRAY);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+                RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         
         for (int i = 0; i < keys.length; i++) {
             // Change color if the current key should be highlighted
