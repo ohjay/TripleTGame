@@ -57,7 +57,8 @@ public class Level2 extends LevelPanel implements ActionListener {
         postGameTimer = 0;
         timeRemaining = INITIAL_IMG_OFFSET;
         
-        // Initialize our collection of blocks
+        // Clear and initialize our collection of blocks
+        blocks.clear();
         for (int i = 0; i < NUM_BLOCKS; i++) {
             blocks.add(new Block((int) (Math.random() * XRANGE), i * Y_DIST));
         }
