@@ -64,6 +64,8 @@ A folder containing source code (`.java`) files for TripleTGame.
   A menu for toggling and choosing between game options. The player should be able to change Kirby's in-game color, and adjust the music volume.
 - [PersistentInfo](https://github.com/ohjay/TripleTGame/blob/master/TripleT/PersistentInfo.java): 
   A collection of data that should persist through different play sessions. In other words, it represents the data that will be saved. This will also serve as a container for individual save file data.
+- [PosterMenuPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/PosterMenuPanel.java):
+  A "poster" menu panel, named because the user won't be interacting with any of its elements. Instead, the user will read or look at the contents of the panel, and then push ANY key to exit.
 - [SaveFileInfo](https://github.com/ohjay/TripleTGame/blob/master/TripleT/SaveFileInfo.java): 
   A class containing the data for an individual game save file. The game should contain three such save files.
 - [SmashPanel](https://github.com/ohjay/TripleTGame/blob/master/TripleT/SmashPanel.java): 

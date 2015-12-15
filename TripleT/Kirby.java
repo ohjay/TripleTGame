@@ -20,9 +20,9 @@ public class Kirby extends ControllableSprite {
     private static final Image R_SPRITESHEET = Images.get("kirbySS"), 
             L_SPRITESHEET = Images.get("kirbySS-1");
     
-    // Animation data: for each animation, this enum contains information about the length 
-    // of each animation sequence and its position (measured by pixels) on the spritesheet.
-    // It also keeps track of the sprite width and the distance between different frames.
+    // Animation data: this enum contains information about the length of each animation
+    // sequence, along with that sequence's position (measured by pixels) on the spritesheet.
+    // It also keeps track of sprite width and the distance between different frames.
     static enum Animation { 
         STANDING(2, 0, 1, 25, 25), WALKING(10, 1, 97, 22, 24), RUNNING(8, 0, 6, 121, 24, 22, 24),
                 CROUCHING(2, 1, 26, 28, 25, 30), SLIDING(2, 4, 46, 30, 25, 28), HOPPING(10, 2, 68, 25, 25),

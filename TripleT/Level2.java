@@ -154,10 +154,9 @@ public class Level2 extends LevelPanel implements ActionListener {
             }
         }
         
-        kirby.drawImage(g2);
-        
+        kirby.drawImage(g2); // Kirby
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
-                RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+                RenderingHints.VALUE_TEXT_ANTIALIAS_GASP); // antialiasing
         
         // Draw the objective + "clog meter" text
         g.setFont(new Font("Verdana", Font.BOLD, FONT_SIZE_SM));

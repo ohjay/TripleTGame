@@ -1,5 +1,5 @@
 # TripleTGame [v3.0]
-Triple T, aka Kirby: The Tedhaun Treaty. A full-fledged – albeit Java-based – Kirby platformer. Originally created as a final project for my first semester of AP Computer Science (during the first week of December 2013).
+A Java-based Kirby platformer. Originally created as a project for AP Computer Science, during the first week of Dec. '13.
 
 **Jump to**: 
 
@@ -14,7 +14,7 @@ Triple T, aka Kirby: The Tedhaun Treaty. A full-fledged – albeit Java-based �
 ## Important Announcement
 All of the features that I had initially planned – a full storyline, complete with animations and three worlds (/ 12 levels!) – will probably never be released. The reasons for this are twofold: **(a)** I have no users and therefore no external liability, and **(b)** I've lost interest in game design and the tedium of doing all this work myself. 
 
-With regard to my second point, let's just say that I feel as if I've accomplished what I originally set out to do. That is, I've gotten a feel for elementary platformer logic (spritesheet animation, collision detection, movement / parallax scrolling, ...) and Swing GUI basics. From here on out, it'd mostly be fine-tuning positional coordinates, mapping out hundreds of spritesheet pixels, and animating a ton of movement sequences. Most of this would feel pretty repetitive, and again with my lack of a userbase I find myself with little motivation to continue in my game-creating endeavors. I've set my sights on bigger and more exciting projects (_what are they, you ask? Well, you'll just have to stay tuned_), and I think that it's time I gave this one some closure. Thus, I'm going to publish the game in its current unpolished form, and say that this, my friends, is the "**beta gold**" (final!) release.
+With regard to my second point, let's just say that I feel as if I've accomplished what I originally set out to do. That is, I've gotten my taste of elementary platformer logic (spritesheet animation, collision detection, movement / parallax scrolling, ...) and Swing GUI basics. From here on out, it'd mostly be fine-tuning positional coordinates, mapping out hundreds of spritesheet pixels, and animating a ton of movement sequences. Most of this would feel pretty repetitive, and again with my lack of a userbase I find myself with little motivation to continue. I've set my sights on bigger and more exciting projects (_what are they, you ask? Well, you'll just have to stay tuned_), and I think it's time I gave this one some closure. Thus, I'm going to publish the game in its current unpolished form, and say that this, my friends, is the "**beta gold**" (final!) release.
 
 Yes, it pains me a little to leave Triple T in this state, but I take a bit of solace in two of the things that I mentioned above (...i.e. literally no one cares, and I have better things to spend my time on). So yes, I'm declaring now that work on Triple T has ceased; it's time to close up shop at last.
 
@@ -51,22 +51,24 @@ Here's a quick listing of what you ~~can expect~~ might have been expecting:
 ## Directory Structure
 - [TripleT](https://github.com/ohjay/TripleTGame/tree/master/TripleT)
 
-   Source code for the game, all of which resides in the TripleT package. Feel free to browse! I documented a bunch of it; I definitely wouldn't want all that work to go to waste.
+   Source code for the game, all of which resides in the TripleT package. Feel free to browse! I documented a bunch of it, and I certainly wouldn't want all that work to go to waste.
 - [images](https://github.com/ohjay/TripleTGame/tree/master/images)
 
    Visual resources used in the game. Includes menu screens, spritesheets, and miscellaneous in-game elements.
 
 ## TIL
-If I had used a framework or a game engine (ex. Unity) instead of writing everything from scratch, this all would have been a lot easier and probably better quality too. Still – it's about the journey, right?
+If I had used a framework or a game engine (ex. Unity) instead of writing everything from scratch, this would have been a lot easier and probably better quality too. Still – it's about the journey, right?
 
 ## Contributors (/ing)
 **Update**: This game is no longer officially in development, but if you'd like to carry on (or try and motivate me to start working on it again), the advertisement below still stands.
 
-```
-If you'd like to join the team, you're in luck – we may just have a place for you! Either submit a pull request that's worthy of our acceptance (hint: not that hard... I think!), or send Owen an email with a description of what you could bring to the table. Or just send Owen an email, period. (I'm trying not to sound desperate here, but it's a lot of work to make a from-scratch game!)
-
-For now, this is who we've got:
-
-- Owen Jow [development, design]
-- William Jow [graphics and aesthetics]
-```
+> If you'd like to join the team, you're in luck – we may just have a place for you! 
+> Either submit a pull request that's worthy of our acceptance (hint: not that hard... I think!), 
+> or send Owen an email with a description of what you could bring to the table. 
+> Or just send Owen an email, period. (I'm trying not to sound desperate here, 
+> but it's a lot of work to make a from-scratch game!)
+> 
+> For now, this is who we've got:
+> 
+> - Owen Jow [development, design]
+> - William Jow [graphics and aesthetics]
