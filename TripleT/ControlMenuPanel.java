@@ -154,62 +154,69 @@ public class ControlMenuPanel extends EscapableMenuPanel {
                     GameState.menuPanel.requestFocus();
                 }
             } else if (controlSelected >= 0) {
-                // Update the key associated with whatever control is selected
-                switch (imgIndex) {
-                    case 0:
-                        GameState.pInfo.leftKey = keyCode;
-                        break;
-                    case 1:
-                        GameState.pInfo.rightKey = keyCode;
-                        break;
-                    case 2:
-                        GameState.pInfo.upKey = keyCode;
-                        break;
-                    case 3:
-                        GameState.pInfo.downKey = keyCode;
-                        break;
-                    case 4:
-                        GameState.pInfo.jumpKey = keyCode;
-                        break;
-                    case 5:
-                        GameState.pInfo.attackKey = keyCode;
-                        break;
-                    default:
-                        GameState.pInfo.pauseKey = keyCode;
-                        break;
-                }
-                
-                int currIndex = imgIndex; // saving this here, in case the uniqueness check mutates it
-                KeyStroke oldKey = KeyStroke.getKeyStroke(keys[imgIndex], 0);
-                KeyStroke newKey = KeyStroke.getKeyStroke(keyCode, 0);
-                boolean shouldRemove = !newKeys.contains(oldKey);
-                    
-                // Check if the new control is the same as any other control
-                if (!runUniquenessCheck(keyCode, imgIndex)) {
-                    controlSelected = -1; // no duplicates keys! We good
-                    
-                    // Put changes into effect
-                    if (oldActions.size() > 0) {
-                        // There was a conflict earlier, so we'll need to pass in the old actions explicitly
-                        TripleTWindow.updateKeyBindings(oldKey, newKey, oldActions.removeFirst(), shouldRemove);
-                    } else {
-                        TripleTWindow.updateKeyBindings(oldKey, newKey, shouldRemove);
+                if (keyCode == keys[imgIndex]) {
+                    // Case 1: "Change the control from X to X"
+                    // In other words, do nothing
+                    controlSelected = -1;
+                } else if (keyCode != keys[imgIndex]) {
+                    // Case 2: We're actually changing something
+                    // Update the key associated with whatever control is selected
+                    switch (imgIndex) {
+                        case 0:
+                            GameState.pInfo.leftKey = keyCode;
+                            break;
+                        case 1:
+                            GameState.pInfo.rightKey = keyCode;
+                            break;
+                        case 2:
+                            GameState.pInfo.upKey = keyCode;
+                            break;
+                        case 3:
+                            GameState.pInfo.downKey = keyCode;
+                            break;
+                        case 4:
+                            GameState.pInfo.jumpKey = keyCode;
+                            break;
+                        case 5:
+                            GameState.pInfo.attackKey = keyCode;
+                            break;
+                        default:
+                            GameState.pInfo.pauseKey = keyCode;
+                            break;
                     }
-                    
-                    newKeys.clear(); // we don't have to worry about overwriting new keys anymore
-                } else {
-                    // Save the function of the new key so that the bindings don't get confused
-                    oldActions.add(TripleTWindow.getActionsForKey(newKey));
-                    if (oldActions.size() > 1) {
-                        TripleTWindow.updateKeyBindings(oldKey, newKey, oldActions.removeFirst(), shouldRemove);
-                    } else {
-                        TripleTWindow.updateKeyBindings(oldKey, newKey, shouldRemove);
-                    }
-                    
-                    newKeys.add(newKey);
-                }
                 
-                keys[currIndex] = keyCode;
+                    int currIndex = imgIndex; // saving this here, in case the uniqueness check mutates it
+                    KeyStroke oldKey = KeyStroke.getKeyStroke(keys[imgIndex], 0);
+                    KeyStroke newKey = KeyStroke.getKeyStroke(keyCode, 0);
+                    boolean shouldRemove = !newKeys.contains(oldKey);
+                    
+                    // Check if the new control is the same as any other control
+                    if (!runUniquenessCheck(keyCode, imgIndex)) {
+                        controlSelected = -1; // no duplicates keys! We good
+                    
+                        // Put changes into effect
+                        if (oldActions.size() > 0) {
+                            // There was a conflict earlier, so we'll need to pass in the old actions explicitly
+                            TripleTWindow.updateKeyBindings(oldKey, newKey, oldActions.removeFirst(), shouldRemove);
+                        } else {
+                            TripleTWindow.updateKeyBindings(oldKey, newKey, shouldRemove);
+                        }
+                    
+                        newKeys.clear(); // we don't have to worry about overwriting new keys anymore
+                    } else {
+                        // Save the function of the new key so that the bindings don't get confused
+                        oldActions.add(TripleTWindow.getActionsForKey(newKey));
+                        if (oldActions.size() > 1) {
+                            TripleTWindow.updateKeyBindings(oldKey, newKey, oldActions.removeFirst(), shouldRemove);
+                        } else {
+                            TripleTWindow.updateKeyBindings(oldKey, newKey, shouldRemove);
+                        }
+                    
+                        newKeys.add(newKey);
+                    }
+                
+                    keys[currIndex] = keyCode;
+                }
             } else if (keyCode == GameState.pInfo.upKey) {
                 if (imgIndex > 0) { imgIndex--; }
             } else if (keyCode == GameState.pInfo.downKey) {
