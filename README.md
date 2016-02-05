@@ -1,4 +1,4 @@
-# TripleTGame [v3.1]
+# TripleTGame [v3.2]
 A Java-based Kirby platformer. Originally created as a project for AP Computer Science, during the first week of Dec. '13.
 
 **Jump to**: 
@@ -25,7 +25,7 @@ A download link for the "beta gold" version of Triple T can be found below.
 ## Download Link [FINAL RELEASE]
 Note that by "final," I'm really trying to say "_this should've still been in development, but then I lost interest in game dev and moved on with my life._"
 
-- [JAR file [8.1 MB]](../master/dist/v3.1/TripleT.jar?raw=true)
+- [JAR file [8.1 MB]](../master/dist/v3.2/TripleT.jar?raw=true)
   - May or may not require you to change your security settings (or CTRL-click on OS X) to open.
   - Also may or may not require you to download Java.
   - By the way, if any fonts look weird on your computer, please let me know!

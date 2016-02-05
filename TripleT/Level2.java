@@ -191,11 +191,11 @@ public class Level2 extends LevelPanel implements ActionListener {
             if (blockDamage >= DAMAGE_GOAL) {
                 g.setFont(new Font("Verdana", Font.BOLD, FONT_SIZE_BIG));
                 g.setColor(Color.WHITE);
-                g2.drawString("You did it!", 151, BASE_POSTG_Y + 1);
-                g2.drawString("That vacuum isn't getting YOU...", 51, BASE_POSTG_Y + 25);
+                g2.drawString("You did it!", 187, BASE_POSTG_Y + 1);
+                g2.drawString("That vacuum isn't getting YOU...", 70, BASE_POSTG_Y + 25);
                 g.setColor(Color.BLACK);
-                g2.drawString("You did it!", 150, BASE_POSTG_Y);
-                g2.drawString("That vacuum isn't getting YOU...", 50, BASE_POSTG_Y + 24);
+                g2.drawString("You did it!", 186, BASE_POSTG_Y);
+                g2.drawString("That vacuum isn't getting YOU...", 69, BASE_POSTG_Y + 24);
             } else {
                 g.setFont(new Font("Verdana", Font.BOLD, 21));
                 g.setColor(Color.WHITE);
