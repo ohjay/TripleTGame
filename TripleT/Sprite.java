@@ -5,9 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
- * An abstract representation of a sprite that will be extended by all sprites
+ * An abstract representation of a sprite that will be extended by all sprites.
  * (Google's definition of a sprite: a computer graphic that may be moved on-screen 
- * and otherwise manipulated as a single entity).
+ * and otherwise manipulated as a single entity.)
  * 
  * For example, Kirby would be a sprite, a Waddle Dee would be a sprite, and an item
  * sitting on the ground would be a sprite.
